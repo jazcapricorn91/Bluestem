@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Contact Options - Bluestem</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            padding-bottom: 100px; /* Space for bottom sticky */
+        }
+
+        /* Demo content */
+        .demo-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .demo-section:nth-child(even) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .content-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* OPTION 1: Floating Action Button (Bottom Right) */
+        .fab-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .fab-main {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .fab-main:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .fab-options {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .fab-container.active .fab-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .fab-option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: #2c3e50;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .fab-option:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+        }
+
+        .fab-option-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* OPTION 2: Top Sticky Bar */
+        .sticky-top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-top-bar.visible {
+            transform: translateY(0);
+        }
+
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar-message {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .top-bar-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .top-bar-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .top-bar-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .top-bar-btn.secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .top-bar-btn.secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* OPTION 3: Side Sticky Panel */
+        .sticky-side-panel {
+            position: fixed;
+            right: -300px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            background: white;
+            border-radius: 20px 0 0 20px;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 2rem;
+        }
+
+        .sticky-side-panel.visible {
+            right: 0;
+        }
+
+        .side-panel-toggle {
+            position: absolute;
+            left: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 100px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 25px 0 0 25px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .side-panel-toggle:hover {
+            background: linear-gradient(45deg, #5a9bd4, #6a4c93);
+        }
+
+        .side-panel-content h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .side-panel-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .side-panel-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .side-panel-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .side-panel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .side-panel-btn.secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .side-panel-btn.secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* OPTION 4: Bottom Sticky Bar */
+        .sticky-bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(44, 62, 80, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 2rem;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-bottom-bar.visible {
+            transform: translateY(0);
+        }
+
+        .bottom-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bottom-bar-message {
+            font-weight: 600;
+        }
+
+        .bottom-bar-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .bottom-bar-btn {
+            background: white;
+            color: #2c3e50;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .bottom-bar-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+            background: #f8f9fa;
+        }
+
+        .bottom-bar-btn.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .bottom-bar-btn.secondary:hover {
+            background: white;
+            color: #2c3e50;
+        }
+
+        /* Toggle buttons for demo */
+        .demo-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            z-index: 1001;
+        }
+
+        .demo-controls h4 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .demo-btn {
+            display: block;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-btn:hover,
+        .demo-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .fab-container {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .fab-main {
+                width: 60px;
+                height: 60px;
+                font-size: 1.3rem;
+            }
+            
+            .sticky-side-panel {
+                width: 90%;
+                right: -90%;
+            }
+            
+            .top-bar-content,
+            .bottom-bar-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .top-bar-actions,
+            .bottom-bar-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo Controls -->
+    <div class="demo-controls">
+        <h4>Try Different Options:</h4>
+        <button class="demo-btn active" onclick="showOption('fab')">Floating Button</button>
+        <button class="demo-btn" onclick="showOption('top')">Top Bar</button>
+        <button class="demo-btn" onclick="showOption('side')">Side Panel</button>
+        <button class="demo-btn" onclick="showOption('bottom')">Bottom Bar</button>
+    </div>
+
+    <!-- Demo Content -->
+    <div class="demo-section">
+        <h1>Scroll down to see sticky contact options in action</h1>
+    </div>
+
+    <div class="content-section">
+        <h2>About Our Programs</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Our Teaching Philosophy</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Student Life</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+
+    <!-- OPTION 1: Floating Action Button -->
+    <div class="fab-container" id="fabOption">
+        <button class="fab-main" onclick="toggleFAB()">✉</button>
+        <div class="fab-options">
+            <a href="#tour" class="fab-option">
+                <div class="fab-option-icon">👥</div>
+                <span>Schedule Tour</span>
+            </a>
+            <a href="#apply" class="fab-option">
+                <div class="fab-option-icon">📝</div>
+                <span>Apply Now</span>
+            </a>
+            <a href="#call" class="fab-option">
+                <div class="fab-option-icon">📞</div>
+                <span>Call Us</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- OPTION 2: Top Sticky Bar -->
+    <div class="sticky-top-bar" id="topOption">
+        <div class="top-bar-content">
+            <div class="top-bar-message">Ready to join our community? Let's get started!</div>
+            <div class="top-bar-actions">
+                <a href="#tour" class="top-bar-btn">Schedule Tour</a>
+                <a href="#apply" class="top-bar-btn secondary">Apply Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- OPTION 3: Side Panel -->
+    <div class="sticky-side-panel" id="sideOption">
+        <button class="side-panel-toggle" onclick="toggleSidePanel()">📞</button>
+        <div class="side-panel-content">
+            <h3>Ready to Learn More?</h3>
+            <p>Contact us today to schedule a tour or learn more about enrollment opportunities.</p>
+            <div class="side-panel-actions">
+                <a href="#tour" class="side-panel-btn">Schedule a Tour</a>
+                <a href="#apply" class="side-panel-btn secondary">Apply Online</a>
+                <a href="tel:402-735-0987" class="side-panel-btn secondary">Call (402) 735-0987</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- OPTION 4: Bottom Sticky Bar -->
+    <div class="sticky-bottom-bar" id="bottomOption">
+        <div class="bottom-bar-content">
+            <div class="bottom-bar-message">Interested in Bluestem Montessori? Get in touch!</div>
+            <div class="bottom-bar-actions">
+                <a href="#tour" class="bottom-bar-btn">Schedule Tour</a>
+                <a href="#apply" class="bottom-bar-btn secondary">Apply Now</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentOption = 'fab';
+        let fabOpen = false;
+        let sidePanelOpen = false;
+
+        function showOption(option) {
+            // Hide all options
+            document.getElementById('fabOption').style.display = 'none';
+            document.getElementById('topOption').classList.remove('visible');
+            document.getElementById('sideOption').classList.remove('visible');
+            document.getElementById('bottomOption').classList.remove('visible');
+            
+            // Update button states
+            document.querySelectorAll('.demo-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentOption = option;
+            
+            // Show selected option
+            switch(option) {
+                case 'fab':
+                    document.getElementById('fabOption').style.display = 'block';
+                    break;
+                case 'top':
+                    document.getElementById('topOption').classList.add('visible');
+                    break;
+                case 'side':
+                    document.getElementById('sideOption').classList.add('visible');
+                    break;
+                case 'bottom':
+                    document.getElementById('bottomOption').classList.add('visible');
+                    break;
+            }
+        }
+
+        function toggleFAB() {
+            const fabContainer = document.querySelector('.fab-container');
+            fabOpen = !fabOpen;
+            
+            if (fabOpen) {
+                fabContainer.classList.add('active');
+                document.querySelector('.fab-main').innerHTML = '✕';
+            } else {
+                fabContainer.classList.remove('active');
+                document.querySelector('.fab-main').innerHTML = '✉';
+            }
+        }
+
+        function toggleSidePanel() {
+            const sidePanel = document.getElementById('sideOption');
+            sidePanelOpen = !sidePanelOpen;
+            
+            if (sidePanelOpen) {
+                sidePanel.classList.add('visible');
+            } else {
+                sidePanel.classList.remove('visible');
+            }
+        }
+
+        // Show/hide sticky elements based on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const shouldShow = scrolled > 500; // Show after scrolling 500px
+            
+            if (currentOption === 'top') {
+                const topBar = document.getElementById('topOption');
+                if (shouldShow) {
+                    topBar.classList.add('visible');
+                } else {
+                    topBar.classList.remove('visible');
+                }
+            }
+            
+            if (currentOption === 'bottom') {
+                const bottomBar = document.getElementById('bottomOption');
+                if (shouldShow) {
+                    bottomBar.classList.add('visible');
+                } else {
+                    bottomBar.classList.remove('visible');
+                }
+            }
+        });
+
+        // Close FAB when clicking outside
+        document.addEventListener('click', function(e) {
+            if (fabOpen && !e.target.closest('.fab-container')) {
+                toggleFAB();
+            }
+        });
+
+        // Initialize
+        showOption('fab');
+    </script>
+</body>
+</html>

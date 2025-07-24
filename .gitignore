@@ -1,0 +1,95 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables (SUPER IMPORTANT!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js build files (if using Next.js)
+.next/
+out/
+build/
+
+# React build files
+dist/
+build/
+
+# Cache files
+.cache/
+.parcel-cache/
+
+# Database stuff (if you have local dev DB)
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing files
+test_data/
+cypress/videos/
+cypress/screenshots/
+coverage/
+
+# Personal development files
+scratch.js
+test_component.jsx
+my_notes.md
+todo.txt
+experiments/
+
+# Supabase local config (if using)
+supabase/.branches
+supabase/.temp
+
+# API keys and secrets (CRITICAL!)
+config.json
+secrets.json
+*.pem
+*.key
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# User uploads during development
+uploads/
+public/uploads/
+
+# Large assets you're testing with
+*.mp4
+*.mov
+*.avi
+large_images/
