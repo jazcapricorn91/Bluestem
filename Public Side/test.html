@@ -5,6 +5,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gravitas+One&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bluestem Montessori - Masked Hero</title>
     <style>
@@ -164,20 +167,28 @@
         }
         .enroll-bar-inner {
             display: flex;
-            flex-direction: row;
-            align-items: stretch;
+            align-items: center;
             justify-content: space-between;
             width: 100%;
-            max-width: 1200px;
+            max-width: none;
             margin: 0 auto;
-            padding: 0.2rem 1.2rem;
+            padding: 0.2rem 2rem;
+        }
+        .enroll-message-actions {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+            gap: 1.2rem;
+            min-width: 0;
         }
         .enroll-branding {
+            flex: 0 0 300px;  /* Fixed width, won't grow/shrink */
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             min-width: 0;
-            flex: 0 1 260px;
+            /* keep your existing styling */
         }
         .enroll-bluestem {
             font-size: 1.25rem;
@@ -185,7 +196,12 @@
             color: #549c7f;
             letter-spacing: 0.04em;
             line-height: 1.1;
-            text-shadow: 0 1px 0 #4c8474, 0 0 2px #4c8474;
+            /* Sharper, more defined outline */
+            text-shadow:
+                0 0 0.5px #38031e,
+                0 1px 1px #38031e,
+                0 0 3px #840a3b,
+                0 0 1px #4c8474;
         }
         .enroll-montessori {
             font-size: 0.85rem;
@@ -201,24 +217,34 @@
             margin-bottom: 0.1em;
         }
         .enroll-message {
-            flex: 1 1 0;
+            flex: 1;  /* Takes up all remaining space */
+            text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
+            font-family: "Gravitas One", serif;
+            font-weight: 400;
             color: #fff;
-            font-size: 1.05rem;
-            font-weight: 600;
+            font-size: 1.35rem;
             letter-spacing: 0.03em;
             min-width: 0;
+            /* Crisp dark red outline for contrast */
+            text-shadow:
+                0 0 0.5px #38031e,
+                0 1px 1px #38031e,
+                0 0 3px #840a3b,
+                0 0 1px #4c8474,
+                0 0 2px #6d0f1c,
+                0 0 0.5px #6d0f1c;
         }
         .enroll-right {
+            flex: 0 0 300px;  /* Fixed width, won't grow/shrink */
             display: flex;
+            justify-content: flex-end;
             flex-direction: row;
             align-items: center;
             gap: 1.2rem;
-            flex: 1 1 0;
-            /* removed max-width and justify-content */
+            /* keep your existing styling */
         }
         .enroll-actions {
             display: flex;
@@ -709,12 +735,14 @@
             <span class="enroll-bluestem">BLUESTEM</span>
             <span class="enroll-montessori">MONTESSORI SCHOOL</span>
         </div>
-        <span class="enroll-message">NOW ENROLLING FOR THE 2025-2026 SCHOOL YEAR</span>
-        <div class="enroll-right">
+        <div class="enroll-message-actions">
+            <div class="enroll-message">NOW ENROLLING FOR THE 2025-2026 SCHOOL YEAR</div>
             <div class="enroll-actions">
                 <a href="#apply" class="enroll-btn marigold">Apply Now</a>
                 <a href="#contact" class="enroll-btn marigold">Contact Us</a>
             </div>
+        </div>
+        <div class="enroll-right">
             <button class="hamburger" id="hamburger-menu" aria-label="Open menu">
                 <span></span>
                 <span></span>
