@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluestem Tuition Management - Powered by Stripe</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+        // Attempt to destructure lucide icons, with fallback to empty components to avoid runtime errors
+        let Calendar, DollarSign, Users, CreditCard, Building, CheckCircle, AlertCircle, Clock, Download, Receipt, TrendingDown, Banknote, BookOpen, AlertTriangle, Menu, X, Gift, GraduationCap, FileText, Settings;
+        try {
+            ({ Calendar, DollarSign, Users, CreditCard, Building, CheckCircle, AlertCircle, Clock, Download, Receipt, TrendingDown, Banknote, BookOpen, AlertTriangle, Menu, X, Gift, GraduationCap, FileText, Settings } = lucide);
+        } catch (e) {
+            // Provide stub components if lucide not available
+            Calendar = DollarSign = Users = CreditCard = Building = CheckCircle = AlertCircle = Clock = Download = Receipt = TrendingDown = Banknote = BookOpen = AlertTriangle = Menu = X = Gift = GraduationCap = FileText = Settings = () => null;
+        }
+
+        // Main application component
+        const StripeTuitionSystem = () => {
+            const [userType, setUserType] = useState('parent');
+            const [selectedPage, setSelectedPage] = useState('dashboard');
+            const [sidebarOpen, setSidebarOpen] = useState(false);
+            const [showDonationModal, setShowDonationModal] = useState(false);
+            const [donationAmount, setDonationAmount] = useState('');
+            const [donationCategory, setDonationCategory] = useState('general');
+            const [showScholarshipModal, setShowScholarshipModal] = useState(false);
+            const [selectedStudent, setSelectedStudent] = useState(null);
+            const [showScholarshipReview, setShowScholarshipReview] = useState(false);
+            const [selectedApplication, setSelectedApplication] = useState(null);
+
+            // Enhanced sample data for admin view
+            const allStudents = [
+                {
+                    id: 1, name: "Emma Thompson", grade: "2nd Grade", studentType: "returning",
+                    tuition: { base: 750 }, fees: { aftercare: { enrolled: true, cost: 200 }, lunch: 120, materials: 45, library: [{ type: "damaged", book: "Magic Tree House #3", amount: 15, date: "2024-06-15", status: "pending" }] },
+                    nextDue: "2024-08-15", paymentMethod: "ACH Auto-Pay", autoPayEnabled: true, enrolledDate: "2023-08-15", balance: 0, currentInvoice: 1115,
+                    family: { parentName: "Sarah Thompson", email: "sarah.thompson@email.com", phone: "(555) 123-4567", address: "123 Oak St, Portland, OR" },
+                    paymentHistory: [{ date: "2024-07-15", amount: 1115, method: "ACH", status: "completed" }]
+                },
+                {
+                    id: 2, name: "Liam Johnson", grade: "Kindergarten", studentType: "new",
+                    tuition: { base: 850 }, fees: { aftercare: { enrolled: false, cost: 200 }, lunch: 120, materials: 25, library: [] },
+                    nextDue: "2024-08-15", paymentMethod: "Manual Credit Card", autoPayEnabled: false, enrolledDate: "2024-08-01", balance: 150, currentInvoice: 995,
+                    family: { parentName: "Michael Johnson", email: "mike.johnson@email.com", phone: "(555) 234-5678", address: "456 Pine Ave, Portland, OR" },
+                    paymentHistory: [{ date: "2024-07-15", amount: 845, method: "Credit Card", status: "completed" }]
+                },
+                {
+                    id: 3, name: "Sophia Martinez", grade: "1st Grade", studentType: "returning",
+                    tuition: { base: 750 }, fees: { aftercare: { enrolled: true, cost: 200 }, lunch: 120, materials: 45, library: [] },
+                    nextDue: "2024-08-15", paymentMethod: "ACH Auto-Pay", autoPayEnabled: true, enrolledDate: "2023-08-15", balance: 0, currentInvoice: 1115,
+                    family: { parentName: "Maria Martinez", email: "maria.martinez@email.com", phone: "(555) 345-6789", address: "789 Elm Dr, Portland, OR" },
+                    paymentHistory: [{ date: "2024-07-15", amount: 1115, method: "ACH", status: "completed" }],
+                    scholarshipStatus: "approved", scholarshipAmount: 300
+                }
+            ];
+
+            const scholarshipApplications = [
+                {
+                    id: 1, studentName: "Sophia Martinez", studentId: 3, grade: "1st Grade", applicationDate: "2024-06-15",
+                    status: "approved", assistanceAmount: 300, assistanceType: "partial tuition", nextReview: "2025-06-01",
+                    family: { income: "$45,000", householdSize: 4, circumstances: "Single parent, recent job loss" },
+                    documents: ["Tax Return 2023", "Pay Stubs", "Bank Statements"], reviewNotes: "Approved for 40% tuition assistance"
+                },
+                {
+                    id: 2, studentName: "Alex Rodriguez", studentId: 5, grade: "Kindergarten", applicationDate: "2024-07-01",
+                    status: "pending", requestedAmount: 250, assistanceType: "aftercare program", nextReview: "2024-08-15",
+                    family: { income: "$52,000", householdSize: 3, circumstances: "Both parents work full-time, need aftercare assistance" },
+                    documents: ["Tax Return 2023", "Pay Stubs"], reviewNotes: "Under review - verification needed"
+                }
+            ];
+
+            const financialReports = {
+                monthlyRevenue: {
+                    tuition: 45750, aftercare: 12000, lunch: 7200, materials: 2700, enrollment: 8500, library: 125, total: 76275
+                },
+                expenses: {
+                    stripeFees: 640, scholarships: 1200, operatingCosts: 12500, total: 13886.50
+                },
+                metrics: {
+                    totalFamilies: 65, studentsEnrolled: 78, autoPayEnabled: 52, scholarshipRecipients: 8, outstandingBalance: 4250, collectionRate: 96.2
+                }
+            };
+
+            const students = userType === 'admin' ? allStudents : allStudents.slice(0, 2);
+
+            const donationCategories = [
+                { id: 'general', name: 'General Fund', description: 'Supports overall school operations' },
+                { id: 'playground', name: 'Playground Equipment', description: 'New playground equipment' },
+                { id: 'library', name: 'Library Books', description: 'Expand our library collection' },
+                { id: 'technology', name: 'Technology', description: 'Computers and educational software' }
+            ];
+
+            const calculateStudentTotal = (student) => {
+                let total = student.tuition.base;
+                if (student.fees.aftercare.enrolled) total += student.fees.aftercare.cost;
+                total += student.fees.lunch + student.fees.materials;
+                const pendingLibrary = student.fees.library?.filter(fee => fee.status === 'pending')?.reduce((sum, fee) => sum + fee.amount, 0) || 0;
+                return total + pendingLibrary;
+            };
+
+            const calculateSavings = () => {
+                const totalMonthly = students.reduce((sum, student) => sum + calculateStudentTotal(student), 0);
+                const tuioFee = totalMonthly * 0.029 + 0.30;
+                const stripeACHFee = Math.min(totalMonthly * 0.008, 320);
+                const stripeCreditFee = totalMonthly * 0.023 + 0.30;
+                
+                return {
+                    totalMonthly,
+                    tuioFee: tuioFee.toFixed(2),
+                    stripeACHFee: stripeACHFee.toFixed(2),
+                    stripeCreditFee: stripeCreditFee.toFixed(2),
+                    monthlySavings: (tuioFee - stripeACHFee).toFixed(2),
+                    annualSavings: ((tuioFee - stripeACHFee) * 10).toFixed(2)
+                };
+            };
+
+            const savings = calculateSavings();
+
+            const sidebarItems = userType === 'admin' ? [
+                { id: 'dashboard', label: 'Financial Dashboard', icon: Building },
+                { id: 'students', label: 'Student Accounts', icon: Users },
+                { id: 'invoices', label: 'Invoices & Payments', icon: FileText },
+                { id: 'scholarships', label: 'Scholarship Applications', icon: GraduationCap },
+                { id: 'reports', label: 'Financial Reports', icon: TrendingDown },
+                { id: 'settings', label: 'System Settings', icon: Settings }
+            ] : [
+                { id: 'dashboard', label: 'Dashboard', icon: Building },
+                { id: 'students', label: 'Students', icon: Users },
+                { id: 'invoices', label: 'Invoices & History', icon: FileText },
+                { id: 'payment-methods', label: 'Payment Methods', icon: CreditCard },
+                { id: 'pay-now', label: 'Pay Now', icon: DollarSign },
+                { id: 'donations', label: 'Donations', icon: Gift },
+                { id: 'scholarships', label: 'Scholarships', icon: GraduationCap }
+            ];
+
+            const Sidebar = () => (
+                <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>
+                    <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+                        <div className="flex items-center space-x-2">
+                            <Building className="text-blue-600" size={24} />
+                            <div>
+                                <span className="text-lg font-bold text-gray-800">Bluestem</span>
+                                <div className="text-xs text-gray-500">{userType === 'admin' ? 'Admin Portal' : 'Parent Portal'}</div>
+                            </div>
+                        </div>
+                        <button onClick={() => setSidebarOpen(false)} className="lg:hidden">
+                            <X size={24} />
+                        </button>
+                    </div>
+
+                    {/* User Type Switcher */}
+                    <div className="p-4 border-b border-gray-200">
+                        <div className="flex bg-gray-100 rounded-lg p-1">
+                            <button
+                                onClick={() => {setUserType('parent'); setSelectedPage('dashboard');}}
+                                className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                                    userType === 'parent' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600'
+                                }`}
+                            >
+                                👨‍👩‍👧‍👦 Parent
+                            </button>
+                            <button
+                                onClick={() => {setUserType('admin'); setSelectedPage('dashboard');}}
+                                className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                                    userType === 'admin' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600'
+                                }`}
+                            >
+                                ⚙️ Admin
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <nav className="mt-4">
+                        {sidebarItems.map((item) => (
+                            <button
+                                key={item.id}
+                                onClick={() => {
+                                    setSelectedPage(item.id);
+                                    setSidebarOpen(false);
+                                }}
+                                className={`w-full flex items-center px-6 py-3 text-left hover:bg-gray-50 transition-colors ${
+                                    selectedPage === item.id ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600' : 'text-gray-700'
+                                }`}
+                            >
+                                <item.icon size={20} className="mr-3" />
+                                {item.label}
+                            </button>
+                        ))}
+                    </nav>
+                </div>
+            );
+
+            // Modals
+            const DonationModal = () => (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="p-6">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-bold text-gray-800">Make a Donation</h2>
+                                <button onClick={() => setShowDonationModal(false)} className="text-gray-500 hover:text-gray-700">✕</button>
+                            </div>
+
+                            <div className="mb-6">
+                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Choose a Category</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {donationCategories.map((category) => (
+                                        <button
+                                            key={category.id}
+                                            onClick={() => setDonationCategory(category.id)}
+                                            className={`text-left p-4 rounded-lg border-2 transition-all ${
+                                                donationCategory === category.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+                                            }`}
+                                        >
+                                            <div className="font-semibold text-gray-800">{category.name}</div>
+                                            <div className="text-sm text-gray-600 mt-1">{category.description}</div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="mb-6">
+                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Donation Amount</h3>
+                                <div className="grid grid-cols-4 gap-3 mb-4">
+                                    {['25', '50', '100', '250'].map((amount) => (
+                                        <button
+                                            key={amount}
+                                            onClick={() => setDonationAmount(amount)}
+                                            className={`py-3 px-4 rounded-lg border-2 font-semibold transition-all ${
+                                                donationAmount === amount ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-200 text-gray-700 hover:border-gray-300'
+                                            }`}
+                                        >
+                                            ${amount}
+                                        </button>
+                                    ))}
+                                </div>
+                                <input
+                                    type="number"
+                                    value={donationAmount}
+                                    onChange={(e) => setDonationAmount(e.target.value)}
+                                    placeholder="Enter custom amount"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+
+                            <div className="flex space-x-4">
+                                <button
+                                    onClick={() => {
+                                        alert(`Thank you for your $${donationAmount} donation!`);
+                                        setShowDonationModal(false);
+                                        setDonationAmount('');
+                                    }}
+                                    disabled={!donationAmount || parseFloat(donationAmount) <= 0}
+                                    className="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors font-semibold disabled:bg-gray-300"
+                                >
+                                    Complete Donation
+                                </button>
+                                <button onClick={() => setShowDonationModal(false)} className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const ScholarshipModal = () => (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="p-6">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-bold text-gray-800">Scholarship Information</h2>
+                                <button onClick={() => setShowScholarshipModal(false)} className="text-gray-500 hover:text-gray-700">✕</button>
+                            </div>
+
+                            <div className="mb-6">
+                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Available Programs</h3>
+                                <div className="space-y-4">
+                                    <div className="border border-gray-200 rounded-lg p-4">
+                                        <h4 className="font-semibold text-gray-800 mb-2">Need-Based Tuition Assistance</h4>
+                                        <p className="text-sm text-gray-600 mb-2">Financial assistance for families who demonstrate need.</p>
+                                        <p className="text-sm text-gray-700"><strong>Coverage:</strong> Up to 75% of tuition</p>
+                                    </div>
+                                    <div className="border border-gray-200 rounded-lg p-4">
+                                        <h4 className="font-semibold text-gray-800 mb-2">Program-Specific Assistance</h4>
+                                        <p className="text-sm text-gray-600 mb-2">Help with aftercare, lunch, or materials fees.</p>
+                                        <p className="text-sm text-gray-700"><strong>Coverage:</strong> Full program costs</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex space-x-4">
+                                <button
+                                    onClick={() => alert('Scholarship application downloaded!')}
+                                    className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                                >
+                                    📄 Download Application
+                                </button>
+                                <button onClick={() => setShowScholarshipModal(false)} className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const ScholarshipReviewModal = ({ application, onClose }) => (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="p-6">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-bold text-gray-800">Scholarship Application Review</h2>
+                                <button onClick={onClose} className="text-gray-500 hover:text-gray-700">✕</button>
+                            </div>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div className="space-y-6">
+                                    <div className="bg-blue-50 rounded-lg p-4">
+                                        <h3 className="font-semibold text-blue-800 mb-3">Student Information</h3>
+                                        <div className="space-y-2 text-sm">
+                                            <p><strong>Name:</strong> {application.studentName}</p>
+                                            <p><strong>Grade:</strong> {application.grade}</p>
+                                            <p><strong>Application Date:</strong> {application.applicationDate}</p>
+                                            <p><strong>Assistance Type:</strong> {application.assistanceType}</p>
+                                            <p><strong>Requested Amount:</strong> ${application.requestedAmount || application.assistanceAmount}/month</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-gray-50 rounded-lg p-4">
+                                        <h3 className="font-semibold text-gray-800 mb-3">Family Financial Information</h3>
+                                        <div className="space-y-2 text-sm">
+                                            <p><strong>Annual Income:</strong> {application.family.income}</p>
+                                            <p><strong>Household Size:</strong> {application.family.householdSize}</p>
+                                            <p><strong>Circumstances:</strong> {application.family.circumstances}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-6">
+                                    <div className="bg-white border border-gray-200 rounded-lg p-4">
+                                        <h3 className="font-semibold text-gray-800 mb-3">Review & Update</h3>
+                                        <div className="space-y-3">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                                    <option value="pending">Pending Review</option>
+                                                    <option value="approved">Approved</option>
+                                                    <option value="denied">Denied</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Approved Amount ($/month)</label>
+                                                <input
+                                                    type="number"
+                                                    placeholder="Enter approved amount"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex space-x-3">
+                                        <button
+                                            onClick={() => {
+                                                alert('Application status updated successfully!');
+                                                onClose();
+                                            }}
+                                            className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                                        >
+                                            Update Application
+                                        </button>
+                                        <button
+                                            onClick={() => alert('Email sent to family with update.')}
+                                            className="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors"
+                                        >
+                                            Email Family
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const StudentModal = ({ student, onClose }) => (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="p-6">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-bold text-gray-800">{student.name} - {userType === 'admin' ? 'Account Details' : 'Details'}</h2>
+                                <button onClick={onClose} className="text-gray-500 hover:text-gray-700">✕</button>
+                            </div>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div className="space-y-4">
+                                    <div className="bg-blue-50 rounded-lg p-4">
+                                        <h3 className="font-semibold text-blue-800 mb-3">Student Information</h3>
+                                        <div className="grid grid-cols-2 gap-4 text-sm">
+                                            <div><span className="font-medium text-blue-800">Grade:</span> {student.grade}</div>
+                                            <div><span className="font-medium text-blue-800">Type:</span> {student.studentType}</div>
+                                            <div><span className="font-medium text-blue-800">Enrolled:</span> {student.enrolledDate}</div>
+                                            <div><span className="font-medium text-blue-800">Payment:</span> {student.paymentMethod}</div>
+                                        </div>
+                                    </div>
+
+                                    {userType === 'admin' && student.family && (
+                                        <div className="bg-gray-50 rounded-lg p-4">
+                                            <h3 className="font-semibold text-gray-800 mb-3">Family Information</h3>
+                                            <div className="space-y-2 text-sm">
+                                                <p><strong>Parent:</strong> {student.family.parentName}</p>
+                                                <p><strong>Email:</strong> {student.family.email}</p>
+                                                <p><strong>Phone:</strong> {student.family.phone}</p>
+                                                <p><strong>Address:</strong> {student.family.address}</p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="bg-white border border-gray-200 rounded-lg p-4">
+                                        <h3 className="font-semibold text-gray-800 mb-3">Monthly Fees Breakdown</h3>
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between py-2 px-3 bg-gray-50 rounded">
+                                                <span>Tuition</span>
+                                                <span className="font-semibold">${student.tuition.base}</span>
+                                            </div>
+                                            <div className="flex justify-between py-2 px-3 bg-gray-50 rounded">
+                                                <span>Aftercare</span>
+                                                <span className="font-semibold">${student.fees.aftercare.enrolled ? student.fees.aftercare.cost : 0}</span>
+                                            </div>
+                                            <div className="flex justify-between py-2 px-3 bg-gray-50 rounded">
+                                                <span>Lunch</span>
+                                                <span className="font-semibold">${student.fees.lunch}</span>
+                                            </div>
+                                            <div className="flex justify-between py-2 px-3 bg-gray-50 rounded">
+                                                <span>Materials</span>
+                                                <span className="font-semibold">${student.fees.materials}</span>
+                                            </div>
+                                            {student.scholarshipAmount && (
+                                                <div className="flex justify-between py-2 px-3 bg-green-50 rounded">
+                                                    <span>Scholarship Discount</span>
+                                                    <span className="font-semibold text-green-600">-${student.scholarshipAmount}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-6 border-t pt-4">
+                                <div className="flex justify-between items-center text-lg font-bold">
+                                    <span>Total Monthly (After Discounts):</span>
+                                    <span>${calculateStudentTotal(student) - (student.scholarshipAmount || 0)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const renderContent = () => {
+                if (userType === 'admin') {
+                    switch (selectedPage) {
+                        case 'dashboard':
+                            return (
+                                <div className="space-y-6">
+                                    {/* Financial Overview */}
+                                    <div className="bg-gradient-to-r from-green-600 to-blue-700 rounded-2xl p-6 text-white">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <h2 className="text-2xl font-bold mb-2">Advanced Financial Dashboard</h2>
+                                                <p className="text-green-100 mb-4">Real-time insights with superior analytics vs TUIO</p>
+                                                <div className="grid grid-cols-3 gap-4">
+                                                    <div className="bg-white/20 rounded-lg p-3">
+                                                        <div className="text-sm text-green-100">Monthly Revenue</div>
+                                                        <div className="text-xl font-bold">${financialReports.monthlyRevenue.total.toLocaleString()}</div>
+                                                        <div className="text-xs text-green-200">↑ 12% vs TUIO projections</div>
+                                                    </div>
+                                                    <div className="bg-white/20 rounded-lg p-3">
+                                                        <div className="text-sm text-green-100">Net Income</div>
+                                                        <div className="text-xl font-bold">${(financialReports.monthlyRevenue.total - financialReports.expenses.total).toLocaleString()}</div>
+                                                        <div className="text-xs text-green-200">$1,575 vs TUIO fees</div>
+                                                    </div>
+                                                    <div className="bg-white/20 rounded-lg p-3">
+                                                        <div className="text-sm text-green-100">Collection Rate</div>
+                                                        <div className="text-xl font-bold">{financialReports.metrics.collectionRate}%</div>
+                                                        <div className="text-xs text-green-200">Superior ACH processing</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="text-green-100 text-sm mb-2">Total Families</div>
+                                                <div className="text-3xl font-bold">{financialReports.metrics.totalFamilies}</div>
+                                                <div className="text-green-100 text-sm">{financialReports.metrics.studentsEnrolled} students</div>
+                                                <div className="text-xs text-green-200 mt-1">No failed payment fees to schools</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Enhanced Key Metrics */}
+                                    <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                        <div className="bg-white rounded-2xl p-4 shadow-lg border border-green-200">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-gray-600 text-sm">Payment Flexibility</p>
+                                                    <p className="text-2xl font-bold text-green-600">100%</p>
+                                                    <p className="text-green-600 text-sm">Full/Partial/Custom</p>
+                                                    <p className="text-xs text-gray-500">TUIO: Auto-pay only</p>
+                                                </div>
+                                                <CheckCircle className="text-green-500" size={32} />
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white rounded-2xl p-4 shadow-lg border border-blue-200">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-gray-600 text-sm">Processing Fees</p>
+                                                    <p className="text-2xl font-bold text-blue-600">${financialReports.expenses.stripeFees}</p>
+                                                    <p className="text-blue-600 text-sm">No monthly fees</p>
+                                                    <p className="text-xs text-gray-500">TUIO: $2,215/month</p>
+                                                </div>
+                                                <TrendingDown className="text-blue-500" size={32} />
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white rounded-2xl p-4 shadow-lg border border-orange-200">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-gray-600 text-sm">Data Ownership</p>
+                                                    <p className="text-2xl font-bold text-orange-600">✓</p>
+                                                    <p className="text-orange-600 text-sm">Your data, your control</p>
+                                                    <p className="text-xs text-gray-500">TUIO: Platform locked</p>
+                                                </div>
+                                                <Building className="text-orange-500" size={32} />
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white rounded-2xl p-4 shadow-lg border border-purple-200">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-gray-600 text-sm">Integration</p>
+                                                    <p className="text-2xl font-bold text-purple-600">∞</p>
+                                                    <p className="text-purple-600 text-sm">Any system, any Proccessor</p>
+                                                    <p className="text-xs text-gray-500">TUIO: Limited options</p>
+                                                </div>
+                                                <Settings className="text-purple-500" size={32} />
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white rounded-2xl p-4 shadow-lg border border-red-200">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-gray-600 text-sm">Customer Support</p>
+                                                    <p className="text-2xl font-bold text-red-600">24/7</p>
+                                                    <p className="text-red-600 text-sm">Human support</p>
+                                                    <p className="text-xs text-gray-500">TUIO: Ticket system</p>
+                                                </div>
+                                                <Users className="text-red-500" size={32} />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* TUIO Comparison Section */}
+                                    <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
+                                        <h3 className="text-xl font-bold text-red-800 mb-4">⚠️ Why Schools Leave TUIO</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="space-y-3">
+                                                <div className="flex items-start space-x-3">
+                                                    <X className="text-red-500 mt-1" size={16} />
+                                                    <div>
+                                                        <p className="font-semibold text-red-800">False "Complete Control" Claims</p>
+                                                        <p className="text-sm text-red-600">Only allows auto-pay, no partial payments despite marketing claims</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-start space-x-3">
+                                                    <X className="text-red-500 mt-1" size={16} />
+                                                    <div>
+                                                        <p className="font-semibold text-red-800">High Processing Fees</p>
+                                                        <p className="text-sm text-red-600">2.9% + $0.30 per transaction vs our 0.75% ACH</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-start space-x-3">
+                                                    <X className="text-red-500 mt-1" size={16} />
+                                                    <div>
+                                                        <p className="font-semibold text-red-800">Data Lock-in</p>
+                                                        <p className="text-sm text-red-600">Difficult to export data, vendor dependency</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-3">
+                                                <div className="flex items-start space-x-3">
+                                                    <CheckCircle className="text-green-500 mt-1" size={16} />
+                                                    <div>
+                                                        <p className="font-semibold text-green-800">True Payment Flexibility</p>
+                                                        <p className="text-sm text-green-600">Full, partial, custom amounts, any schedule</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-start space-x-3">
+                                                    <CheckCircle className="text-green-500 mt-1" size={16} />
+                                                    <div>
+                                                        <p className="font-semibold text-green-800">Transparent Low Fees</p>
+                                                        <p className="text-sm text-green-600">ACH: 0.% (max $5), CC: 2.3% + $0.30</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-start space-x-3">
+                                                    <CheckCircle className="text-green-500 mt-1" size={16} />
+                                                    <div>
+                                                        <p className="font-semibold text-green-800">Open Integration</p>
+                                                        <p className="text-sm text-green-600">Connect to any system, export anytime</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Cost Savings */}
+                                    <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 text-center">
+                                        <h3 className="text-2xl font-bold text-blue-800 mb-4">💰 Annual Savings: $18,900</h3>
+                                        <p className="text-blue-700 font-medium mb-2">That's a 93% cost reduction vs TUIO!</p>
+                                        <p className="text-sm text-blue-600">Plus superior features and complete flexibility</p>
+                                    </div>
+                                </div>
+                            );
+
+                        case 'students':
+                            return (
+                                <div className="space-y-6">
+                                    {/* Advanced Student Management Header */}
+                                    <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-6 text-white">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <h2 className="text-2xl font-bold mb-2">Advanced Student Management</h2>
+                                                <p className="text-purple-100">Complete control over accounts, payments, and family communication</p>
+                                            </div>
+                                            <div className="flex space-x-4">
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    📊 Bulk Actions
+                                                </button>
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    📄 Export Data
+                                                </button>
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    ➕ Add Student
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Enhanced Student Table */}
+                                    <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h3 className="text-xl font-bold text-gray-800">Student Account Management</h3>
+                                            <div className="flex space-x-3">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Search students, families..."
+                                                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                />
+                                                <select className="px-4 py-2 border border-gray-300 rounded-lg">
+                                                    <option>All Statuses</option>
+                                                    <option>Current</option>
+                                                    <option>Past Due</option>
+                                                    <option>Scholarship Recipients</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full">
+                                                <thead>
+                                                    <tr className="border-b border-gray-200">
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Student</th>
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Family</th>
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Payment Plan</th>
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Monthly Amount</th>
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Balance</th>
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {allStudents.map((student) => (
+                                                        <tr key={student.id} className="border-b border-gray-100 hover:bg-gray-50">
+                                                            <td className="py-3 px-4">
+                                                                <div className="flex items-center space-x-3">
+                                                                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                                                        <span className="text-sm font-bold text-blue-600">{student.name.charAt(0)}</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div className="font-medium text-gray-800">{student.name}</div>
+                                                                        <div className="text-sm text-gray-600">{student.grade} • {student.studentType}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="py-3 px-4">
+                                                                <div>
+                                                                    <div className="font-medium text-gray-800">{student.family.parentName}</div>
+                                                                    <div className="text-sm text-gray-600">{student.family.email}</div>
+                                                                    <div className="text-xs text-gray-500">{student.family.phone}</div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="py-3 px-4">
+                                                                <div className="flex flex-col">
+                                                                    <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
+                                                                        student.autoPayEnabled ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                                                    }`}>
+                                                                        {student.autoPayEnabled ? 'Auto-Pay' : 'Manual'}
+                                                                    </span>
+                                                                    <span className="text-xs text-gray-500 mt-1">{student.paymentMethod}</span>
+                                                                </div>
+                                                            </td>
+                                                            <td className="py-3 px-4">
+                                                                <div className="font-semibold text-gray-800">${calculateStudentTotal(student) - (student.scholarshipAmount || 0)}</div>
+                                                                {student.scholarshipAmount && (
+                                                                    <div className="text-sm text-green-600">-${student.scholarshipAmount} scholarship</div>
+                                                                )}
+                                                                <div className="text-xs text-gray-500">Base: ${calculateStudentTotal(student)}</div>
+                                                            </td>
+                                                            <td className="py-3 px-4">
+                                                                <span className={`font-semibold px-2 py-1 rounded ${
+                                                                    student.balance > 0 ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
+                                                                }`}>
+                                                                    ${student.balance}
+                                                                </span>
+                                                                {student.balance > 0 && (
+                                                                    <div className="text-xs text-red-600 mt-1">30 days overdue</div>
+                                                                )}
+                                                            </td>
+                                                            <td className="py-3 px-4">
+                                                                <div className="flex flex-col space-y-1">
+                                                                    <button
+                                                                        onClick={() => setSelectedStudent(student)}
+                                                                        className="text-blue-600 hover:text-blue-700 text-sm font-medium text-left"
+                                                                    >
+                                                                        📋 View Details
+                                                                    </button>
+                                                                    <button className="text-green-600 hover:text-green-700 text-sm font-medium text-left">
+                                                                        💳 Process Payment
+                                                                    </button>
+                                                                    <button className="text-purple-600 hover:text-purple-700 text-sm font-medium text-left">
+                                                                        ✉️ Send Message
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    {/* Advanced Features TUIO Doesn't Have */}
+                                    <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-6">
+                                        <h3 className="text-xl font-bold text-orange-800 mb-4">🚀 Advanced Features TUIO Can't Match</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div className="bg-white rounded-lg p-4 border border-yellow-200">
+                                                <h4 className="font-bold text-orange-800 mb-2">Custom Payment Plans</h4>
+                                                <p className="text-sm text-orange-700">Set any amount, any schedule. TUIO forces auto-pay only with no flexibility.</p>
+                                                <button className="text-orange-600 text-sm font-medium mt-2">Configure Plans →</button>
+                                            </div>
+                                            <div className="bg-white rounded-lg p-4 border border-yellow-200">
+                                                <h4 className="font-bold text-orange-800 mb-2">Smart Collections</h4>
+                                                <p className="text-sm text-orange-700">Automated reminders with escalation. Track family communication history.</p>
+                                                <button className="text-orange-600 text-sm font-medium mt-2">View Collections →</button>
+                                            </div>
+                                            <div className="bg-white rounded-lg p-4 border border-yellow-200">
+                                                <h4 className="font-bold text-orange-800 mb-2">Data Liberation</h4>
+                                                <p className="text-sm text-orange-700">Export everything instantly. No vendor lock-in like TUIO.</p>
+                                                <button className="text-orange-600 text-sm font-medium mt-2">Export Data →</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+
+                        case 'invoices':
+                            return (
+                                <div className="space-y-6">
+                                    {/* Advanced Invoice Management Header */}
+                                    <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-6 text-white">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <h2 className="text-2xl font-bold mb-2">Invoice & Payment Management</h2>
+                                                <p className="text-indigo-100">Complete payment flexibility unlike TUIO's limited options</p>
+                                            </div>
+                                            <div className="flex space-x-4">
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    📧 Bulk Send Invoices
+                                                </button>
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    💰 Process Payments
+                                                </button>
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    📊 Payment Reports
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Payment Processing Stats */}
+                                    <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                        <div className="bg-white rounded-lg p-4 shadow border border-green-200">
+                                            <div className="text-sm text-gray-600">This Month Collected</div>
+                                            <div className="text-2xl font-bold text-green-600">${financialReports.monthlyRevenue.total.toLocaleString()}</div>
+                                            <div className="text-xs text-green-600">↑ 8% vs last month</div>
+                                        </div>
+                                        <div className="bg-white rounded-lg p-4 shadow border border-blue-200">
+                                            <div className="text-sm text-gray-600">Pending Invoices</div>
+                                            <div className="text-2xl font-bold text-blue-600">12</div>
+                                            <div className="text-xs text-blue-600">$8,450 total value</div>
+                                        </div>
+                                        <div className="bg-white rounded-lg p-4 shadow border border-yellow-200">
+                                            <div className="text-sm text-gray-600">Partial Payments</div>
+                                            <div className="text-2xl font-bold text-yellow-600">7</div>
+                                            <div className="text-xs text-yellow-600">TUIO doesn't support!</div>
+                                        </div>
+                                        <div className="bg-white rounded-lg p-4 shadow border border-purple-200">
+                                            <div className="text-sm text-gray-600">Payment Plans Active</div>
+                                            <div className="text-2xl font-bold text-purple-600">23</div>
+                                            <div className="text-xs text-purple-600">Custom schedules</div>
+                                        </div>
+                                        <div className="bg-white rounded-lg p-4 shadow border border-red-200">
+                                            <div className="text-sm text-gray-600">Processing Fees Saved</div>
+                                            <div className="text-2xl font-bold text-red-600">$2,028</div>
+                                            <div className="text-xs text-red-600">vs TUIO this month</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Invoice Management Table */}
+                                    <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h3 className="text-xl font-bold text-gray-800">Recent Invoices & Payments</h3>
+                                            <div className="flex space-x-3">
+                                                <select className="px-4 py-2 border border-gray-300 rounded-lg">
+                                                    <option>All Invoices</option>
+                                                    <option>Paid</option>
+                                                    <option>Pending</option>
+                                                    <option>Overdue</option>
+                                                    <option>Partial</option>
+                                                </select>
+                                                <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                                    📄 Generate Invoices
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full">
+                                                <thead>
+                                                    <tr className="border-b border-gray-200">
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Invoice #</th>
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Student/Family</th>
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Amount</th>
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Payment Method</th>
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr className="border-b border-gray-100 hover:bg-gray-50">
+                                                        <td className="py-3 px-4">
+                                                            <div className="font-medium text-gray-800">INV-2024-157</div>
+                                                            <div className="text-sm text-gray-600">Aug 15, 2024</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="font-medium text-gray-800">Emma Thompson</div>
+                                                            <div className="text-sm text-gray-600">Sarah Thompson</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="font-semibold text-gray-800">$1,115.00</div>
+                                                            <div className="text-sm text-gray-600">Tuition + Aftercare</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="flex items-center space-x-2">
+                                                                <span className="text-green-600">🏦</span>
+                                                                <span className="text-sm">ACH Auto-Pay</span>
+                                                            </div>
+                                                            <div className="text-xs text-gray-500">Fee: $0.84</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                                ✓ Paid
+                                                            </span>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="flex flex-col space-y-1">
+                                                                <button className="text-blue-600 text-sm text-left">📄 View Invoice</button>
+                                                                <button className="text-green-600 text-sm text-left">📧 Email Receipt</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                    <tr className="border-b border-gray-100 hover:bg-gray-50">
+                                                        <td className="py-3 px-4">
+                                                            <div className="font-medium text-gray-800">INV-2024-158</div>
+                                                            <div className="text-sm text-gray-600">Aug 15, 2024</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="font-medium text-gray-800">Liam Johnson</div>
+                                                            <div className="text-sm text-gray-600">Michael Johnson</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="font-semibold text-gray-800">$995.00</div>
+                                                            <div className="text-sm text-yellow-600">$500 paid / $495 pending</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="flex items-center space-x-2">
+                                                                <span className="text-blue-600">💳</span>
+                                                                <span className="text-sm">Partial Credit Card</span>
+                                                            </div>
+                                                            <div className="text-xs text-gray-500">Custom payment plan</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                                ⏳ Partial
+                                                            </span>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="flex flex-col space-y-1">
+                                                                <button className="text-orange-600 text-sm text-left">💰 Collect Balance</button>
+                                                                <button className="text-blue-600 text-sm text-left">📧 Send Reminder</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr className="border-b border-gray-100 hover:bg-gray-50">
+                                                        <td className="py-3 px-4">
+                                                            <div className="font-medium text-gray-800">INV-2024-159</div>
+                                                            <div className="text-sm text-gray-600">Aug 10, 2024</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="font-medium text-gray-800">Alex Rodriguez</div>
+                                                            <div className="text-sm text-gray-600">Carmen Rodriguez</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="font-semibold text-red-600">$850.00</div>
+                                                            <div className="text-sm text-red-600">5 days overdue</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="flex items-center space-x-2">
+                                                                <span className="text-gray-400">❌</span>
+                                                                <span className="text-sm text-gray-500">No payment method</span>
+                                                            </div>
+                                                            <div className="text-xs text-red-500">Needs setup</div>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                                ⚠️ Overdue
+                                                            </span>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <div className="flex flex-col space-y-1">
+                                                                <button className="text-red-600 text-sm text-left">📞 Contact Family</button>
+                                                                <button className="text-orange-600 text-sm text-left">⚙️ Setup Payment</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    {/* Payment Method Breakdown */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                            <h3 className="text-lg font-bold text-gray-800 mb-4">Payment Method Distribution</h3>
+                                            <div className="space-y-4">
+                                                <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                                    <div className="flex items-center space-x-3">
+                                                        <span className="text-green-600">🏦</span>
+                                                        <span className="font-medium">ACH Auto-Pay</span>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <div className="font-bold text-green-600">52 families</div>
+                                                        <div className="text-sm text-gray-600">80% adoption</div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                                                    <div className="flex items-center space-x-3">
+                                                        <span className="text-blue-600">💳</span>
+                                                        <span className="font-medium">Credit Card</span>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <div className="font-bold text-blue-600">10 families</div>
+                                                        <div className="text-sm text-gray-600">15% of payments</div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                                                    <div className="flex items-center space-x-3">
+                                                        <span className="text-yellow-600">📅</span>
+                                                        <span className="font-medium">Payment Plans</span>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <div className="font-bold text-yellow-600">3 families</div>
+                                                        <div className="text-sm text-gray-600">5% custom schedules</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                            <h3 className="text-lg font-bold text-gray-800 mb-4">TUIO vs Our System</h3>
+                                            <div className="space-y-4">
+                                                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                                                    <h4 className="font-bold text-red-800 mb-2">❌ TUIO Limitations</h4>
+                                                    <ul className="space-y-1 text-sm text-red-700">
+                                                        <li>• Auto-pay ONLY - no flexibility</li>
+                                                        <li>• No partial payment support</li>
+                                                        <li>• Limited payment method options</li>
+                                                        <li>• High processing fees (2.9%)</li>
+                                                        <li>• Difficult data export</li>
+                                                    </ul>
+                                                </div>
+                                                
+                                                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                                                    <h4 className="font-bold text-green-800 mb-2">✅ Our Advantages</h4>
+                                                    <ul className="space-y-1 text-sm text-green-700">
+                                                        <li>• Any payment amount, any schedule</li>
+                                                        <li>• Full + partial payment support</li>
+                                                        <li>• Multiple payment methods</li>
+                                                        <li>• Low fees (0.75% ACH, 2.3% CC)</li>
+                                                        <li>• Complete data ownership</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+
+                        case 'reports':
+                            return (
+                                <div className="space-y-6">
+                                    {/* Advanced Analytics Header */}
+                                    <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-2xl p-6 text-white">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <h2 className="text-2xl font-bold mb-2">Advanced Financial Analytics</h2>
+                                                <p className="text-teal-100">Comprehensive reporting that TUIO's basic dashboard can't match</p>
+                                            </div>
+                                            <div className="flex space-x-4">
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    📊 Custom Reports
+                                                </button>
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    📈 Forecasting
+                                                </button>
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    📋 Export All Data
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Key Performance Indicators */}
+                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg border-t-4 border-green-500">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-gray-600 text-sm">Annual Revenue</p>
+                                                    <p className="text-3xl font-bold text-green-600">${(financialReports.monthlyRevenue.total * 10).toLocaleString()}</p>
+                                                    <p className="text-green-600 text-sm">10-month school year</p>
+                                                </div>
+                                                <div className="text-4xl">💰</div>
+                                            </div>
+                                            <div className="mt-4 p-3 bg-green-50 rounded-lg">
+                                                <p className="text-sm text-green-800 font-medium">vs TUIO Projection</p>
+                                                <p className="text-lg font-bold text-green-800">+$18,900 saved in fees</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg border-t-4 border-blue-500">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-gray-600 text-sm">Collection Efficiency</p>
+                                                    <p className="text-3xl font-bold text-blue-600">{financialReports.metrics.collectionRate}%</p>
+                                                    <p className="text-blue-600 text-sm">Above industry avg</p>
+                                                </div>
+                                                <div className="text-4xl">🎯</div>
+                                            </div>
+                                            <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                                                <p className="text-sm text-blue-800">Smart automation + flexibility</p>
+                                                <p className="text-xs text-blue-600">TUIO: Limited to auto-pay only</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg border-t-4 border-purple-500">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-gray-600 text-sm">Family Satisfaction</p>
+                                                    <p className="text-3xl font-bold text-purple-600">94%</p>
+                                                    <p className="text-purple-600 text-sm">Payment flexibility rating</p>
+                                                </div>
+                                                <div className="text-4xl">😊</div>
+                                            </div>
+                                            <div className="mt-4 p-3 bg-purple-50 rounded-lg">
+                                                <p className="text-sm text-purple-800">Choice in payment methods</p>
+                                                <p className="text-xs text-purple-600">TUIO: One-size-fits-all approach</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg border-t-4 border-orange-500">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-gray-600 text-sm">Data Portability</p>
+                                                    <p className="text-3xl font-bold text-orange-600">100%</p>
+                                                    <p className="text-orange-600 text-sm">Complete ownership</p>
+                                                </div>
+                                                <div className="text-4xl">🔓</div>
+                                            </div>
+                                            <div className="mt-4 p-3 bg-orange-50 rounded-lg">
+                                                <p className="text-sm text-orange-800">Export anytime, anywhere</p>
+                                                <p className="text-xs text-orange-600">TUIO: Platform lock-in</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Detailed Financial Breakdown */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-6">Revenue Analysis</h3>
+                                            <div className="space-y-4">
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <div className="flex justify-between items-center mb-2">
+                                                        <span className="font-semibold text-gray-800">Tuition Revenue</span>
+                                                        <span className="font-bold text-blue-600">${financialReports.monthlyRevenue.tuition.toLocaleString()}</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                                        <div className="bg-blue-600 h-2 rounded-full" style={{width: '60%'}}></div>
+                                                    </div>
+                                                    <p className="text-sm text-gray-600 mt-1">60% of total revenue</p>
+                                                </div>
+
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <div className="flex justify-between items-center mb-2">
+                                                        <span className="font-semibold text-gray-800">Aftercare Program</span>
+                                                        <span className="font-bold text-green-600">${financialReports.monthlyRevenue.aftercare.toLocaleString()}</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                                        <div className="bg-green-600 h-2 rounded-full" style={{width: '16%'}}></div>
+                                                    </div>
+                                                    <p className="text-sm text-gray-600 mt-1">16% of total revenue</p>
+                                                </div>
+
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <div className="flex justify-between items-center mb-2">
+                                                        <span className="font-semibold text-gray-800">Lunch & Materials</span>
+                                                        <span className="font-bold text-yellow-600">${(financialReports.monthlyRevenue.lunch + financialReports.monthlyRevenue.materials).toLocaleString()}</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                                        <div className="bg-yellow-600 h-2 rounded-full" style={{width: '13%'}}></div>
+                                                    </div>
+                                                    <p className="text-sm text-gray-600 mt-1">13% of total revenue</p>
+                                                </div>
+
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <div className="flex justify-between items-center mb-2">
+                                                        <span className="font-semibold text-gray-800">Enrollment & Other</span>
+                                                        <span className="font-bold text-purple-600">${(financialReports.monthlyRevenue.enrollment + financialReports.monthlyRevenue.library).toLocaleString()}</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                                        <div className="bg-purple-600 h-2 rounded-full" style={{width: '11%'}}></div>
+                                                    </div>
+                                                    <p className="text-sm text-gray-600 mt-1">11% of total revenue</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-6">Cost Savings Analysis</h3>
+                                            <div className="space-y-6">
+                                                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                                                    <h4 className="font-bold text-red-800 mb-3">TUIO Annual Costs</h4>
+                                                    <div className="space-y-2 text-sm">
+                                                        <div className="flex justify-between">
+                                                            <span>Processing Fees (2.9% + $0.30)</span>
+                                                            <span className="font-bold">$26,580</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span>Monthly Platform Fee</span>
+                                                            <span className="font-bold">$3,600</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span>Setup & Support</span>
+                                                            <span className="font-bold">$1,200</span>
+                                                        </div>
+                                                        <div className="border-t border-red-300 pt-2 font-bold">
+                                                            <div className="flex justify-between">
+                                                                <span>Total TUIO Cost</span>
+                                                                <span className="text-red-600">$31,380</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                                                    <h4 className="font-bold text-green-800 mb-3">Our System Costs</h4>
+                                                    <div className="space-y-2 text-sm">
+                                                        <div className="flex justify-between">
+                                                            <span>Stripe Processing (Mixed)</span>
+                                                            <span className="font-bold">$2,238</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span>Platform Fee</span>
+                                                            <span className="font-bold">$0</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span>Setup & Support</span>
+                                                            <span className="font-bold">$0</span>
+                                                        </div>
+                                                        <div className="border-t border-green-300 pt-2 font-bold">
+                                                            <div className="flex justify-between">
+                                                                <span>Total Our Cost</span>
+                                                                <span className="text-green-600">$2,238</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+                                                    <p className="font-bold text-blue-800 text-2xl mb-2">$29,142 Annual Savings</p>
+                                                    <p className="text-blue-700 font-medium">93% cost reduction vs TUIO</p>
+                                                    <p className="text-sm text-blue-600 mt-2">Plus superior features and flexibility!</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Competitive Advantage Summary */}
+                                    <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-6">
+                                        <h3 className="text-2xl font-bold text-orange-800 mb-6">🏆 Why Choose Us Over TUIO</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                            <div className="bg-white rounded-lg p-6 border border-yellow-200 shadow-sm">
+                                                <div className="text-center mb-4">
+                                                    <div className="text-4xl mb-2">💰</div>
+                                                    <h4 className="text-xl font-bold text-orange-800">Massive Cost Savings</h4>
+                                                </div>
+                                                <ul className="space-y-2 text-sm text-orange-700">
+                                                    <li>✅ 93% lower processing fees</li>
+                                                    <li>✅ No monthly platform fees</li>
+                                                    <li>✅ No setup or support charges</li>
+                                                    <li>✅ Transparent, predictable pricing</li>
+                                                    <li>❌ TUIO: Hidden fees, vendor lock-in</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="bg-white rounded-lg p-6 border border-yellow-200 shadow-sm">
+                                                <div className="text-center mb-4">
+                                                    <div className="text-4xl mb-2">🎯</div>
+                                                    <h4 className="text-xl font-bold text-orange-800">True Flexibility</h4>
+                                                </div>
+                                                <ul className="space-y-2 text-sm text-orange-700">
+                                                    <li>✅ Any payment amount, any schedule</li>
+                                                    <li>✅ Partial payments supported</li>
+                                                    <li>✅ Custom payment plans</li>
+                                                    <li>✅ Multiple payment methods</li>
+                                                    <li>❌ TUIO: Auto-pay only, no flexibility</li>
+                                                </ul>
+                                            </div>
+
+                                            <div className="bg-white rounded-lg p-6 border border-yellow-200 shadow-sm">
+                                                <div className="text-center mb-4">
+                                                    <div className="text-4xl mb-2">🔓</div>
+                                                    <h4 className="text-xl font-bold text-orange-800">Data Freedom</h4>
+                                                </div>
+                                                <ul className="space-y-2 text-sm text-orange-700">
+                                                    <li>✅ Export all data anytime</li>
+                                                    <li>✅ Connect to any system</li>
+                                                    <li>✅ No vendor lock-in</li>
+                                                    <li>✅ API access included</li>
+                                                    <li>❌ TUIO: Platform dependency</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-6 text-center">
+                                            <p className="text-lg font-bold text-orange-800 mb-2">Ready to make the switch?</p>
+                                            <p className="text-orange-700 mb-4">Join the growing number of schools leaving TUIO for better, cheaper solutions.</p>
+                                            <button className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                                                🚀 Schedule Migration Consultation
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+
+                        case 'settings':
+                            return (
+                                <div className="space-y-6">
+                                    {/* System Settings Header */}
+                                    <div className="bg-gradient-to-r from-gray-700 to-slate-800 rounded-2xl p-6 text-white">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <h2 className="text-2xl font-bold mb-2">System Configuration</h2>
+                                                <p className="text-gray-300">Complete administrative control - unlike TUIO's limited settings</p>
+                                            </div>
+                                            <div className="flex space-x-4">
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    💾 Save All Settings
+                                                </button>
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    🔄 Sync with Stripe
+                                                </button>
+                                                <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors">
+                                                    📤 Export Configuration
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Settings Grid */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        {/* Payment Configuration */}
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                                                <CreditCard className="mr-2 text-blue-600" size={24} />
+                                                Payment Configuration
+                                            </h3>
+                                            <div className="space-y-4">
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <h4 className="font-semibold text-gray-800 mb-3">Processing Fees</h4>
+                                                    <div className="space-y-2 text-sm">
+                                                        <div className="flex justify-between">
+                                                            <span>ACH/Bank Transfer:</span>
+                                                            <span className="font-bold text-green-600">0.75% (max $15)</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span>Credit/Debit Card:</span>
+                                                            <span className="font-bold text-blue-600">2.9% + $0.30</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span>Failed Payment Fee:</span>
+                                                            <span className="font-bold text-red-600">$25.00</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="mt-3 p-3 bg-green-50 rounded-lg">
+                                                        <p className="text-sm text-green-800 font-medium">vs TUIO: 2.9% + $0.30 all payments</p>
+                                                        <p className="text-xs text-green-700">Our ACH rate saves you $2,028/month!</p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <h4 className="font-semibold text-gray-800 mb-3">Payment Options</h4>
+                                                    <div className="space-y-3">
+                                                        <label className="flex items-center space-x-3">
+                                                            <input type="checkbox" checked className="rounded" />
+                                                            <span className="text-sm">Allow partial payments (TUIO doesn't support)</span>
+                                                        </label>
+                                                        <label className="flex items-center space-x-3">
+                                                            <input type="checkbox" checked className="rounded" />
+                                                            <span className="text-sm">Custom payment schedules</span>
+                                                        </label>
+                                                        <label className="flex items-center space-x-3">
+                                                            <input type="checkbox" checked className="rounded" />
+                                                            <span className="text-sm">Multiple payment methods per family</span>
+                                                        </label>
+                                                        <label className="flex items-center space-x-3">
+                                                            <input type="checkbox" checked className="rounded" />
+                                                            <span className="text-sm">Payment plan modifications</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Communication Settings */}
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                                                <BookOpen className="mr-2 text-green-600" size={24} />
+                                                Communication & Notifications
+                                            </h3>
+                                            <div className="space-y-4">
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <h4 className="font-semibold text-gray-800 mb-3">Email Automation</h4>
+                                                    <div className="space-y-3">
+                                                        <div className="flex items-center justify-between">
+                                                            <label className="text-sm">Payment reminders</label>
+                                                            <select className="px-3 py-1 border border-gray-300 rounded text-sm">
+                                                                <option>3 days before due</option>
+                                                                <option>5 days before due</option>
+                                                                <option>7 days before due</option>
+                                                            </select>
+                                                        </div>
+                                                        <div className="flex items-center justify-between">
+                                                            <label className="text-sm">Overdue notices</label>
+                                                            <select className="px-3 py-1 border border-gray-300 rounded text-sm">
+                                                                <option>Daily after due date</option>
+                                                                <option>Every 3 days</option>
+                                                                <option>Weekly</option>
+                                                            </select>
+                                                        </div>
+                                                        <div className="flex items-center justify-between">
+                                                            <label className="text-sm">Payment confirmations</label>
+                                                            <input type="checkbox" checked className="rounded" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <h4 className="font-semibold text-gray-800 mb-3">Custom Templates</h4>
+                                                    <div className="space-y-2">
+                                                        <button className="w-full text-left px-3 py-2 bg-gray-50 rounded-lg text-sm hover:bg-gray-100">
+                                                            📧 Invoice Email Template
+                                                        </button>
+                                                        <button className="w-full text-left px-3 py-2 bg-gray-50 rounded-lg text-sm hover:bg-gray-100">
+                                                            ⏰ Payment Reminder Template
+                                                        </button>
+                                                        <button className="w-full text-left px-3 py-2 bg-gray-50 rounded-lg text-sm hover:bg-gray-100">
+                                                            ⚠️ Overdue Notice Template
+                                                        </button>
+                                                    </div>
+                                                    <p className="text-xs text-gray-600 mt-2">TUIO: Limited template customization</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Integration Settings */}
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                                                <Settings className="mr-2 text-purple-600" size={24} />
+                                                System Integrations
+                                            </h3>
+                                            <div className="space-y-4">
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <h4 className="font-semibold text-gray-800 mb-3">Connected Services</h4>
+                                                    <div className="space-y-3">
+                                                        <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                                            <div className="flex items-center space-x-3">
+                                                                <span className="text-green-600">✅</span>
+                                                                <span className="text-sm font-medium">Stripe Payment Processing</span>
+                                                            </div>
+                                                            <button className="text-green-600 text-sm">⚙️ Configure</button>
+                                                        </div>
+                                                        <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                                                            <div className="flex items-center space-x-3">
+                                                                <span className="text-blue-600">✅</span>
+                                                                <span className="text-sm font-medium">QuickBooks Integration</span>
+                                                            </div>
+                                                            <button className="text-blue-600 text-sm">⚙️ Configure</button>
+                                                        </div>
+                                                        <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                                            <div className="flex items-center space-x-3">
+                                                                <span className="text-gray-400">➕</span>
+                                                                <span className="text-sm">Google Classroom</span>
+                                                            </div>
+                                                            <button className="text-gray-600 text-sm">Connect</button>
+                                                        </div>
+                                                    </div>
+                                                    <p className="text-xs text-green-600 mt-2">✅ Open API - connect to any system!</p>
+                                                    <p className="text-xs text-red-600">❌ TUIO: Limited integration options</p>
+                                                </div>
+
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <h4 className="font-semibold text-gray-800 mb-3">Data Export & Backup</h4>
+                                                    <div className="space-y-2">
+                                                        <button className="w-full text-left px-3 py-2 bg-gray-50 rounded-lg text-sm hover:bg-gray-100">
+                                                            📊 Export All Financial Data
+                                                        </button>
+                                                        <button className="w-full text-left px-3 py-2 bg-gray-50 rounded-lg text-sm hover:bg-gray-100">
+                                                            👥 Export Student Records
+                                                        </button>
+                                                        <button className="w-full text-left px-3 py-2 bg-gray-50 rounded-lg text-sm hover:bg-gray-100">
+                                                            📈 Export Analytics Reports
+                                                        </button>
+                                                    </div>
+                                                    <p className="text-xs text-green-600 mt-2">✅ Complete data ownership & portability</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Security & Compliance */}
+                                        <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                                                <AlertCircle className="mr-2 text-red-600" size={24} />
+                                                Security & Compliance
+                                            </h3>
+                                            <div className="space-y-4">
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <h4 className="font-semibold text-gray-800 mb-3">Security Features</h4>
+                                                    <div className="space-y-3">
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm">Two-factor authentication</span>
+                                                            <span className="text-green-600 font-medium">✅ Enabled</span>
+                                                        </div>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm">PCI DSS Compliance</span>
+                                                            <span className="text-green-600 font-medium">✅ Certified</span>
+                                                        </div>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm">Data encryption (AES-256)</span>
+                                                            <span className="text-green-600 font-medium">✅ Active</span>
+                                                        </div>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm">Regular security audits</span>
+                                                            <span className="text-green-600 font-medium">✅ Quarterly</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="border border-gray-200 rounded-lg p-4">
+                                                    <h4 className="font-semibold text-gray-800 mb-3">Access Control</h4>
+                                                    <div className="space-y-2">
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm">Admin users</span>
+                                                            <span className="font-medium">3 active</span>
+                                                        </div>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm">Session timeout</span>
+                                                            <select className="px-2 py-1 border border-gray-300 rounded text-sm">
+                                                                <option>30 minutes</option>
+                                                                <option>1 hour</option>
+                                                                <option>2 hours</option>
+                                                            </select>
+                                                        </div>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm">Login attempts limit</span>
+                                                            <select className="px-2 py-1 border border-gray-300 rounded text-sm">
+                                                                <option>3 attempts</option>
+                                                                <option>5 attempts</option>
+                                                                <option>10 attempts</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Migration from TUIO Section */}
+                                    <div className="bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-2xl p-6">
+                                        <h3 className="text-2xl font-bold text-red-800 mb-6">🔄 Migrating from TUIO?</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div>
+                                                <h4 className="text-lg font-bold text-red-800 mb-3">What we can import:</h4>
+                                                <ul className="space-y-2 text-sm text-red-700">
+                                                    <li>✅ Student and family records</li>
+                                                    <li>✅ Payment history and balances</li>
+                                                    <li>✅ Account configurations</li>
+                                                    <li>✅ Outstanding invoices</li>
+                                                    <li>✅ Scholarship information</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-lg font-bold text-green-800 mb-3">What you'll gain:</h4>
+                                                <ul className="space-y-2 text-sm text-green-700">
+                                                    <li>✅ 93% lower processing fees</li>
+                                                    <li>✅ True payment flexibility</li>
+                                                    <li>✅ Complete data ownership</li>
+                                                    <li>✅ Advanced reporting</li>
+                                                    <li>✅ Better family experience</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div className="mt-6 text-center">
+                                            <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors mr-4">
+                                                🚀 Start TUIO Migration
+                                            </button>
+                                            <button className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                                                📞 Schedule Demo Call
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+
+                        case 'scholarships':
+                            return (
+                                <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Scholarship Applications</h2>
+                                    
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full">
+                                            <thead>
+                                                <tr className="border-b border-gray-200">
+                                                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Student</th>
+                                                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Application Date</th>
+                                                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Amount</th>
+                                                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                                                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {scholarshipApplications.map((application) => (
+                                                    <tr key={application.id} className="border-b border-gray-100 hover:bg-gray-50">
+                                                        <td className="py-3 px-4">
+                                                            <div>
+                                                                <div className="font-medium text-gray-800">{application.studentName}</div>
+                                                                <div className="text-sm text-gray-600">{application.grade}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="py-3 px-4 text-gray-800">{application.applicationDate}</td>
+                                                        <td className="py-3 px-4 font-semibold text-gray-800">
+                                                            ${application.assistanceAmount || application.requestedAmount}/month
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                                                application.status === 'approved' ? 'bg-green-100 text-green-800' :
+                                                                application.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                                                'bg-blue-100 text-blue-800'
+                                                            }`}>
+                                                                {application.status}
+                                                            </span>
+                                                        </td>
+                                                        <td className="py-3 px-4">
+                                                            <button
+                                                                onClick={() => {
+                                                                    setSelectedApplication(application);
+                                                                    setShowScholarshipReview(true);
+                                                                }}
+                                                                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                                                            >
+                                                                Review
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            );
+
+                        default:
+                            return <div>Admin page not found</div>;
+                    }
+                }
+
+                // Parent view
+                switch (selectedPage) {
+                    case 'dashboard':
+                        return (
+                            <div className="space-y-6">
+                                {/* Hero Banner */}
+                                <div className="bg-gradient-to-r from-blue-600 to-purple-700 rounded-2xl p-6 text-white">
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <div className="flex items-center space-x-3 mb-2">
+                                                <Building size={32} />
+                                                <h2 className="text-2xl font-bold">Powered by Stripe</h2>
+                                            </div>
+                                            <p className="text-blue-100 mb-4">Complete tuition & fee management with lower costs than TUIO</p>
+                                            <div className="grid grid-cols-3 gap-4">
+                                                <div className="bg-white/20 rounded-lg p-3">
+                                                    <div className="text-sm text-blue-100">Monthly Savings</div>
+                                                    <div className="text-xl font-bold">${savings.monthlySavings}</div>
+                                                </div>
+                                                <div className="bg-white/20 rounded-lg p-3">
+                                                    <div className="text-sm text-blue-100">Annual Savings</div>
+                                                    <div className="text-xl font-bold">${savings.annualSavings}</div>
+                                                </div>
+                                                <div className="bg-white/20 rounded-lg p-3">
+                                                    <div className="text-sm text-blue-100">Students</div>
+                                                    <div className="text-xl font-bold">{students.length}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-blue-100 text-sm mb-2">Total Monthly</div>
+                                            <div className="text-3xl font-bold">${savings.totalMonthly}</div>
+                                            <div className="text-blue-100 text-sm">All fees included</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Quick Actions */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <button
+                                        onClick={() => setShowDonationModal(true)}
+                                        className="bg-gradient-to-r from-green-500 to-green-600 rounded-2xl p-6 text-white hover:shadow-lg transition-all"
+                                    >
+                                        <div className="flex items-center justify-between mb-4">
+                                            <Receipt size={24} />
+                                            <span>💝</span>
+                                        </div>
+                                        <h3 className="text-xl font-bold mb-2">Make a Donation</h3>
+                                        <p className="text-green-100">Support school programs</p>
+                                    </button>
+
+                                    <button
+                                        onClick={() => setShowScholarshipModal(true)}
+                                        className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl p-6 text-white hover:shadow-lg transition-all"
+                                    >
+                                        <div className="flex items-center justify-between mb-4">
+                                            <Users size={24} />
+                                            <span>🎓</span>
+                                        </div>
+                                        <h3 className="text-xl font-bold mb-2">Scholarship Info</h3>
+                                        <p className="text-purple-100">Apply for assistance</p>
+                                    </button>
+
+                                    <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 text-white">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <Calendar size={24} />
+                                            <span>📅</span>
+                                        </div>
+                                        <h3 className="text-xl font-bold mb-2">School Calendar</h3>
+                                        <p className="text-orange-100">Important dates</p>
+                                    </div>
+                                </div>
+
+                                {/* Students Section */}
+                                <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                    <h3 className="text-xl font-bold text-gray-800 mb-4">Your Students</h3>
+                                    <div className="space-y-4">
+                                        {students.map((student) => (
+                                            <div key={student.id} className="border border-gray-200 rounded-lg p-4">
+                                                <div className="flex items-center justify-between mb-3">
+                                                    <div className="flex items-center space-x-4">
+                                                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                                            <Users className="text-blue-600" size={24} />
+                                                        </div>
+                                                        <div>
+                                                            <h4 className="font-semibold text-gray-800">{student.name}</h4>
+                                                            <p className="text-gray-600 text-sm">{student.grade}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <p className="font-semibold text-gray-800">${calculateStudentTotal(student)}/month</p>
+                                                        <p className={`text-sm ${student.autoPayEnabled ? 'text-green-600' : 'text-orange-600'}`}>
+                                                            {student.paymentMethod}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className="mt-3">
+                                                    <button
+                                                        onClick={() => setSelectedStudent(student)}
+                                                        className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                                                    >
+                                                        View Details →
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        );
+
+                    case 'students':
+                        return (
+                            <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                <h2 className="text-2xl font-bold text-gray-800 mb-6">Students</h2>
+                                <div className="space-y-4">
+                                    {students.map((student) => (
+                                        <div key={student.id} className="border border-gray-200 rounded-lg p-4">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <h4 className="font-semibold text-gray-800">{student.name}</h4>
+                                                    <p className="text-gray-600 text-sm">{student.grade}</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="font-semibold text-gray-800">${calculateStudentTotal(student)}/month</p>
+                                                    <button
+                                                        onClick={() => setSelectedStudent(student)}
+                                                        className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                                                    >
+                                                        View Details →
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+
+                    case 'donations':
+                        return (
+                            <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                <div className="flex items-center justify-between mb-6">
+                                    <h2 className="text-2xl font-bold text-gray-800">School Donations</h2>
+                                    <button
+                                        onClick={() => setShowDonationModal(true)}
+                                        className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                                    >
+                                        💝 Make a Donation
+                                    </button>
+                                </div>
+                                <div className="text-center py-8">
+                                    <Gift className="mx-auto mb-4 text-gray-400" size={48} />
+                                    <p className="text-gray-600">Support school programs and initiatives through secure Stripe donations.</p>
+                                </div>
+                            </div>
+                        );
+
+                    case 'scholarships':
+                        return (
+                            <div className="bg-white rounded-2xl p-6 shadow-lg">
+                                <div className="flex items-center justify-between mb-6">
+                                    <h2 className="text-2xl font-bold text-gray-800">Scholarship Programs</h2>
+                                    <button
+                                        onClick={() => setShowScholarshipModal(true)}
+                                        className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-semibold"
+                                    >
+                                        🎓 Apply for Scholarship
+                                    </button>
+                                </div>
+                                <div className="text-center py-8">
+                                    <GraduationCap className="mx-auto mb-4 text-gray-400" size={48} />
+                                    <p className="text-gray-600">Financial assistance programs to help families with educational costs.</p>
+                                </div>
+                            </div>
+                        );
+
+                    default:
+                        return <div>Page not found</div>;
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50 flex">
+                    <Sidebar />
+                    
+                    {/* Main Content */}
+                    <div className="flex-1 lg:ml-0">
+                        {/* Mobile Header */}
+                        <div className="lg:hidden bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                            <button onClick={() => setSidebarOpen(true)} className="text-gray-600">
+                                <Menu size={24} />
+                            </button>
+                            <h1 className="text-lg font-semibold text-gray-800">Bluestem Tuition</h1>
+                            <div></div>
+                        </div>
+
+                        {/* Page Header */}
+                        <div className="bg-white border-b border-gray-200 px-6 py-4 hidden lg:block">
+                            <h1 className="text-2xl font-bold text-gray-800 capitalize">
+                                {selectedPage.replace('-', ' ')}
+                            </h1>
+                            <p className="text-gray-600 text-sm">Powered by Stripe</p>
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-6">
+                            {renderContent()}
+                        </div>
+                    </div>
+
+                    {/* Modals */}
+                    {showDonationModal && userType === 'parent' && <DonationModal />}
+                    {showScholarshipModal && userType === 'parent' && <ScholarshipModal />}
+                    {showScholarshipReview && selectedApplication && (
+                        <ScholarshipReviewModal 
+                            application={selectedApplication} 
+                            onClose={() => {setShowScholarshipReview(false); setSelectedApplication(null);}} 
+                        />
+                    )}
+                    {selectedStudent && <StudentModal student={selectedStudent} onClose={() => setSelectedStudent(null)} />}
+                </div>
+            );
+        };
+
+        // Create root and render using React 18 API
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        // Render the Stripe-based tuition system component
+        root.render(<StripeTuitionSystem />);
+    </script>
+</body>
+</html>

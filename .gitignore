@@ -1,3 +1,6 @@
+
+
+
 # Dependencies
 node_modules/
 npm-debug.log*
@@ -52,6 +55,7 @@ Thumbs.db
 # IDE files
 .vscode/
 .idea/
+.vs/
 *.swp
 *.swo
 *~
@@ -93,3 +97,9 @@ public/uploads/
 *.mov
 *.avi
 large_images/
+
+# Development and AI assistant files
+.claude/
+.github/
+memory-bank/
+.blackboxrules

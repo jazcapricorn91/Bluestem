@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gravitas+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluestem Montessori - Masked Hero</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            color: #2c3e50;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            padding: 0.3rem 2rem 0.3rem 2rem;
+            position: relative;
+            max-width: 220px;
+        }
+        /* All navigation and enrollment styles moved to style.css */
+        /* Hero Section with Masked Text */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hero overlay with gradient for blended effect */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(90,110,90,0.9), rgba(139,69,19,0.8));
+            z-index: 2;
+        }
+
+        /* Background image carousel with parallax */
+        .hero-background {
+            position: absolute;
+            top: -20%; /* Start higher for parallax */
+            left: 0;
+            width: 100%;
+            height: 120%; /* Make it bigger than container */
+            z-index: 1;
+            will-change: transform; /* Smooth performance */
+        }
+
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* CSS parallax method */
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .bg-image.active {
+            opacity: 1;
+        }
+
+        .bg-image:nth-child(1) {
+            background-image: url('https://images.unsplash.com/photo-1587614203976-365c74645e83?w=1200');
+        }
+
+        .bg-image:nth-child(2) {
+            background-image: url('https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=1200');
+        }
+
+        .bg-image:nth-child(3) {
+            background-image: url('https://images.unsplash.com/photo-1581726690015-c9861fa5057f?w=1200');
+        }
+
+        /* Dark overlay */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 2;
+        }
+
+        /* Hero content */
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            max-width: 1200px;
+            padding: 0 2rem;
+        }
+
+        /* Masked text effect */
+        .masked-title {
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 900;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .masked-word {
+            display: block;
+            position: relative;
+            margin-bottom: 0.2em;
+        }
+
+
+        @keyframes slideBackground {
+            0%, 100% { 
+                background-position: 0% 50%; 
+                background-size: 150% 150%;
+            }
+            25% { 
+                background-position: 100% 25%; 
+                background-size: 200% 200%;
+            }
+            50% { 
+                background-position: 50% 100%; 
+                background-size: 180% 180%;
+            }
+            75% { 
+                background-position: 25% 0%; 
+                background-size: 160% 160%;
+            }
+        }
+
+        /* Hero title with outlined text and moving background */
+        .outlined-text {
+            font-size: clamp(5rem, 15vw, 12rem);
+            font-weight: 900;
+            line-height: 0.8;
+            color: transparent;
+            -webkit-text-stroke: 4px white;
+            text-stroke: 4px white;
+            position: relative;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .outlined-text::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                linear-gradient(rgba(30,30,30,0.55), rgba(30,30,30,0.55)),
+                url('https://images.unsplash.com/photo-1464983953574-0892a716854b?w=1400') center/cover;
+            background-blend-mode: darken;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideBackgroundOutlined 32s ease-in-out infinite;
+        }
+
+        @keyframes slideBackgroundOutlined {
+            0%, 100% { 
+                background-position: 0% 50%; 
+                background-size: 120% 120%;
+                filter: brightness(1.1) contrast(1.1);
+            }
+            25% { 
+                background-position: 100% 25%; 
+                background-size: 130% 130%;
+                filter: brightness(1.08) contrast(1.12);
+            }
+            50% { 
+                background-position: 50% 100%; 
+                background-size: 110% 110%;
+                filter: brightness(1.13) contrast(1.0);
+            }
+            75% { 
+                background-position: 25% 0%; 
+                background-size: 125% 125%;
+                filter: brightness(1.0) contrast(1.13);
+            }
+        }
+
+        /* Subtitle */
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: white;
+            margin-bottom: 3rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1s both;
+        }
+
+        /* CTA Button */
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255,255,255,0.95);
+            color: #2c3e50;
+            padding: 1.5rem 3rem;
+            border: none;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.5s both;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            background: white;
+        }
+
+        .cta-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-cta:hover .cta-icon {
+            transform: translateX(5px);
+        }
+
+        /* Floating elements */
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .floating-shape {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            z-index: 3;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2s both;
+        }
+
+        .scroll-arrow {
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* S Pen-like animation for floating buttons */
+        @keyframes slideInFromRight {
+            0% {
+                opacity: 0;
+                transform: translateX(100px) scale(0.5) rotate(180deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translateX(-10px) scale(1.1) rotate(-10deg);
+            }
+            80% {
+                transform: translateX(5px) scale(0.95) rotate(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1) rotate(0deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            
+            .hero-content {
+                padding: 0 1rem;
+            }
+            
+            .hero-cta {
+                padding: 1.2rem 2rem;
+                font-size: 1.1rem;
+            }
+            
+            .outlined-text {
+                -webkit-text-stroke: 2px white;
+                text-stroke: 2px white;
+            }
+        }
+
+
+/* Mobile and desktop navigation styles moved to style.css */
+
+
+
+    </style>
+</head>
+
+<body>
+    <!-- Enrollment Banner Removed -->
+    <div class="sticky-enroll-bar">
+        <div class="enroll-bar-inner">
+        <div class="enroll-branding">
+            <a href="#" class="enroll-logo-link">
+                <img src="../Images/Bluestem Logo.png" alt="Bluestem Logo" class="enroll-logo" />
+            </a>
+            <span class="enroll-bluestem">BLUESTEM</span>
+            <span class="enroll-montessori">MONTESSORI SCHOOL</span>
+        </div>
+        <div class="enroll-message-actions">
+            <div class="enroll-message">NOW ENROLLING FOR THE 2025-2026 SCHOOL YEAR</div>
+            <div class="enroll-actions">
+                <a href="#apply" class="enroll-btn marigold enroll-btn-apply">Apply Now</a>
+                <a href="#contact" class="enroll-btn marigold enroll-btn-contact">Contact Us</a>
+                <a href="tel:+1234567890" class="enroll-btn marigold enroll-btn-phone" style="display:none">
+                    <span style="font-size:1.2em;vertical-align:middle;">&#128222;</span>
+                </a>
+            </div>
+        </div>
+        <div class="enroll-right">
+            <button class="hamburger" id="hamburger-menu" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        </div>
+    </div>
+
+    <!-- Glassmorphism Dropdown for Tablets and Larger Screens -->
+    <nav class="nav-links" id="nav-links">
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#enroll">Enrollment</a></li>
+            <li><a href="#donate">Donate</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#media">Media</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#login">Log In</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        // Blooming navigation for mobile floating button
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger-menu');
+            const floatingMenu = document.getElementById('floating-menu-btn');
+            const mobileNav = document.getElementById('mobile-nav');
+            const bloomNav = document.getElementById('bloom-nav');
+            
+            function toggleMobileNav() {
+                if (mobileNav) {
+                    mobileNav.classList.toggle('open');
+                }
+            }
+            
+            function toggleBloomNav() {
+                if (bloomNav && floatingMenu) {
+                    bloomNav.classList.toggle('active');
+                    floatingMenu.classList.toggle('open');
+                }
+            }
+            
+            // Header hamburger menu (for tablets and larger screens)
+            if (hamburger && mobileNav) {
+                hamburger.addEventListener('click', toggleMobileNav);
+            }
+            
+            // Floating menu button (for mobile only) - shows blooming navigation
+            if (floatingMenu && bloomNav) {
+                floatingMenu.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleBloomNav();
+                });
+            }
+            
+            // Close bloom nav when clicking on options
+            if (bloomNav) {
+                bloomNav.querySelectorAll('.bloom-option').forEach(option => {
+                    option.addEventListener('click', () => {
+                        bloomNav.classList.remove('active');
+                        if (floatingMenu) {
+                            floatingMenu.classList.remove('open');
+                        }
+                    });
+                });
+            }
+            
+            // Close mobile nav on link click (for tablet/desktop)
+            if (mobileNav) {
+                mobileNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNav.classList.remove('open');
+                    });
+                });
+            }
+        });
+    </script>
+    </style>
+
+    <!-- Header -->
+    <header class="header"></header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#enroll">Enrollment</a></li>
+            <li><a href="#donate">Donate</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#media">Media</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#login">Log In</a></li>
+        </ul>
+    </nav>
+
+    <!-- Floating Action Buttons for Mobile -->
+    <div class="floating-actions">
+        <div class="floating-menu-container">
+            <button class="floating-btn floating-menu-btn" id="floating-menu-btn" aria-label="Open menu">
+    <span class="line left"></span>
+    <span class="line right"></span>
+</button>
+            <!-- Blooming navigation options -->
+            <div class="bloom-nav" id="bloom-nav">
+                <a href="#about" class="bloom-option" data-tooltip="About">📚</a>
+                <a href="#enroll" class="bloom-option" data-tooltip="Enrollment">📝</a>
+                <a href="#donate" class="bloom-option" data-tooltip="Donate">💝</a>
+                <a href="#testimonials" class="bloom-option" data-tooltip="Testimonials">💬</a>
+                <a href="#media" class="bloom-option" data-tooltip="Media">📸</a>
+                <a href="#faq" class="bloom-option" data-tooltip="FAQ">❓</a>
+                <a href="#login" class="bloom-option" data-tooltip="Log In">🔐</a>
+            </div>
+        </div>
+        <a href="tel:+1234567890" class="floating-btn" aria-label="Contact">
+            <span class="phone-icon">📞</span>
+        </a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero hero-section">
+        <!-- Background Image Carousel -->
+        <div class="hero-background">
+            <div class="bg-image active"></div>
+            <div class="bg-image"></div>
+            <div class="bg-image"></div>
+        </div>
+        
+        <!-- Overlay -->
+        <div class="hero-overlay"></div>
+        
+        <!-- Floating Elements -->
+        <div class="floating-elements">
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <!-- Outlined text with moving background -->
+            <div class="outlined-text" data-text="BLUESTEM">BLUESTEM</div>
+            
+            <p class="hero-subtitle">Where Independence, Confidence & Passion Flourish</p>
+            
+            <a href="#programs" class="hero-cta">
+                <span>Discover Our Community</span>
+                <span class="cta-icon">→</span>
+            </a>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div>Scroll to explore</div>
+            <div class="scroll-arrow">↓</div>
+        </div>
+    </section>
+
+    <!-- Placeholder Content for Scroll Testing -->
+    <section style="padding: 4rem 2rem; background: #ffffff; min-height: 100vh;">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <h2 style="font-size: 3rem; color: #2c3e50; margin-bottom: 2rem; font-family: 'Gravitas One', serif;">About Our School</h2>
+            <p style="font-size: 1.2rem; color: #666; line-height: 1.8; margin-bottom: 3rem;">
+                Bluestem Montessori School provides a nurturing environment where children develop independence, 
+                confidence, and a lifelong love of learning through the proven Montessori method.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                <div style="padding: 2rem; background: #f8f9fa; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #2c3e50; margin-bottom: 1rem;">Mixed Age Classrooms</h3>
+                    <p style="color: #666; line-height: 1.6;">Children learn from and teach each other in our carefully prepared environments.</p>
+                </div>
+                <div style="padding: 2rem; background: #f8f9fa; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #2c3e50; margin-bottom: 1rem;">Individual Learning</h3>
+                    <p style="color: #666; line-height: 1.6;">Each child progresses at their own pace with personalized guidance.</p>
+                </div>
+                <div style="padding: 2rem; background: #f8f9fa; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #2c3e50; margin-bottom: 1rem;">Hands-On Discovery</h3>
+                    <p style="color: #666; line-height: 1.6;">Learning through exploration and manipulation of specially designed materials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding: 4rem 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: white;">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <h2 style="font-size: 3rem; margin-bottom: 2rem; font-family: 'Gravitas One', serif;">Our Programs</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9; line-height: 1.8; margin-bottom: 3rem;">
+                We offer comprehensive programs for children from toddlers through elementary, 
+                each designed to meet developmental needs at every stage.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                <div style="padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+                    <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Toddler Program</h3>
+                    <p style="opacity: 0.9; line-height: 1.6;">Ages 18 months - 3 years</p>
+                </div>
+                <div style="padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+                    <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Primary Program</h3>
+                    <p style="opacity: 0.9; line-height: 1.6;">Ages 3 - 6 years</p>
+                </div>
+                <div style="padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+                    <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Elementary Program</h3>
+                    <p style="opacity: 0.9; line-height: 1.6;">Ages 6 - 12 years</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding: 4rem 2rem; background: #2c3e50; min-height: 100vh; color: white;">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <h2 style="font-size: 3rem; margin-bottom: 2rem; font-family: 'Gravitas One', serif;">Join Our Community</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9; line-height: 1.8; margin-bottom: 3rem;">
+                Ready to give your child the gift of Montessori education? 
+                Contact us today to schedule a tour and learn more about our programs.
+            </p>
+            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 3rem;">
+                <a href="#" style="background: #3498db; color: white; padding: 1.5rem 3rem; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block;">Schedule a Tour</a>
+                <a href="#" style="background: transparent; color: white; padding: 1.5rem 3rem; border: 2px solid white; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block;">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Background image carousel
+        let currentBg = 0;
+        const bgImages = document.querySelectorAll('.bg-image');
+        
+        function rotateBg() {
+            bgImages[currentBg].classList.remove('active');
+            currentBg = (currentBg + 1) % bgImages.length;
+            bgImages[currentBg].classList.add('active');
+        }
+        
+        setInterval(rotateBg, 5000);
+
+
+        // Smooth scrolling for CTA
+        document.querySelector('.hero-cta').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollBy({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
+        });
+
+        // Enhanced parallax effect
+        function parallaxScroll() {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            const heroBackground = document.querySelector('.hero-background');
+            const heroContent = document.querySelector('.hero-content');
+            
+            if (!hero || !heroBackground) return;
+            
+            const heroHeight = hero.offsetHeight;
+            const scrollProgress = scrolled / heroHeight;
+            
+            // Only apply parallax while hero is in view
+            if (scrolled < heroHeight) {
+                // Background moves slower (creates the "clingy" effect)
+                const bgSpeed = 0.5;
+                heroBackground.style.transform = `translateY(${scrolled * bgSpeed}px)`;
+                
+                // Content moves slightly slower too (optional)
+                if (heroContent) {
+                    const contentSpeed = 0.3;
+                    heroContent.style.transform = `translateY(${scrolled * contentSpeed}px)`;
+                }
+                
+                // Fade out effect as you scroll (optional)
+                const opacity = Math.max(0, 1 - scrollProgress * 1.5);
+                if (heroContent) {
+                    heroContent.style.opacity = opacity;
+                }
+            }
+        }
+
+        // Throttled scroll listener for better performance
+        let ticking = false;
+        
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(parallaxScroll);
+                ticking = true;
+            }
+        }
+
+        function handleScroll() {
+            requestTick();
+            ticking = false;
+        }
+
+        // Add the parallax scroll listener
+        window.addEventListener('scroll', handleScroll);
+
+        // Enhanced sticky transition at hero bottom
+        let scrollPause = false;
+        let stickyCounter = 0;
+
+        window.addEventListener('wheel', (e) => {
+          const heroBottom = document.querySelector('.hero').offsetHeight;
+          
+          // Wider transition zone for more noticeable effect
+          if (window.scrollY >= heroBottom - 100 && window.scrollY <= heroBottom + 100) {
+            
+            if (!scrollPause) {
+              e.preventDefault();
+              scrollPause = true;
+              stickyCounter++;
+              
+              // More noticeable pause - 500ms with multiple micro-pauses
+              if (stickyCounter < 3) {
+                setTimeout(() => {
+                  window.scrollBy(0, e.deltaY * 0.1); // Much slower scroll
+                  scrollPause = false;
+                }, 500);
+              } else {
+                // After 3 interactions, allow normal scroll through
+                setTimeout(() => {
+                  window.scrollBy(0, e.deltaY);
+                  scrollPause = false;
+                  stickyCounter = 0; // Reset counter
+                }, 200);
+              }
+            }
+          } else {
+            // Reset counter when outside transition zone
+            stickyCounter = 0;
+          }
+        });
+
+        // Responsive button text swap for 'Apply Now'/'Apply'
+        function updateApplyButtonText() {
+            var applyBtn = document.querySelector('.enroll-btn-apply');
+            if (!applyBtn) return;
+            if (window.innerWidth <= 900) {
+                applyBtn.textContent = 'Apply';
+            } else {
+                applyBtn.textContent = 'Apply Now';
+            }
+        }
+        window.addEventListener('resize', updateApplyButtonText);
+        document.addEventListener('DOMContentLoaded', updateApplyButtonText);
+
+        // Add this to your existing JavaScript section
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger-menu');
+    const mobileNav = document.getElementById('mobile-nav');
+    const navLinks = document.querySelector('.nav-links'); // ✅ Add this
+    
+    function toggleDesktopNav() {
+        if (navLinks) {
+            navLinks.classList.toggle('open'); // ✅ Toggle glassmorphism dropdown
+        }
+    }
+    
+    function toggleMobileNav() {
+        if (mobileNav) {
+            mobileNav.classList.toggle('open');
+        }
+    }
+    
+    // Check screen size and use appropriate nav
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            if (window.innerWidth >= 769) {
+                toggleDesktopNav(); // ✅ Glassmorphism dropdown for tablets and desktop
+            } else {
+                toggleMobileNav(); // ✅ Mobile nav for mobile only
+            }
+        });
+    }
+    
+    // Close dropdown when clicking on links
+    if (navLinks) {
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+            });
+        });
+    }
+});
+    </script>
+</body>
+</html>

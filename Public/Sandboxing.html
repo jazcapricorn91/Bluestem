@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Principles - Module</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f8f8f8;
+            padding: 50px 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .principles-module {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 40px;
+            padding: 80px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .principle-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+        
+        .principle-block:nth-child(even) .principle-content {
+            order: 2;
+        }
+        
+        .principle-block:nth-child(even) .principle-visual {
+            order: 1;
+        }
+        
+        .principle-content {
+            padding: 20px 0;
+            position: relative;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: visible;
+            z-index: 5;
+        }
+        
+        /* Arrow indicators */
+        .slide-arrow {
+            position: absolute;
+            font-size: 2rem;
+            color: #8faf8f;
+            z-index: 5;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: pulse 2s ease-in-out infinite;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .slide-arrow:hover {
+            opacity: 1;
+        }
+        
+        /* Arrow positions for different layouts */
+        .principle-block .slide-arrow {
+            right: -30px;
+        }
+        
+        .principle-block:nth-child(even) .slide-arrow {
+            left: -30px;
+            right: auto;
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        /* Hide arrows when cards are visible */
+        .principle-block.card-visible .slide-arrow {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: translateY(-50%) scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-50%) scale(1.1);
+                opacity: 1;
+            }
+        }
+        
+        .principle-block:nth-child(even) .slide-arrow {
+            animation: pulseRotated 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseRotated {
+            0%, 100% {
+                transform: translateY(-50%) rotate(180deg) scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-50%) rotate(180deg) scale(1.1);
+                opacity: 1;
+            }
+        }
+        
+        /* Text content box styling - larger to create card extension effect */
+        .text-content-box {
+            background: linear-gradient(135deg, #8faf8f, #7a9d7a);
+            border-radius: 25px;
+            padding: 40px 120px 40px 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transform: translateX(80%);
+            opacity: 1;
+            transition: all 0.5s ease;
+            height: 350px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            border: 8px solid #8faf8f;
+            box-sizing: border-box;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* Internet Explorer 10+ */
+        }
+        
+        /* Hide scrollbar for WebKit browsers (Chrome, Safari, Edge) */
+        .text-content-box::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Show text box when visual is hovered */
+        .principle-block.card-visible .text-content-box {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        /* Different slide directions for alternating layout */
+        .principle-block:nth-child(even) .text-content-box {
+            transform: translateX(-80%);
+            left: auto;
+            right: 0;
+            padding: 40px 40px 40px 120px;
+        }
+        
+        .principle-block:nth-child(even).card-visible .text-content-box {
+            transform: translateX(0);
+        }
+        
+        .text-content-box .principle-text {
+            color: #8faf8f;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-shadow: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            transition: color 0.3s ease;
+        }
+        
+        /* Text becomes visible when card is pulled out */
+        .principle-block.card-visible .text-content-box .principle-text {
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .principle-title {
+            cursor: pointer;
+        }
+        
+        .principle-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #2c2c2c;
+            margin-bottom: 25px;
+            font-family: 'Impact', sans-serif;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 15px;
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Hide titles when cards are visible */
+        .principle-block.card-visible .principle-title {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Mission and Lifelong Learning titles - position to the right */
+        .mission-block .principle-title,
+        .lifelong-block .principle-title {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            left: auto;
+        }
+        
+        
+        .principle-visual {
+            height: 350px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #8faf8f, #7a9d7a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 8px solid #8faf8f;
+            box-sizing: border-box;
+            z-index: 20;
+        }
+        
+        .principle-visual:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Visual backgrounds for different principles */
+        .mission-visual {
+            background: linear-gradient(135deg, rgba(143, 175, 143, 0.8), rgba(122, 157, 122, 0.8)),
+                        url('../Images/Mission.jpg');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            border-color: #8faf8f;
+        }
+        
+        .individualized-visual {
+            background: linear-gradient(135deg, rgba(122, 157, 122, 0.8), rgba(107, 142, 107, 0.8)),
+                        url('../Images/Individual.jpg');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            border-color: #7a9d7a;
+        }
+        
+        .lifelong-visual {
+            background: linear-gradient(135deg, rgba(107, 142, 107, 0.8), rgba(92, 127, 92, 0.8)),
+                        url('../Images/Love_of_Learning.jpg');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            border-color: #6b8e6b;
+        }
+        
+        /* Decorative Elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8faf8f, #7a9d7a);
+            opacity: 0.05;
+            animation: gentle-float 8s ease-in-out infinite;
+        }
+        
+        .float-1 {
+            width: 120px;
+            height: 120px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .float-2 {
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            right: 8%;
+            animation-delay: 3s;
+        }
+        
+        .float-3 {
+            width: 100px;
+            height: 100px;
+            bottom: 15%;
+            left: 85%;
+            animation-delay: 6s;
+        }
+        
+        @keyframes gentle-float {
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg) scale(1); 
+                opacity: 0.05;
+            }
+            50% { 
+                transform: translate(20px, -25px) rotate(180deg) scale(1.1); 
+                opacity: 0.08;
+            }
+        }
+        
+        @media (max-width: 1000px) {
+            .principles-module {
+                padding: 60px 40px;
+            }
+            
+            .principle-block {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                text-align: center;
+            }
+            
+            .principle-block:nth-child(even) .principle-content,
+            .principle-block:nth-child(even) .principle-visual {
+                order: initial;
+            }
+            
+            /* Reset positioning for mobile - all titles centered */
+            .mission-block .principle-title,
+            .lifelong-block .principle-title {
+                position: static;
+                right: auto;
+                top: auto;
+                transform: none;
+                left: auto;
+                text-align: center;
+            }
+            
+            /* Stack Individualized Learning title on mobile */
+            .individual-block .principle-title {
+                white-space: pre-line;
+            }
+            
+            .principle-title {
+                font-size: 2rem;
+            }
+            
+            .principle-visual {
+                height: 300px;
+                font-size: 4rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .principles-module {
+                padding: 40px 30px;
+            }
+            
+            .principle-title {
+                font-size: 1.8rem;
+            }
+            
+            .principle-text {
+                font-size: 1rem;
+            }
+            
+            .principle-visual {
+                height: 250px;
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="principles-module">
+        <!-- Floating Background Elements -->
+        <div class="floating-element float-1"></div>
+        <div class="floating-element float-2"></div>
+        <div class="floating-element float-3"></div>
+        
+        <!-- Our Mission -->
+        <div class="principle-block mission-block">
+            <div class="principle-content">
+                <h3 class="principle-title">Our Mission</h3>
+                <div class="slide-arrow">→</div>
+                <div class="text-content-box">
+                    <p class="principle-text">Bluestem's mission is to foster creativity, independence, and ingenuity by providing a child-centric learning environment, hands-on activities, and integration with the community.</p>
+                    <p class="principle-text">We're educating our students to cherish community, value peace, chase their passions, and make a difference in their world.</p>
+                </div>
+            </div>
+            <div class="principle-visual mission-visual"></div>
+        </div>
+        
+        <!-- Individualized Learning -->
+        <div class="principle-block individual-block">
+            <div class="principle-content">
+                <h3 class="principle-title">Individualized
+Learning</h3>
+                <div class="slide-arrow">→</div>
+                <div class="text-content-box">
+                    <p class="principle-text">In a Montessori classroom, each child learns at their own pace with a certified teacher guiding them forward. Children and teachers work together to develop not only academic skills but also social, emotional, and practical life skills.</p>
+                    <p class="principle-text">This personalized approach helps children develop self-confidence, motivation, and a love for learning.</p>
+                </div>
+            </div>
+            <div class="principle-visual individualized-visual"></div>
+        </div>
+        
+        <!-- Lifelong Love of Learning -->
+        <div class="principle-block lifelong-block">
+            <div class="principle-content">
+                <h3 class="principle-title">Lifelong<br>Love of Learning</h3>
+                <div class="slide-arrow">→</div>
+                <div class="text-content-box">
+                    <p class="principle-text">Bluestem Montessori education instills in children a lifelong love of learning and curiosity about the world. Children have lower stress levels around learning because of the homework-free environment.</p>
+                    <p class="principle-text">By encouraging children to follow their interests and explore the world in their own way, we set them on a path of intellectual and personal growth that will last a lifetime.</p>
+                </div>
+            </div>
+            <div class="principle-visual lifelong-visual"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const principleBlocks = document.querySelectorAll('.principle-block');
+            
+            principleBlocks.forEach(block => {
+                const content = block.querySelector('.principle-content');
+                const visual = block.querySelector('.principle-visual');
+                const title = content.querySelector('.principle-title');
+                const arrow = content.querySelector('.slide-arrow');
+                
+                // Hover on the visual (green box/picture) to show text box
+                visual.addEventListener('mouseenter', function() {
+                    if (!block.classList.contains('card-visible')) {
+                        block.classList.add('card-visible');
+                    }
+                });
+                
+                // Click arrow to show text box
+                if (arrow) {
+                    arrow.addEventListener('click', function() {
+                        if (!block.classList.contains('card-visible')) {
+                            block.classList.add('card-visible');
+                        }
+                    });
+                }
+                
+                // Click photo to hide text box (slide back)
+                visual.addEventListener('click', function(e) {
+                    if (block.classList.contains('card-visible')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('Photo clicked, removing card-visible');
+                        block.classList.remove('card-visible');
+                    }
+                });
+                
+                // Click card to hide text box (slide back)
+                const textBox = content.querySelector('.text-content-box');
+                if (textBox) {
+                    textBox.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('Card clicked, removing card-visible');
+                        block.classList.remove('card-visible');
+                    });
+                }
+                
+                // Prevent hiding on mouse leave - only hide on click
+            });
+        });
+    </script>
+</body>
+</html>
