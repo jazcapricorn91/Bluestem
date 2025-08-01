@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluestem Montessori Elementary School</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Overlock:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Public/page-styles.css">
+    <style>
+        body {
+            font-family: 'Overlock', sans-serif;
+            background: 
+                linear-gradient(
+                    to bottom,
+                    rgba(143, 175, 143, 0.1) 0%,
+                    rgba(143, 175, 143, 0.3) 30%,
+                    rgba(152, 121, 82, 0.4) 70%,
+                    rgba(152, 121, 82, 0.6) 100%
+                ),
+                url('Images/kids running.jpeg') top center / cover no-repeat,
+                linear-gradient(to bottom, #a8c4a8 0%, #987952 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(
+                    to bottom,
+                    rgba(143, 175, 143, 0.2) 0%,
+                    rgba(143, 175, 143, 0.4) 40%,
+                    rgba(152, 121, 82, 0.5) 80%,
+                    rgba(152, 121, 82, 0.7) 100%
+                );
+            z-index: -1;
+        }
+
+        .landing-container {
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            background: #8faf8f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(143, 175, 143, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .enter-site-btn {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            background: #987952;
+            color: white;
+            text-decoration: none;
+            font-family: 'Overlock', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(152, 121, 82, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .enter-site-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .enter-site-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(152, 121, 82, 0.4);
+            background: #bfa97a;
+        }
+
+        .enter-site-btn:hover::before {
+            left: 100%;
+        }
+
+        .enter-site-btn:active {
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .logo {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <div class="logo">
+            <img src="Images/Bluestem Logo.png" alt="Bluestem Montessori Logo" style="width: 80px; height: 80px; object-fit: contain;">
+        </div>
+        <div class="featured-box-green" style="background: linear-gradient(135deg, rgba(143, 175, 143, 0.15), rgba(143, 175, 143, 0.25)); backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.9);">
+            <h1 class="fredericka-header-green" style="margin-bottom: 1rem; font-size: 2.5rem;">BLUESTEM MONTESSORI</h1>
+            <p class="subtitle">Where Independence, Confidence & Passion Flourish</p>
+            <a href="Public/Home.html" class="enter-site-btn">Enter Our Learning Community</a>
+        </div>
+    </div>
+</body>
+</html>
