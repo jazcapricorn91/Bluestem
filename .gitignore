@@ -93,9 +93,7 @@ uploads/
 public/uploads/
 
 # Large assets you're testing with
-*.mp4
-*.mov
-*.avi
+larg_videos/
 large_images/
 
 # Development and AI assistant files
