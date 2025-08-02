@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initPageLoadControl();
     initHeroCTAScroll();
     initHeroParallax();
+    initScrollAnimations();
     
     updateApplyButtonText();
     
@@ -61,8 +62,8 @@ function initQuoteLoader() {
                 BACKGROUND: 500,
                 QUOTE: 3500,
                 AUTHOR: 5500,
-                FADE_OUT: 8000,  // Reduced from 10s - mobile users bounce after 3s
-                REMOVE: 10000    // Reduced from 13s
+                FADE_OUT: 10000,
+                REMOVE: 13000
             };
             
             // Animation sequence with error handling
@@ -72,11 +73,10 @@ function initQuoteLoader() {
                 { delay: TIMING.AUTHOR, action: () => quoteLoader.classList.add('show-author') },
                 { delay: TIMING.FADE_OUT, action: () => quoteLoader.classList.add('fade-out') },
                 { delay: TIMING.REMOVE, action: () => {
-                    // SEO: Keep quote content but hide visually
-                    quoteLoader.style.display = 'none';
-                    quoteLoader.setAttribute('aria-hidden', 'true');
-                    document.body.classList.remove('loading');
-                    window.scrollTo(0, 0);
+                    // Only run if loader wasn't manually finished
+                    if (!window.loaderFinished) {
+                        finishLoading();
+                    }
                 }}
             ];
             
@@ -115,6 +115,9 @@ function finishLoading() {
     }
     document.body.classList.remove('loading');
     window.scrollTo(0, 0);
+    
+    // Mark loader as finished to prevent timer-based scroll resets
+    window.loaderFinished = true;
 }
 
 // Add skip button for better UX (mobile users are impatient!)
@@ -268,6 +271,7 @@ function initHeroParallax() {
         const scrolled = window.pageYOffset;
         const hero = document.querySelector('.hero');
         const heroContent = document.querySelector('.hero-content');
+        const heroBackground = document.querySelector('.hero-background');
         
         if (hero && heroContent) {
             const heroHeight = hero.offsetHeight;
@@ -287,7 +291,31 @@ function initHeroParallax() {
                 heroContent.style.transform = '';
             }
         }
+        
+        // Background parallax
+        if (heroBackground) {
+            const backgroundOffset = scrolled * 0.5;
+            heroBackground.style.transform = `translateY(${backgroundOffset}px)`;
+        }
     });
+}
+
+// Scroll-based animations
+const animateOnScroll = debounce(() => {
+    const elements = document.querySelectorAll('.animate-on-scroll');
+    
+    elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementBottom = element.getBoundingClientRect().bottom;
+        
+        if (elementTop < window.innerHeight && elementBottom > 0) {
+            element.classList.add('animated');
+        }
+    });
+}, 100);
+
+function initScrollAnimations() {
+    window.addEventListener('scroll', animateOnScroll);
 }
 
 // Page load control - ensures page always loads at top
@@ -556,8 +584,10 @@ function initEnhancedDynamicBlurbs() {
         
         // Touch start
         blurb.addEventListener('touchstart', (e) => {
-            // Prevent scrolling
-            e.preventDefault();
+            // Only prevent default if we're actually interacting with the blurb content
+            if (e.target === blurb || blurb.contains(e.target)) {
+                e.preventDefault();
+            }
             
             // Visual feedback
             blurb.classList.add('touch-active');
@@ -683,21 +713,7 @@ function initProgramVideos() {
     // Handled by initHoverToPlay()
 }
 
-// Scroll-based animations
-const animateOnScroll = debounce(() => {
-    const elements = document.querySelectorAll('.animate-on-scroll');
-    
-    elements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementBottom = element.getBoundingClientRect().bottom;
-        
-        if (elementTop < window.innerHeight && elementBottom > 0) {
-            element.classList.add('animated');
-        }
-    });
-}, 100);
-
-window.addEventListener('scroll', animateOnScroll);
+// Scroll-based animations - moved to initHeroParallax to prevent duplicate listeners
 
 // Mobile debugging helper
 function initMobileDebug() {
