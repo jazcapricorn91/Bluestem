@@ -1,6 +1,11 @@
 // DOM content loaded event
 document.addEventListener('DOMContentLoaded', function() {
-    // Navigation is now handled by navigation.js module
+    // Navigation handled by navigation.js module
+    
+    // Mobile debugging helper
+    if (window.innerWidth <= 768) {
+        initMobileDebug();
+    }
     
     // Initialize all modules
     initQuoteLoader();
@@ -8,70 +13,118 @@ document.addEventListener('DOMContentLoaded', function() {
     initLazyLoading();
     initFormValidation();
     initStoryModalCloseButtons();
+    initDataToggle();
     
-    // Initialize enhanced modules (replaces basic versions)
+    // Enhanced modules
     initBackgroundCarousel();
     initEnhancedPhotoAnimations();
     initEnhancedPrincipleCards();
     initEnhancedDynamicBlurbs();
     
-    // Initialize new modules
+    // Generic components
+    initHoverToOpen();
+    initHoverToPlay();
+    initShakeAnimations();
+    
+    // Additional modules
     initPageLoadControl();
     initHeroCTAScroll();
     initHeroParallax();
     
     updateApplyButtonText();
     
-    // Initialize program videos
+    // Program videos
     initProgramVideos();
 });
 
-// Navigation functionality is now handled by navigation.js module
 
-// Quote loader animation
+// Quote loader animation - Optimized for mobile and accessibility
 function initQuoteLoader() {
     window.addEventListener('load', () => {
         const quoteLoader = document.querySelector('.quote-loader');
         
-        // Force scroll to top again on full load
+        // Respect user's motion preferences
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        // Scroll to top for consistent experience
         window.scrollTo(0, 0);
         
         if (quoteLoader) {
-            // Step 1: Fade background from white to red (starts at 500ms, takes 3s)
-            setTimeout(() => {
-                quoteLoader.classList.add('show-bg');
-            }, 500);
+            // Named constants for better maintainability
+            const TIMING = prefersReducedMotion ? {
+                BACKGROUND: 200,
+                QUOTE: 1000,
+                AUTHOR: 1500,
+                FADE_OUT: 3000,
+                REMOVE: 4000
+            } : {
+                BACKGROUND: 500,
+                QUOTE: 3500,
+                AUTHOR: 5500,
+                FADE_OUT: 8000,  // Reduced from 10s - mobile users bounce after 3s
+                REMOVE: 10000    // Reduced from 13s
+            };
             
-            // Step 2: Show quote text slowly (starts at 3500ms, takes 2s)
-            setTimeout(() => {
-                quoteLoader.classList.add('show-quote');
-            }, 3500);
+            // Animation sequence with error handling
+            const animationSteps = [
+                { delay: TIMING.BACKGROUND, action: () => quoteLoader.classList.add('show-bg') },
+                { delay: TIMING.QUOTE, action: () => quoteLoader.classList.add('show-quote') },
+                { delay: TIMING.AUTHOR, action: () => quoteLoader.classList.add('show-author') },
+                { delay: TIMING.FADE_OUT, action: () => quoteLoader.classList.add('fade-out') },
+                { delay: TIMING.REMOVE, action: () => {
+                    // SEO: Keep quote content but hide visually
+                    quoteLoader.style.display = 'none';
+                    quoteLoader.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('loading');
+                    window.scrollTo(0, 0);
+                }}
+            ];
             
-            // Step 3: Show author slowly (starts at 5500ms, takes 2s)
-            setTimeout(() => {
-                quoteLoader.classList.add('show-author');
-            }, 5500);
+            // Execute animation steps
+            animationSteps.forEach(step => {
+                setTimeout(() => {
+                    try {
+                        step.action();
+                    } catch (error) {
+                        // Silently handle animation failure in production
+                        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                            console.warn('Quote loader animation step failed:', error);
+                        }
+                        // Fallback: remove loader immediately
+                        finishLoading();
+                    }
+                }, step.delay);
+            });
             
-            // Step 4: Hold for delay, then fade everything out slowly (starts at 10s, takes 3s)
-            setTimeout(() => {
-                quoteLoader.classList.add('fade-out');
-            }, 10000);
+            // Skip button for impatient users (especially mobile)
+            addSkipButton(quoteLoader);
             
-            // Remove the loader from DOM after fade completes and allow scrolling
-            setTimeout(() => {
-                quoteLoader.remove();
-                // Re-enable scrolling after loader animation completes
-                document.body.classList.remove('loading');
-                // Final scroll to top to ensure hero is visible
-                window.scrollTo(0, 0);
-            }, 13000);
         } else {
-            // If no loader, just remove the loading class after a short delay
-            setTimeout(() => {
-                document.body.classList.remove('loading');
-            }, 100);
+            finishLoading();
         }
     });
+}
+
+// Helper function for consistent cleanup
+function finishLoading() {
+    const quoteLoader = document.querySelector('.quote-loader');
+    if (quoteLoader) {
+        // SEO: Hide instead of remove
+        quoteLoader.style.display = 'none';
+        quoteLoader.setAttribute('aria-hidden', 'true');
+    }
+    document.body.classList.remove('loading');
+    window.scrollTo(0, 0);
+}
+
+// Add skip button for better UX (mobile users are impatient!)
+function addSkipButton(quoteLoader) {
+    const skipButton = document.createElement('button');
+    skipButton.className = 'skip-loader';
+    skipButton.textContent = 'Skip';
+    skipButton.setAttribute('aria-label', 'Skip loading animation');
+    skipButton.addEventListener('click', finishLoading);
+    quoteLoader.appendChild(skipButton);
 }
 
 // Background image carousel
@@ -84,132 +137,12 @@ function initBackgroundCarousel() {
     // Show first image
     images[currentIndex].classList.add('active');
     
-    // Rotate images every 8 seconds (matches HTML carousel timing)
+    // Rotate images every 8 seconds
     setInterval(() => {
         images[currentIndex].classList.remove('active');
         currentIndex = (currentIndex + 1) % images.length;
         images[currentIndex].classList.add('active');
     }, 8000);
-}
-
-// Photo collage animations
-function initPhotoAnimations() {
-    const photoBoxes = document.querySelectorAll('.photo-box');
-    
-    photoBoxes.forEach(box => {
-        box.addEventListener('click', function() {
-            // Remove any existing animations
-            photoBoxes.forEach(b => {
-                b.classList.remove('elevated', 'animating-down', 'fade-others');
-            });
-            
-            // Elevate clicked box
-            this.classList.add('elevated');
-            
-            // Fade other boxes
-            photoBoxes.forEach(b => {
-                if (b !== this) {
-                    b.classList.add('fade-others');
-                }
-            });
-            
-            // Reset after delay
-            setTimeout(() => {
-                this.classList.remove('elevated');
-                this.classList.add('animating-down');
-                
-                photoBoxes.forEach(b => {
-                    if (b !== this) {
-                        b.classList.remove('fade-others');
-                    }
-                });
-                
-                setTimeout(() => {
-                    this.classList.remove('animating-down');
-                }, 500);
-            }, 3000);
-        });
-    });
-}
-
-// Principle cards sliding functionality
-function initPrincipleCards() {
-    const principleBlocks = document.querySelectorAll('.principle-block');
-    
-    principleBlocks.forEach(block => {
-        const title = block.querySelector('.principle-title');
-        const visual = block.querySelector('.principle-visual');
-        const arrow = block.querySelector('.slide-arrow');
-        const textBox = block.querySelector('.text-content-box');
-        
-        function toggleCard() {
-            block.classList.toggle('card-visible');
-        }
-        
-        function openCard() {
-            block.classList.add('card-visible');
-        }
-        
-        function closeCard() {
-            block.classList.remove('card-visible');
-        }
-        
-        // Title click to toggle
-        if (title) {
-            title.addEventListener('click', toggleCard);
-        }
-        
-        // Visual hover to open (desktop only)
-        if (visual) {
-            visual.addEventListener('mouseenter', function() {
-                if (!block.classList.contains('card-visible')) {
-                    openCard();
-                }
-            });
-            
-            // Visual click to close when open
-            visual.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                if (block.classList.contains('card-visible')) {
-                    closeCard();
-                } else {
-                    openCard();
-                }
-            });
-        }
-        
-        // Text box click to close
-        if (textBox) {
-            textBox.addEventListener('click', function(e) {
-                if (e.target === textBox || e.target.classList.contains('principle-text')) {
-                    closeCard();
-                }
-            });
-        }
-        
-        // Arrow click to open
-        if (arrow) {
-            arrow.addEventListener('click', openCard);
-        }
-    });
-}
-
-// Dynamic blurb touch support
-function initDynamicBlurbs() {
-    const blurbs = document.querySelectorAll('.dynamic-blurb');
-    
-    blurbs.forEach(blurb => {
-        blurb.addEventListener('touchstart', function() {
-            this.classList.add('touch-active');
-        });
-        
-        blurb.addEventListener('touchend', function() {
-            setTimeout(() => {
-                this.classList.remove('touch-active');
-            }, 300);
-        });
-    });
 }
 
 // Smooth scrolling for anchor links
@@ -271,57 +204,32 @@ function initFormValidation() {
             
             if (isValid) {
                 // Form submission logic here
-                console.log('Form submitted successfully');
             }
         });
     });
 }
 
-// Laura's Story Modal Functions
-function openStoryModal() {
-    const modal = document.getElementById('storyModal');
-    if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
 
-function closeStoryModal() {
-    const modal = document.getElementById('storyModal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-}
-
-// Make modal functions available globally
-window.openStoryModal = openStoryModal;
-window.closeStoryModal = closeStoryModal;
-
-// Close modal when clicking outside content
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('storyModal');
-    if (modal && e.target === modal) {
-        closeStoryModal();
-    }
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeStoryModal();
-    }
-});
-
-// Initialize Story Modal Close Buttons
+// Modal system
 function initStoryModalCloseButtons() {
-    // Add close button functionality for X button
-    const closeButtons = document.querySelectorAll('.modal-close, .close-modal, [data-close="modal"]');
-    closeButtons.forEach(closeBtn => {
-        closeBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            closeStoryModal();
-        });
+    // Close modal when clicking outside content
+    document.addEventListener('click', function(e) {
+        const modal = document.getElementById('storyModal');
+        if (modal && e.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('storyModal');
+            if (modal && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
     });
 }
 
@@ -361,8 +269,23 @@ function initHeroParallax() {
         const hero = document.querySelector('.hero');
         const heroContent = document.querySelector('.hero-content');
         
-        if (hero && heroContent && scrolled < hero.offsetHeight) {
-            heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
+        if (hero && heroContent) {
+            const heroHeight = hero.offsetHeight;
+            const viewportHeight = window.innerHeight;
+            const stickyDistance = viewportHeight * 0.5;
+            
+            if (scrolled <= stickyDistance) {
+                const centerOffset = scrolled - (viewportHeight / 2);
+                heroContent.style.transform = `translateY(${centerOffset}px)`;
+            } else if (scrolled < heroHeight) {
+                const parallaxStart = stickyDistance;
+                const baseCenterOffset = parallaxStart - (viewportHeight / 2);
+                const additionalOffset = (scrolled - parallaxStart) * 0.3;
+                const parallaxOffset = baseCenterOffset + additionalOffset;
+                heroContent.style.transform = `translateY(${parallaxOffset}px)`;
+            } else {
+                heroContent.style.transform = '';
+            }
         }
     });
 }
@@ -379,7 +302,7 @@ function initPageLoadControl() {
     }, 10);
 }
 
-// Enhanced photo animations with synchronized duplicates
+// Photo animations
 function initEnhancedPhotoAnimations() {
     const photoBoxes = document.querySelectorAll('.school-module .photo-box');
     if (photoBoxes.length === 0) return;
@@ -387,9 +310,38 @@ function initEnhancedPhotoAnimations() {
     let isAnimating = false;
     let currentHovered = null;
     
-    // Link photo-1 and photo-1-duplicate for synchronized animations
+    // Synchronized photo-1 animations
     const photo1 = document.querySelector('.school-module .photo-1');
     const photo1Duplicate = document.querySelector('.school-module .photo-1-duplicate');
+    
+    function fadePhotosBackIn(hoveredBox, photoBoxes) {
+        photoBoxes.forEach(otherBox => {
+            if (otherBox !== hoveredBox) {
+                otherBox.style.transition = 'opacity 1.2s ease 0.3s, transform 1.2s ease 0.3s';
+                otherBox.classList.remove('fade-others');
+            }
+        });
+    }
+    
+    function cleanupPhotoAnimations(hoveredBox, photo1, photo1Duplicate, photoBoxes) {
+        hoveredBox.classList.remove('animating-down');
+        hoveredBox.style.zIndex = '';
+        
+        // Clean up photo-1 parts
+        if (hoveredBox.classList.contains('photo-1') || hoveredBox.classList.contains('photo-1-duplicate')) {
+            if (photo1) photo1.classList.remove('animating-down');
+            if (photo1Duplicate) photo1Duplicate.classList.remove('animating-down');
+        }
+        
+        // Reset transitions for next hover
+        photoBoxes.forEach(otherBox => {
+            otherBox.style.transition = '';
+        });
+        
+        if (currentHovered === null) {
+            isAnimating = false;
+        }
+    }
     
     photoBoxes.forEach(box => {
         box.addEventListener('mouseenter', function(e) {
@@ -399,7 +351,7 @@ function initEnhancedPhotoAnimations() {
                 this.classList.add('elevated');
                 this.classList.remove('animating-down');
                 
-                // Synchronize photo-1 and photo-1-duplicate
+                // Synchronize photo-1
                 if (this.classList.contains('photo-1') || this.classList.contains('photo-1-duplicate')) {
                     if (photo1) {
                         photo1.classList.add('elevated');
@@ -413,13 +365,13 @@ function initEnhancedPhotoAnimations() {
                 
                 // Fade all other photos
                 photoBoxes.forEach(otherBox => {
-                    // If hovering photo-1 or photo-1-duplicate, fade all others except both photo-1 parts
+                    // Hovering photo-1 - fade others
                     if (this.classList.contains('photo-1') || this.classList.contains('photo-1-duplicate')) {
                         if (!otherBox.classList.contains('photo-1') && !otherBox.classList.contains('photo-1-duplicate')) {
                             otherBox.classList.add('fade-others');
                         }
                     } 
-                    // If hovering any other photo, fade everything else including both photo-1 parts
+                    // Hovering other photo - fade all others
                     else if (otherBox !== this) {
                         otherBox.classList.add('fade-others');
                     }
@@ -433,7 +385,7 @@ function initEnhancedPhotoAnimations() {
                 this.classList.add('animating-down');
                 currentHovered = null;
                 
-                // Synchronize photo-1 and photo-1-duplicate
+                // Synchronize photo-1
                 if (this.classList.contains('photo-1') || this.classList.contains('photo-1-duplicate')) {
                     if (photo1) {
                         photo1.classList.remove('elevated');
@@ -445,188 +397,188 @@ function initEnhancedPhotoAnimations() {
                     }
                 }
                 
-                // Start fading other photos back in with delay
-                setTimeout(() => {
-                    photoBoxes.forEach(otherBox => {
-                        if (otherBox !== this) {
-                            otherBox.style.transition = 'opacity 1.2s ease 0.3s, transform 1.2s ease 0.3s';
-                            otherBox.classList.remove('fade-others');
-                        }
-                    });
-                }, 200);
+                // Fade photos back in
+                setTimeout(() => fadePhotosBackIn(this, photoBoxes), 200);
                 
-                // Clean up after all animations complete
-                setTimeout(() => {
-                    this.classList.remove('animating-down');
-                    this.style.zIndex = '';
-                    
-                    // Clean up both photo-1 parts
-                    if (this.classList.contains('photo-1') || this.classList.contains('photo-1-duplicate')) {
-                        if (photo1) photo1.classList.remove('animating-down');
-                        if (photo1Duplicate) photo1Duplicate.classList.remove('animating-down');
-                    }
-                    
-                    // Reset transitions for next hover
-                    photoBoxes.forEach(otherBox => {
-                        otherBox.style.transition = '';
-                    });
-                    
-                    if (currentHovered === null) {
-                        isAnimating = false;
-                    }
-                }, 800);
+                // Clean up animations
+                setTimeout(() => cleanupPhotoAnimations(this, photo1, photo1Duplicate, photoBoxes), 800);
             }
         });
     });
 }
 
-// Enhanced principle cards with shake animations
-function initEnhancedPrincipleCards() {
-    const principleBlocks = document.querySelectorAll('.principle-block');
+// Generic hover-to-open component
+function initHoverToOpen() {
+    // Elements with data-hover-open attribute
+    const hoverElements = document.querySelectorAll('[data-hover-open]');
     
-    principleBlocks.forEach(block => {
-        const content = block.querySelector('.principle-content');
-        const visual = block.querySelector('.principle-visual');
-        const title = content?.querySelector('.principle-title');
-        const arrow = content?.querySelector('.slide-arrow');
-        const textBox = content?.querySelector('.text-content-box');
+    hoverElements.forEach(element => {
+        const targetSelector = element.dataset.hoverOpen;
+        const targetClass = element.dataset.hoverClass || 'card-visible';
+        const mobileTouch = element.dataset.hoverMobile !== 'false';
         
-        function toggleCard() {
-            block.classList.toggle('card-visible');
+        let targetElement;
+        if (targetSelector) {
+            targetElement = document.querySelector(targetSelector);
+        } else {
+            // Find target element
+            const classBase = targetClass.replace('-visible', '').replace('active', 'modal');
+            targetElement = element.closest(`.${classBase}`) || element.closest('[class*="block"]');
         }
         
-        function openCard() {
-            block.classList.add('card-visible');
-        }
+        if (!targetElement) return;
         
-        function closeCard() {
-            block.classList.remove('card-visible');
-        }
+        // Hover behavior
+        element.addEventListener('mouseenter', function() {
+            if (!targetElement.classList.contains(targetClass)) {
+                targetElement.classList.add(targetClass);
+            }
+        });
         
-        // Title click to toggle
-        if (title) {
-            title.addEventListener('click', toggleCard);
-        }
+        // Click behavior - toggle the target
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            targetElement.classList.toggle(targetClass);
+        });
         
-        // Visual (green box/picture) interactions
-        if (visual) {
-            // Hover on desktop to open
-            visual.addEventListener('mouseenter', function() {
-                if (!block.classList.contains('card-visible')) {
-                    openCard();
-                }
-            });
-            
-            // Click visual to toggle (for both open and close)
-            visual.addEventListener('click', function(e) {
+        // Touch behavior
+        if (mobileTouch) {
+            element.addEventListener('touchstart', function(e) {
                 e.preventDefault();
-                e.stopPropagation();
-                
-                if (block.classList.contains('card-visible')) {
-                    closeCard();
-                } else {
-                    openCard();
-                }
-            });
-            
-            // Touch events for mobile
-            visual.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                if (!block.classList.contains('card-visible')) {
-                    openCard();
+                if (!targetElement.classList.contains(targetClass)) {
+                    targetElement.classList.add(targetClass);
                 }
             }, { passive: false });
             
-            visual.addEventListener('touchend', function(e) {
-                if (block.classList.contains('card-visible')) {
+            element.addEventListener('touchend', function(e) {
+                if (targetElement.classList.contains(targetClass)) {
                     e.preventDefault();
                     e.stopPropagation();
                     setTimeout(() => {
-                        closeCard();
+                        targetElement.classList.remove(targetClass);
                     }, 100);
                 }
             });
         }
+    });
+}
+
+// Generic hover-to-play component
+function initHoverToPlay() {
+    // Elements with data-hover-play attribute
+    const hoverPlayElements = document.querySelectorAll('[data-hover-play]');
+    
+    hoverPlayElements.forEach(element => {
+        const videoSelector = element.dataset.hoverPlay || 'video';
+        const video = element.querySelector(videoSelector);
         
-        // Text box click to close
-        if (textBox) {
-            textBox.addEventListener('click', function(e) {
-                if (e.target === textBox || e.target.classList.contains('principle-text')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    closeCard();
+        if (!video) return;
+        
+        // Play video on hover
+        element.addEventListener('mouseenter', () => {
+            video.play().catch(() => {});
+        });
+        
+        // Pause video when hover ends
+        element.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0; // Reset to beginning
+        });
+        
+        // Touch handling
+        element.addEventListener('touchstart', (e) => {
+            // Toggle video playback
+            if (video.paused) {
+                video.play().catch(() => {});
+            } else {
+                video.pause();
+                video.currentTime = 0;
+            }
+        });
+    });
+}
+
+// Generic shake animation component
+function initShakeAnimations() {
+    // Elements with data-shake attribute
+    const shakeContainers = document.querySelectorAll('[data-shake]');
+    
+    shakeContainers.forEach(container => {
+        const targetSelector = container.dataset.shake;
+        const excludeClass = container.dataset.shakeExclude || 'active';
+        const animationName = container.dataset.shakeAnimation || 'shake';
+        const minDelay = parseInt(container.dataset.shakeMinDelay) || 8000;
+        const maxDelay = parseInt(container.dataset.shakeMaxDelay) || 15000;
+        const duration = parseInt(container.dataset.shakeDuration) || 500;
+        
+        function addShakeAnimation() {
+            const elements = container.querySelectorAll(`${targetSelector}:not(.${excludeClass})`);
+            elements.forEach(element => {
+                const block = element.closest('.principle-block');
+                if (block && !block.classList.contains(excludeClass)) {
+                    const blockIndex = Array.from(block.parentNode.children).indexOf(block);
+                    const isEven = blockIndex % 2 === 1;
+                    const animation = isEven ? 'shakeLeft' : animationName;
+                    element.style.animation = `${animation} ${duration}ms ease-in-out`;
+                    
+                    setTimeout(() => {
+                        element.style.animation = '';
+                    }, duration);
                 }
             });
         }
         
-        // Arrow click to open
-        if (arrow) {
-            arrow.addEventListener('click', openCard);
+        function scheduleShake() {
+            const delay = Math.random() * (maxDelay - minDelay) + minDelay;
+            setTimeout(() => {
+                addShakeAnimation();
+                scheduleShake();
+            }, delay);
         }
+        
+        // Start shake schedule
+        scheduleShake();
     });
-    
-    // Periodic shake animation for hidden cards
-    function addShakeAnimation() {
-        const hiddenBlocks = document.querySelectorAll('.principle-block:not(.card-visible)');
-        hiddenBlocks.forEach(block => {
-            const textBox = block.querySelector('.text-content-box');
-            if (textBox && !block.classList.contains('card-visible')) {
-                const isEven = Array.from(block.parentNode.children).indexOf(block) % 2 === 1;
-                const animationName = isEven ? 'shakeLeft' : 'shake';
-                textBox.style.animation = `${animationName} 0.5s ease-in-out`;
-                
-                setTimeout(() => {
-                    textBox.style.animation = '';
-                }, 500);
-            }
-        });
-    }
-    
-    // Schedule random shake animations
-    function scheduleShake() {
-        const delay = Math.random() * 7000 + 8000; // 8-15 seconds
-        setTimeout(() => {
-            addShakeAnimation();
-            scheduleShake();
-        }, delay);
-    }
-    
-    // Start shake animation schedule
-    scheduleShake();
 }
 
-// Enhanced dynamic blurbs with better touch support
+// Principle cards
+function initEnhancedPrincipleCards() {
+    // Handled by generic functions
+}
+
+// Dynamic blurbs
 function initEnhancedDynamicBlurbs() {
     const blurbs = document.querySelectorAll('.dynamic-blurb');
     
     blurbs.forEach(blurb => {
         let touchTimer;
         
-        // Touch start - begin timer
+        // Touch start
         blurb.addEventListener('touchstart', (e) => {
-            // Prevent default to avoid scrolling
+            // Prevent scrolling
             e.preventDefault();
             
-            // Add touch-active class immediately for visual feedback
+            // Visual feedback
             blurb.classList.add('touch-active');
             
-            // Clear any existing timer
+            // Clear timer
             clearTimeout(touchTimer);
         }, { passive: false });
         
-        // Touch end - remove class
+        // Touch end
         blurb.addEventListener('touchend', () => {
             blurb.classList.remove('touch-active');
             clearTimeout(touchTimer);
         });
         
-        // Touch cancel - remove class
+        // Touch cancel
         blurb.addEventListener('touchcancel', () => {
             blurb.classList.remove('touch-active');
             clearTimeout(touchTimer);
         });
         
-        // Touch move - if user moves finger, cancel the effect
+        // Touch move
         blurb.addEventListener('touchmove', () => {
             blurb.classList.remove('touch-active');
             clearTimeout(touchTimer);
@@ -647,41 +599,88 @@ function debounce(func, wait) {
     };
 }
 
-// Program videos hover functionality
-function initProgramVideos() {
-    const programCards = document.querySelectorAll('.card-video');
-    
-    programCards.forEach(card => {
-        const video = card.querySelector('.program-video');
+// Data toggle system
+function initDataToggle() {
+    // Handle data-toggle elements
+    document.addEventListener('click', function(e) {
+        const toggleElement = e.target.closest('[data-toggle]');
+        if (!toggleElement) return;
         
-        if (video) {
-            // Play video on hover
-            card.addEventListener('mouseenter', () => {
-                video.play().catch(err => {
-                    console.log('Video play failed:', err);
-                });
-            });
-            
-            // Pause video when hover ends
-            card.addEventListener('mouseleave', () => {
-                video.pause();
-                video.currentTime = 0; // Reset to beginning
-            });
-            
-            // Handle touch devices
-            card.addEventListener('touchstart', (e) => {
-                // Check if video is playing
-                if (video.paused) {
-                    video.play().catch(err => {
-                        console.log('Video play failed:', err);
-                    });
-                } else {
-                    video.pause();
-                    video.currentTime = 0;
-                }
-            });
+        const toggleClass = toggleElement.dataset.toggle;
+        const targetSelector = toggleElement.dataset.target;
+        const action = toggleElement.dataset.action || 'toggle'; // toggle, add, remove
+        
+        let targetElement;
+        
+        if (targetSelector) {
+            // Target specified
+            targetElement = document.querySelector(targetSelector);
+        } else {
+            // No target - find element
+            if (toggleElement.dataset.toggleSelf !== undefined) {
+                targetElement = toggleElement;
+            } else {
+                // Find parent element
+                targetElement = toggleElement.closest(`.${toggleClass.replace('card-visible', 'principle-block').replace('active', 'modal')}`);
+                if (!targetElement) targetElement = toggleElement;
+            }
         }
+        
+        if (!targetElement) return;
+        
+        // Perform action
+        switch (action) {
+            case 'add':
+                targetElement.classList.add(toggleClass);
+                break;
+            case 'remove':
+                targetElement.classList.remove(toggleClass);
+                break;
+            case 'toggle':
+            default:
+                targetElement.classList.toggle(toggleClass);
+                break;
+        }
+        
+        // Special cases
+        if (toggleClass === 'active' && targetElement.id === 'storyModal') {
+            // Story modal handling
+            if (targetElement.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        } else if (toggleClass === 'card-visible') {
+            // Principle card handling
+            let principleBlock = targetElement.closest('.principle-block');
+            if (!principleBlock && toggleElement !== targetElement) {
+                principleBlock = toggleElement.closest('.principle-block');
+            }
+            if (principleBlock) {
+                // Perform action on the principle block
+                switch (action) {
+                    case 'add':
+                        principleBlock.classList.add('card-visible');
+                        break;
+                    case 'remove':
+                        principleBlock.classList.remove('card-visible');
+                        break;
+                    case 'toggle':
+                    default:
+                        principleBlock.classList.toggle('card-visible');
+                        break;
+                }
+                return; // Handled on principleBlock
+            }
+        }
+        
+        e.preventDefault();
     });
+}
+
+// Program videos
+function initProgramVideos() {
+    // Handled by initHoverToPlay()
 }
 
 // Scroll-based animations
@@ -699,3 +698,44 @@ const animateOnScroll = debounce(() => {
 }, 100);
 
 window.addEventListener('scroll', animateOnScroll);
+
+// Mobile debugging helper
+function initMobileDebug() {
+    // Track what's preventing button clicks
+    let debugInfo = {
+        touchEvents: 0,
+        clickEvents: 0,
+        blockedElements: []
+    };
+    
+    // Monitor all touch events
+    document.addEventListener('touchstart', function(e) {
+        debugInfo.touchEvents++;
+        
+        // Check if something is blocking the touch
+        const element = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+        if (element && element !== e.target) {
+            debugInfo.blockedElements.push({
+                target: e.target.className || e.target.tagName,
+                blocker: element.className || element.tagName,
+                zIndex: window.getComputedStyle(element).zIndex
+            });
+        }
+    }, { capture: true });
+    
+    // Monitor click events (should fire after touch on mobile)
+    document.addEventListener('click', function(e) {
+        debugInfo.clickEvents++;
+    }, { capture: true });
+    
+    // Log debug info every 5 seconds
+    setInterval(() => {
+        if (debugInfo.touchEvents > 0 || debugInfo.blockedElements.length > 0) {
+            console.log('Mobile Debug:', debugInfo);
+            // Reset for next interval
+            debugInfo.touchEvents = 0;
+            debugInfo.clickEvents = 0;
+            debugInfo.blockedElements = [];
+        }
+    }, 5000);
+}

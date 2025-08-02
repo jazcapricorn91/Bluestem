@@ -1,0 +1,82 @@
+{
+  "rules": {
+    "css": {
+      "no_important": "Use proper CSS specificity hierarchy instead of !important",
+      "responsive_units": "Use rem, em, %, vw, vh - avoid fixed px except 1-2px borders",
+      "naming_convention": "Use kebab-case, descriptive names (floating-btn not btn1)",
+      "max_nesting": 3,
+      "modular_approach": "Create reusable components that can be mixed and matched",
+      "school_colors_only": "Only use #901a2d (red), #987952 (bronze), #8faf8f (green)"
+    },
+    "javascript": {
+      "error_handling": "Always include try-catch for DOM operations and external calls",
+      "dom_safety": "Check element existence with if(element) before manipulation", 
+      "no_globals": "Use modules and proper scoping instead of global variables",
+      "async_preferred": "Use async/await, avoid callback hell",
+      "vanilla_only": "No jQuery or frameworks on frontend",
+      "cleanup_listeners": "Always remove event listeners in cleanup functions",
+      "descriptive_names": "Use initFloatingButtons not initFB"
+    },
+    "architecture": {
+      "single_responsibility": "One clear purpose per function/file",
+      "no_duplication": "Extract repeated code into reusable functions",
+      "mobile_first": "Design for mobile, enhance for desktop",
+      "modular_files": "Separate navigation.js, animations.js, interactions.js",
+      "anti_ai_patterns": "Avoid generic wrapper divs, mixed paradigms, obvious comments"
+    },
+    "montessori_specific": {
+      "authentic_voice": "Maintain Laura's personal tone in content",
+      "hands_on_feel": "Interactive elements should feel tactile and engaging",
+      "community_focus": "Emphasize collaboration and mentorship",
+      "child_centered": "Content should reflect individual learning paths"
+    }
+  },
+  "anti_ai_patterns": {
+    "avoid": [
+      "Generic class names like .container-wrapper-div",
+      "Excessive nested divs for simple layouts", 
+      "Inline styles mixed with CSS classes",
+      "Comments stating obvious things",
+      "jQuery mixed randomly with vanilla JS",
+      "!important declarations everywhere",
+      "Magic numbers without explanation",
+      "Copy-paste code blocks",
+      "Overly complex solutions for simple problems"
+    ],
+    "prefer": [
+      "Semantic, descriptive class names",
+      "Clean HTML structure with minimal nesting",
+      "Consistent CSS methodology",
+      "Meaningful comments explaining WHY not WHAT",
+      "Pure vanilla JS or consistent framework use",
+      "Proper CSS specificity",
+      "Named constants for repeated values",
+      "Modular, reusable functions",
+      "Simple, elegant solutions"
+    ]
+  },
+  "modal_functionality": {
+    "find_patterns": [
+      "Functions containing 'modal' in name or comments",
+      "Event listeners for modal open/close/toggle",
+      "CSS classes with modal-related names",
+      "HTML elements with data-modal attributes",
+      "Backdrop/overlay creation and management",
+      "Focus management and accessibility code"
+    ],
+    "modular_requirements": [
+      "Separate modal.css for all modal styling",
+      "Dedicated modal.js for all modal functionality", 
+      "Reusable modal HTML template",
+      "Consistent data attributes (data-open-modal, data-close-modal)",
+      "Proper ARIA labels and keyboard navigation",
+      "Clean separation from other page functionality"
+    ]
+  },
+  "code_review": {
+    "auto_check": true,
+    "priority_levels": ["high", "medium", "low"],
+    "output_format": "actionable_list",
+    "bluestem_standards": true
+  }
+}

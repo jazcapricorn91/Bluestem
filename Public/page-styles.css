@@ -179,6 +179,9 @@ body.loading {
     position: fixed;
     width: 100%;
     height: 100%;
+    /* Mobile fix: Ensure touch events still work */
+    -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+    touch-action: none; /* Prevent scroll but allow taps */
     /* The gutter space stays reserved even when overflow is hidden */
 }
 

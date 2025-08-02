@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Bluestem Montessori School - Nurturing young minds through child-led discovery and hands-on learning">
-    <meta name="keywords" content="Montessori, school, education, child-led learning, hands-on discovery">
+    <meta name="description" content="Bluestem Montessori School in Lincoln, Nebraska - Inclusive private school offering child-led learning, hands-on STEM education, and nature-based discovery for preschool through high school students in a welcoming, diverse community.">
+    <meta name="keywords" content="Montessori school Lincoln Nebraska, private school Lincoln NE, preschool Lincoln, elementary school Lincoln, junior high Lincoln, high school Lincoln, STEM education, hands-on learning, child-led discovery, nature-based education, community-oriented school, inclusive education, diverse school community, Montessori preschool, Montessori elementary, progressive education Lincoln">
     <meta name="author" content="Bluestem Montessori School">
     
-    <title>Bluestem Montessori School | Child-Led Learning & Discovery</title>
+    <!-- Local SEO -->
+    <meta name="geo.region" content="US-NE">
+    <meta name="geo.placename" content="Lincoln, Nebraska">
+    <meta name="geo.position" content="40.8136;-96.7026">
+    <meta name="ICBM" content="40.8136, -96.7026">
+    
+    <title>Bluestem Montessori School Lincoln NE | Inclusive Private School | Preschool - High School</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../Images/favicon.png">
@@ -24,6 +30,65 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="page-styles.css">
     
+    <!-- Schema.org JSON-LD for Rich Search Results -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Bluestem Montessori School",
+        "alternateName": "Bluestem Montessori",
+        "description": "Inclusive private Montessori school in Lincoln, Nebraska offering child-led learning, hands-on STEM education, and nature-based discovery for preschool through high school students.",
+        "url": "https://jazcapricorn91.github.io/Bluestem/",
+        "logo": "https://jazcapricorn91.github.io/Bluestem/Images/Bluestem%20Full%20Logo.png",
+        "image": "https://jazcapricorn91.github.io/Bluestem/Images/Bluestem%20Full%20Logo.png",
+        "telephone": "+1-XXX-XXX-XXXX",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "XXXX Street Address",
+            "addressLocality": "Lincoln",
+            "addressRegion": "NE",
+            "postalCode": "XXXXX",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 40.8136,
+            "longitude": -96.7026
+        },
+        "areaServed": {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+                "@type": "GeoCoordinates",
+                "latitude": 40.8136,
+                "longitude": -96.7026
+            },
+            "geoRadius": "25000"
+        },
+        "foundingDate": "YYYY",
+        "educationalLevel": ["Preschool", "Elementary", "Middle School", "High School"],
+        "educationalCredentialAwarded": "High School Diploma",
+        "hasCredential": {
+            "@type": "EducationalOccupationalCredential",
+            "credentialCategory": "Montessori Education"
+        },
+        "keywords": "Montessori education, private school, child-led learning, hands-on STEM, nature-based education, inclusive school, Lincoln Nebraska",
+        "slogan": "Child-led discovery and hands-on learning",
+        "sameAs": [
+            "https://www.facebook.com/BluestemMontessori",
+            "https://www.instagram.com/bluestemmontessori"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-XXX-XXX-XXXX",
+            "contactType": "admissions",
+            "availableLanguage": "English"
+        },
+        "openingHours": "Mo-Fr 08:00-15:30",
+        "priceRange": "Contact for tuition information",
+        "curriculumType": "Montessori Method"
+    }
+    </script>
+
     <!-- External JavaScript -->
     <script src="navigation.js" defer></script>
     <script src="app.js" defer></script>
@@ -321,7 +386,7 @@
                     <div class="founder-story">
                         <h3 class="founder-name-title">Laura Roberts</h3>
                         <p class="founder-credentials">Fulbright Scholar • Certified Montessori Teacher • Adventurous Educator</p>
-                        <button class="story-button" id="storyButton">Read Laura's Story →</button>
+                        <button class="story-button" data-toggle="active" data-target="#storyModal" data-action="add">Read Laura's Story →</button>
                         
                         <div class="founder-concepts">
                             <p class="concepts-text"><span class="first-letter">B</span>luestem Montessori was founded by <span class="founder-name">Laura Roberts</span>, a Fulbright Scholar who is passionate about providing every child with a personalized education that supports their unique learning journey. As both a scholar and certified Montessori teacher, she created a <strong>science-based, child-centric, and individualized environment</strong> to guide children to develop the skills, knowledge, and confidence they need to succeed in today's world.</p>
@@ -342,7 +407,7 @@
     </div>
 
     <!-- Principles Module -->
-    <div class="principles-module">
+    <div class="principles-module" data-shake=".text-content-box" data-shake-exclude="card-visible" data-shake-min-delay="8000" data-shake-max-delay="15000">
         <!-- Floating Background Elements -->
         <div class="floating-element float-1"></div>
         <div class="floating-element float-2"></div>
@@ -351,41 +416,41 @@
         <!-- Our Mission -->
         <div class="principle-block mission-block">
             <div class="principle-content">
-                <h3 class="principle-title fredericka-header-brown">Our Mission</h3>
-                <div class="slide-arrow">→</div>
-                <div class="text-content-box">
+                <h3 class="principle-title fredericka-header-brown" data-toggle="card-visible">Our Mission</h3>
+                <div class="slide-arrow" data-toggle="card-visible" data-action="add">→</div>
+                <div class="text-content-box" data-toggle="card-visible" data-action="remove">
                     <p class="principle-text">Bluestem's mission is to foster creativity, independence, and ingenuity by providing a child-centric learning environment, hands-on activities, and integration with the community.</p>
                     <p class="principle-text">We're educating our students to cherish community, value peace, chase their passions, and make a difference in their world.</p>
                 </div>
             </div>
-            <div class="principle-visual mission-visual"></div>
+            <div class="principle-visual mission-visual" data-toggle="card-visible" data-hover-open></div>
         </div>
         
         <!-- Individualized Learning -->
         <div class="principle-block individual-block">
             <div class="principle-content">
-                <h3 class="principle-title fredericka-header-brown">Individualized
+                <h3 class="principle-title fredericka-header-brown" data-toggle="card-visible">Individualized
 Learning</h3>
-                <div class="slide-arrow">→</div>
-                <div class="text-content-box">
+                <div class="slide-arrow" data-toggle="card-visible" data-action="add">→</div>
+                <div class="text-content-box" data-toggle="card-visible" data-action="remove">
                     <p class="principle-text">In a Montessori classroom, each child learns at their own pace with a certified teacher guiding them forward. Children and teachers work together to develop not only academic skills but also social, emotional, and practical life skills.</p>
                     <p class="principle-text">This personalized approach helps children develop self-confidence, motivation, and a love for learning.</p>
                 </div>
             </div>
-            <div class="principle-visual individualized-visual"></div>
+            <div class="principle-visual individualized-visual" data-toggle="card-visible" data-hover-open></div>
         </div>
         
         <!-- Lifelong Love of Learning -->
         <div class="principle-block lifelong-block">
             <div class="principle-content">
-                <h3 class="principle-title fredericka-header-brown">Lifelong<br>Love of Learning</h3>
-                <div class="slide-arrow">→</div>
-                <div class="text-content-box">
+                <h3 class="principle-title fredericka-header-brown" data-toggle="card-visible">Lifelong<br>Love of Learning</h3>
+                <div class="slide-arrow" data-toggle="card-visible" data-action="add">→</div>
+                <div class="text-content-box" data-toggle="card-visible" data-action="remove">
                     <p class="principle-text">Bluestem Montessori education instills in children a lifelong love of learning and curiosity about the world. Children have lower stress levels around learning because of the homework-free environment.</p>
                     <p class="principle-text">By encouraging children to follow their interests and explore the world in their own way, we set them on a path of intellectual and personal growth that will last a lifetime.</p>
                 </div>
             </div>
-            <div class="principle-visual lifelong-visual"></div>
+            <div class="principle-visual lifelong-visual" data-toggle="card-visible" data-hover-open></div>
         </div>
     </div>
 
@@ -394,7 +459,7 @@ Learning</h3>
         <h2 class="section-title fredericka-header-green" style="text-align: center; margin-bottom: 50px;">Our Programs</h2>
         <div class="programs-grid">
             <div class="program-card">
-                <div class="card-video early-childhood">
+                <div class="card-video early-childhood" data-hover-play=".program-video">
                     <video class="program-video" muted loop preload="metadata">
                         <source src="../videos/Preschool.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -408,7 +473,7 @@ Learning</h3>
             </div>
             
             <div class="program-card">
-                <div class="card-video elementary">
+                <div class="card-video elementary" data-hover-play=".program-video">
                     <video class="program-video" muted loop preload="metadata">
                         <source src="../videos/Elementary.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -422,7 +487,7 @@ Learning</h3>
             </div>
             
             <div class="program-card">
-                <div class="card-video adolescent">
+                <div class="card-video adolescent" data-hover-play=".program-video">
                     <video class="program-video" muted loop preload="metadata">
                         <source src="../videos/Adolecent.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -535,7 +600,7 @@ Learning</h3>
     <div class="laura-modal-overlay" id="storyModal">
         <div class="laura-modal-content">
             <div class="laura-modal-sticky-header">
-                <button class="laura-modal-close" id="modalCloseBtn">&times;</button>
+                <button class="laura-modal-close" data-toggle="active" data-target="#storyModal" data-action="remove">&times;</button>
             </div>
             
             <!-- Header -->

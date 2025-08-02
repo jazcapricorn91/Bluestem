@@ -1,5 +1,5 @@
-// Navigation Module - Reusable across all pages
-// This module handles all navigation functionality including:
+// Navigation Module
+// Handles all navigation functionality:
 // - Desktop/tablet glassmorphism dropdown
 // - Mobile blooming navigation
 // - Hamburger menu interactions
@@ -91,12 +91,12 @@ class NavigationController {
         if (!this.hamburger) return;
 
         this.hamburger.addEventListener('click', () => {
-            // Check screen size and use appropriate navigation
+            // Use appropriate navigation for screen size
             if (window.innerWidth >= 769) {
-                // Desktop/tablet - use glassmorphism dropdown
+                // Desktop/tablet dropdown
                 this.toggleDesktopNav();
             } else {
-                // Mobile - use mobile nav (though mobile uses floating button primarily)
+                // Mobile nav
                 this.toggleMobileNav();
             }
         });
@@ -155,7 +155,7 @@ class NavigationController {
         });
     }
 
-    // Public method to close all navigation menus (useful for other scripts)
+    // Close all navigation menus
     closeAll() {
         this.closeAllNavs();
     }
