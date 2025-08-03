@@ -1,5 +1,5 @@
 // DOM content loaded event
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     // Navigation handled by navigation.js module
     
     // Mobile debugging helper
@@ -8,17 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Initialize all modules
-    initQuoteLoader();
     initSmoothScrolling();
     initLazyLoading();
+    initPerformanceObserver();
     initFormValidation();
     initStoryModalCloseButtons();
     initDataToggle();
     
     // Enhanced modules
     initBackgroundCarousel();
-    initEnhancedPhotoAnimations();
-    initEnhancedPrincipleCards();
     initEnhancedDynamicBlurbs();
     
     // Generic components
@@ -28,130 +26,55 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Additional modules
     initPageLoadControl();
-    initHeroCTAScroll();
-    initHeroParallax();
     initScrollAnimations();
     
-    updateApplyButtonText();
+    updateResponsiveButtonText();
     
-    // Program videos
-    initProgramVideos();
+    // Program videos use hover-to-play behavior
 });
 
 
-// Quote loader animation - Optimized for mobile and accessibility
-function initQuoteLoader() {
-    window.addEventListener('load', () => {
-        const quoteLoader = document.querySelector('.quote-loader');
-        
-        // Respect user's motion preferences
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        
-        // Scroll to top for consistent experience
-        window.scrollTo(0, 0);
-        
-        if (quoteLoader) {
-            // Named constants for better maintainability
-            const TIMING = prefersReducedMotion ? {
-                BACKGROUND: 200,
-                QUOTE: 1000,
-                AUTHOR: 1500,
-                FADE_OUT: 3000,
-                REMOVE: 4000
-            } : {
-                BACKGROUND: 500,
-                QUOTE: 3500,
-                AUTHOR: 5500,
-                FADE_OUT: 10000,
-                REMOVE: 13000
-            };
-            
-            // Animation sequence with error handling
-            const animationSteps = [
-                { delay: TIMING.BACKGROUND, action: () => quoteLoader.classList.add('show-bg') },
-                { delay: TIMING.QUOTE, action: () => quoteLoader.classList.add('show-quote') },
-                { delay: TIMING.AUTHOR, action: () => quoteLoader.classList.add('show-author') },
-                { delay: TIMING.FADE_OUT, action: () => quoteLoader.classList.add('fade-out') },
-                { delay: TIMING.REMOVE, action: () => {
-                    // Only run if loader wasn't manually finished
-                    if (!window.loaderFinished) {
-                        finishLoading();
-                    }
-                }}
-            ];
-            
-            // Execute animation steps
-            animationSteps.forEach(step => {
-                setTimeout(() => {
-                    try {
-                        step.action();
-                    } catch (error) {
-                        // Silently handle animation failure in production
-                        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                            console.warn('Quote loader animation step failed:', error);
-                        }
-                        // Fallback: remove loader immediately
-                        finishLoading();
-                    }
-                }, step.delay);
-            });
-            
-            // Skip button for impatient users (especially mobile)
-            addSkipButton(quoteLoader);
-            
-        } else {
-            finishLoading();
-        }
-    });
-}
 
-// Helper function for consistent cleanup
-function finishLoading() {
-    const quoteLoader = document.querySelector('.quote-loader');
-    if (quoteLoader) {
-        // SEO: Hide instead of remove
-        quoteLoader.style.display = 'none';
-        quoteLoader.setAttribute('aria-hidden', 'true');
-    }
-    document.body.classList.remove('loading');
-    window.scrollTo(0, 0);
-    
-    // Mark loader as finished to prevent timer-based scroll resets
-    window.loaderFinished = true;
-}
-
-// Add skip button for better UX (mobile users are impatient!)
-function addSkipButton(quoteLoader) {
-    const skipButton = document.createElement('button');
-    skipButton.className = 'skip-loader';
-    skipButton.textContent = 'Skip';
-    skipButton.setAttribute('aria-label', 'Skip loading animation');
-    skipButton.addEventListener('click', finishLoading);
-    quoteLoader.appendChild(skipButton);
-}
-
-// Background image carousel
+// Background image carousel with lazy loading
 function initBackgroundCarousel() {
     const images = document.querySelectorAll('.bg-image');
     if (images.length === 0) return;
     
     let currentIndex = 0;
     
-    // Show first image
+    // Load and show first image immediately
+    loadBackgroundImage(images[currentIndex]);
     images[currentIndex].classList.add('active');
+    
+    // Preload next image
+    if (images.length > 1) {
+        loadBackgroundImage(images[1]);
+    }
     
     // Rotate images every 8 seconds
     setInterval(() => {
         images[currentIndex].classList.remove('active');
         currentIndex = (currentIndex + 1) % images.length;
         images[currentIndex].classList.add('active');
+        
+        // Preload next image for smooth transition
+        const nextIndex = (currentIndex + 1) % images.length;
+        loadBackgroundImage(images[nextIndex]);
     }, 8000);
+}
+
+// Load background image only when needed
+function loadBackgroundImage(imageElement) {
+    if (!imageElement.dataset.loaded && imageElement.dataset.bgSrc) {
+        imageElement.style.backgroundImage = `url(${imageElement.dataset.bgSrc})`;
+        imageElement.dataset.loaded = 'true';
+    }
 }
 
 // Smooth scrolling for anchor links
 function initSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
@@ -184,12 +107,53 @@ function initLazyLoading() {
     });
 }
 
+// Performance optimization - pause off-screen content
+function initPerformanceObserver() {
+    const performanceObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                // Pause videos when off-screen
+                const videos = entry.target.querySelectorAll('video');
+                videos.forEach(video => {
+                    if (!video.paused) {
+                        video.pause();
+                        video.dataset.wasPlaying = 'true';
+                    }
+                });
+                
+                // Disable hover effects on hidden elements
+                entry.target.style.pointerEvents = 'none';
+                
+            } else {
+                // Resume videos when back in view
+                const videos = entry.target.querySelectorAll('video');
+                videos.forEach(video => {
+                    if (video.dataset.wasPlaying === 'true') {
+                        video.play().catch(() => {}); // Graceful fallback
+                        delete video.dataset.wasPlaying;
+                    }
+                });
+                
+                // Re-enable hover effects
+                entry.target.style.pointerEvents = '';
+            }
+        });
+    }, {
+        rootMargin: '50px' // Start optimizing slightly before elements leave viewport
+    });
+    
+    // Observe video containers and animation-heavy elements
+    document.querySelectorAll('[data-hover-play], .dynamic-blurb, .photo-box').forEach(element => {
+        performanceObserver.observe(element);
+    });
+}
+
 // Form validation
 function initFormValidation() {
     const forms = document.querySelectorAll('form');
     
     forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', (e) => {
             e.preventDefault();
             
             // Basic validation
@@ -217,7 +181,7 @@ function initFormValidation() {
 function initStoryModalCloseButtons() {
     // Close modal when clicking outside content
     document.addEventListener('click', function(e) {
-        const modal = document.getElementById('storyModal');
+        const modal = document.querySelector('#storyModal');
         if (modal && e.target === modal) {
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
@@ -227,7 +191,7 @@ function initStoryModalCloseButtons() {
     // Close modal with Escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            const modal = document.getElementById('storyModal');
+            const modal = document.querySelector('#storyModal');
             if (modal && modal.classList.contains('active')) {
                 modal.classList.remove('active');
                 document.body.style.overflow = 'auto';
@@ -236,69 +200,20 @@ function initStoryModalCloseButtons() {
     });
 }
 
-// Update apply button text based on screen size
-function updateApplyButtonText() {
-    const applyBtn = document.querySelector('.enroll-btn-apply');
-    if (applyBtn) {
+// Update responsive button text based on screen size
+function updateResponsiveButtonText() {
+    const responsiveButtons = document.querySelectorAll('[data-text-mobile]');
+    responsiveButtons.forEach(button => {
         if (window.innerWidth <= 768) {
-            applyBtn.textContent = 'Apply';
+            button.textContent = button.dataset.textMobile;
         } else {
-            applyBtn.textContent = 'Apply Now';
-        }
-    }
-}
-
-// Listen for window resize
-window.addEventListener('resize', updateApplyButtonText);
-
-// Hero CTA scroll functionality
-function initHeroCTAScroll() {
-    const heroCTA = document.querySelector('.hero-cta');
-    if (heroCTA) {
-        heroCTA.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollBy({
-                top: window.innerHeight,
-                behavior: 'smooth'
-            });
-        });
-    }
-}
-
-// Hero parallax effect
-function initHeroParallax() {
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero');
-        const heroContent = document.querySelector('.hero-content');
-        const heroBackground = document.querySelector('.hero-background');
-        
-        if (hero && heroContent) {
-            const heroHeight = hero.offsetHeight;
-            const viewportHeight = window.innerHeight;
-            const stickyDistance = viewportHeight * 0.5;
-            
-            if (scrolled <= stickyDistance) {
-                const centerOffset = scrolled - (viewportHeight / 2);
-                heroContent.style.transform = `translateY(${centerOffset}px)`;
-            } else if (scrolled < heroHeight) {
-                const parallaxStart = stickyDistance;
-                const baseCenterOffset = parallaxStart - (viewportHeight / 2);
-                const additionalOffset = (scrolled - parallaxStart) * 0.3;
-                const parallaxOffset = baseCenterOffset + additionalOffset;
-                heroContent.style.transform = `translateY(${parallaxOffset}px)`;
-            } else {
-                heroContent.style.transform = '';
-            }
-        }
-        
-        // Background parallax
-        if (heroBackground) {
-            const backgroundOffset = scrolled * 0.5;
-            heroBackground.style.transform = `translateY(${backgroundOffset}px)`;
+            button.textContent = button.dataset.textDesktop || button.dataset.textMobile;
         }
     });
 }
+
+// Listen for window resize
+window.addEventListener('resize', updateResponsiveButtonText);
 
 // Scroll-based animations
 const animateOnScroll = debounce(() => {
@@ -324,114 +239,9 @@ function initPageLoadControl() {
     window.scrollTo(0, 0);
     // Add loading class to prevent scrolling
     document.body.classList.add('loading');
-    // Also force scroll position in case of any cached position
-    setTimeout(() => {
+    // Ensure scroll position after initial render
+    requestAnimationFrame(() => {
         window.scrollTo(0, 0);
-    }, 10);
-}
-
-// Photo animations
-function initEnhancedPhotoAnimations() {
-    const photoBoxes = document.querySelectorAll('.school-module .photo-box');
-    if (photoBoxes.length === 0) return;
-    
-    let isAnimating = false;
-    let currentHovered = null;
-    
-    // Synchronized photo-1 animations
-    const photo1 = document.querySelector('.school-module .photo-1');
-    const photo1Duplicate = document.querySelector('.school-module .photo-1-duplicate');
-    
-    function fadePhotosBackIn(hoveredBox, photoBoxes) {
-        photoBoxes.forEach(otherBox => {
-            if (otherBox !== hoveredBox) {
-                otherBox.style.transition = 'opacity 1.2s ease 0.3s, transform 1.2s ease 0.3s';
-                otherBox.classList.remove('fade-others');
-            }
-        });
-    }
-    
-    function cleanupPhotoAnimations(hoveredBox, photo1, photo1Duplicate, photoBoxes) {
-        hoveredBox.classList.remove('animating-down');
-        hoveredBox.style.zIndex = '';
-        
-        // Clean up photo-1 parts
-        if (hoveredBox.classList.contains('photo-1') || hoveredBox.classList.contains('photo-1-duplicate')) {
-            if (photo1) photo1.classList.remove('animating-down');
-            if (photo1Duplicate) photo1Duplicate.classList.remove('animating-down');
-        }
-        
-        // Reset transitions for next hover
-        photoBoxes.forEach(otherBox => {
-            otherBox.style.transition = '';
-        });
-        
-        if (currentHovered === null) {
-            isAnimating = false;
-        }
-    }
-    
-    photoBoxes.forEach(box => {
-        box.addEventListener('mouseenter', function(e) {
-            if (!isAnimating || currentHovered === this) {
-                isAnimating = true;
-                currentHovered = this;
-                this.classList.add('elevated');
-                this.classList.remove('animating-down');
-                
-                // Synchronize photo-1
-                if (this.classList.contains('photo-1') || this.classList.contains('photo-1-duplicate')) {
-                    if (photo1) {
-                        photo1.classList.add('elevated');
-                        photo1.classList.remove('animating-down');
-                    }
-                    if (photo1Duplicate) {
-                        photo1Duplicate.classList.add('elevated');
-                        photo1Duplicate.classList.remove('animating-down');
-                    }
-                }
-                
-                // Fade all other photos
-                photoBoxes.forEach(otherBox => {
-                    // Hovering photo-1 - fade others
-                    if (this.classList.contains('photo-1') || this.classList.contains('photo-1-duplicate')) {
-                        if (!otherBox.classList.contains('photo-1') && !otherBox.classList.contains('photo-1-duplicate')) {
-                            otherBox.classList.add('fade-others');
-                        }
-                    } 
-                    // Hovering other photo - fade all others
-                    else if (otherBox !== this) {
-                        otherBox.classList.add('fade-others');
-                    }
-                });
-            }
-        });
-        
-        box.addEventListener('mouseleave', function(e) {
-            if (this.classList.contains('elevated')) {
-                this.classList.remove('elevated');
-                this.classList.add('animating-down');
-                currentHovered = null;
-                
-                // Synchronize photo-1
-                if (this.classList.contains('photo-1') || this.classList.contains('photo-1-duplicate')) {
-                    if (photo1) {
-                        photo1.classList.remove('elevated');
-                        photo1.classList.add('animating-down');
-                    }
-                    if (photo1Duplicate) {
-                        photo1Duplicate.classList.remove('elevated');
-                        photo1Duplicate.classList.add('animating-down');
-                    }
-                }
-                
-                // Fade photos back in
-                setTimeout(() => fadePhotosBackIn(this, photoBoxes), 200);
-                
-                // Clean up animations
-                setTimeout(() => cleanupPhotoAnimations(this, photo1, photo1Duplicate, photoBoxes), 800);
-            }
-        });
     });
 }
 
@@ -457,7 +267,7 @@ function initHoverToOpen() {
         if (!targetElement) return;
         
         // Hover behavior
-        element.addEventListener('mouseenter', function() {
+        element.addEventListener('mouseenter', () => {
             if (!targetElement.classList.contains(targetClass)) {
                 targetElement.classList.add(targetClass);
             }
@@ -503,20 +313,16 @@ function initHoverToPlay() {
         
         if (!video) return;
         
-        // Play video on hover
         element.addEventListener('mouseenter', () => {
-            video.play().catch(() => {});
+            video.play().catch(() => {}); // Graceful fallback for autoplay restrictions
         });
         
-        // Pause video when hover ends
         element.addEventListener('mouseleave', () => {
             video.pause();
-            video.currentTime = 0; // Reset to beginning
+            video.currentTime = 0;
         });
         
-        // Touch handling
         element.addEventListener('touchstart', (e) => {
-            // Toggle video playback
             if (video.paused) {
                 video.play().catch(() => {});
             } else {
@@ -570,10 +376,6 @@ function initShakeAnimations() {
     });
 }
 
-// Principle cards
-function initEnhancedPrincipleCards() {
-    // Handled by generic functions
-}
 
 // Dynamic blurbs
 function initEnhancedDynamicBlurbs() {
@@ -629,109 +431,111 @@ function debounce(func, wait) {
     };
 }
 
-// Data toggle system
+// Data toggle system - modular approach
 function initDataToggle() {
-    // Handle data-toggle elements
     document.addEventListener('click', function(e) {
         const toggleElement = e.target.closest('[data-toggle]');
         if (!toggleElement) return;
         
-        const toggleClass = toggleElement.dataset.toggle;
-        const targetSelector = toggleElement.dataset.target;
-        const action = toggleElement.dataset.action || 'toggle'; // toggle, add, remove
-        
-        let targetElement;
-        
-        if (targetSelector) {
-            // Target specified
-            targetElement = document.querySelector(targetSelector);
-        } else {
-            // No target - find element
-            if (toggleElement.dataset.toggleSelf !== undefined) {
-                targetElement = toggleElement;
-            } else {
-                // Find parent element
-                targetElement = toggleElement.closest(`.${toggleClass.replace('card-visible', 'principle-block').replace('active', 'modal')}`);
-                if (!targetElement) targetElement = toggleElement;
-            }
-        }
+        const config = getToggleConfig(toggleElement);
+        const targetElement = findToggleTarget(toggleElement, config);
         
         if (!targetElement) return;
         
-        // Perform action
-        switch (action) {
-            case 'add':
-                targetElement.classList.add(toggleClass);
-                break;
-            case 'remove':
-                targetElement.classList.remove(toggleClass);
-                break;
-            case 'toggle':
-            default:
-                targetElement.classList.toggle(toggleClass);
-                break;
-        }
-        
-        // Special cases
-        if (toggleClass === 'active' && targetElement.id === 'storyModal') {
-            // Story modal handling
-            if (targetElement.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
-        } else if (toggleClass === 'card-visible') {
-            // Principle card handling
-            let principleBlock = targetElement.closest('.principle-block');
-            if (!principleBlock && toggleElement !== targetElement) {
-                principleBlock = toggleElement.closest('.principle-block');
-            }
-            if (principleBlock) {
-                // Perform action on the principle block
-                switch (action) {
-                    case 'add':
-                        principleBlock.classList.add('card-visible');
-                        break;
-                    case 'remove':
-                        principleBlock.classList.remove('card-visible');
-                        break;
-                    case 'toggle':
-                    default:
-                        principleBlock.classList.toggle('card-visible');
-                        break;
-                }
-                return; // Handled on principleBlock
-            }
-        }
+        performToggleAction(targetElement, config);
+        handleSpecialCases(targetElement, toggleElement, config);
         
         e.preventDefault();
     });
 }
 
-// Program videos
-function initProgramVideos() {
-    // Handled by initHoverToPlay()
+// Extract toggle configuration from element
+function getToggleConfig(toggleElement) {
+    return {
+        toggleClass: toggleElement.dataset.toggle,
+        targetSelector: toggleElement.dataset.target,
+        action: toggleElement.dataset.action || 'toggle'
+    };
 }
 
-// Scroll-based animations - moved to initHeroParallax to prevent duplicate listeners
+// Find the target element for toggle action
+function findToggleTarget(toggleElement, config) {
+    if (config.targetSelector) {
+        return document.querySelector(config.targetSelector);
+    }
+    
+    if (toggleElement.dataset.toggleSelf !== undefined) {
+        return toggleElement;
+    }
+    
+    // Find parent element
+    const parentSelector = `.${config.toggleClass.replace('card-visible', 'principle-block').replace('active', 'modal')}`;
+    return toggleElement.closest(parentSelector) || toggleElement;
+}
 
-// Mobile debugging helper
+// Perform the toggle action
+function performToggleAction(targetElement, config) {
+    switch (config.action) {
+        case 'add':
+            targetElement.classList.add(config.toggleClass);
+            break;
+        case 'remove':
+            targetElement.classList.remove(config.toggleClass);
+            break;
+        case 'toggle':
+        default:
+            targetElement.classList.toggle(config.toggleClass);
+            break;
+    }
+}
+
+// Handle special cases for specific components
+function handleSpecialCases(targetElement, toggleElement, config) {
+    if (config.toggleClass === 'active' && targetElement.id === 'storyModal') {
+        handleStoryModal(targetElement);
+    } else if (config.toggleClass === 'card-visible') {
+        handlePrincipleCard(targetElement, toggleElement, config);
+    }
+}
+
+// Story modal specific handling
+function handleStoryModal(targetElement) {
+    if (targetElement.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Principle card specific handling
+function handlePrincipleCard(targetElement, toggleElement, config) {
+    let principleBlock = targetElement.closest('.principle-block');
+    if (!principleBlock && toggleElement !== targetElement) {
+        principleBlock = toggleElement.closest('.principle-block');
+    }
+    
+    if (principleBlock) {
+        performToggleAction(principleBlock, { ...config, toggleClass: 'card-visible' });
+    }
+}
+
+
+// Scroll-based animations
+
+// Mobile interaction monitoring
 function initMobileDebug() {
-    // Track what's preventing button clicks
-    let debugInfo = {
+    let touchMetrics = {
         touchEvents: 0,
         clickEvents: 0,
         blockedElements: []
     };
     
-    // Monitor all touch events
     document.addEventListener('touchstart', function(e) {
-        debugInfo.touchEvents++;
+        touchMetrics.touchEvents++;
         
-        // Check if something is blocking the touch
         const element = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
         if (element && element !== e.target) {
-            debugInfo.blockedElements.push({
+            touchMetrics.blockedElements.push({
                 target: e.target.className || e.target.tagName,
                 blocker: element.className || element.tagName,
                 zIndex: window.getComputedStyle(element).zIndex
@@ -739,19 +543,16 @@ function initMobileDebug() {
         }
     }, { capture: true });
     
-    // Monitor click events (should fire after touch on mobile)
     document.addEventListener('click', function(e) {
-        debugInfo.clickEvents++;
+        touchMetrics.clickEvents++;
     }, { capture: true });
     
-    // Log debug info every 5 seconds
+    // Reset metrics periodically
     setInterval(() => {
-        if (debugInfo.touchEvents > 0 || debugInfo.blockedElements.length > 0) {
-            console.log('Mobile Debug:', debugInfo);
-            // Reset for next interval
-            debugInfo.touchEvents = 0;
-            debugInfo.clickEvents = 0;
-            debugInfo.blockedElements = [];
+        if (touchMetrics.touchEvents > 0 || touchMetrics.blockedElements.length > 0) {
+            touchMetrics.touchEvents = 0;
+            touchMetrics.clickEvents = 0;
+            touchMetrics.blockedElements = [];
         }
     }, 5000);
 }
