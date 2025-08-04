@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bluestem Montessori Elementary - Under Construction. Our new website is coming soon!">
+    <title>Bluestem Montessori Elementary - Coming Soon</title>
+    <link rel="icon" type="image/x-icon" href="Images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Overlock:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Use existing Home.css for consistent styling -->
+    <link rel="stylesheet" href="Public/Home.css">
+    
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Custom scrollbar to match Bluestem theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(152, 121, 82, 0.3);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(152, 121, 82, 0.6);
+        }
+
+        /* LAYOUT OPTION 1: Full background with centered content (like index.html) */
+        .layout-fullbg {
+            font-family: 'Overlock', sans-serif;
+            background: 
+                linear-gradient(
+                    to bottom,
+                    rgba(143, 175, 143, 0.1) 0%,
+                    rgba(143, 175, 143, 0.3) 30%,
+                    rgba(152, 121, 82, 0.4) 70%,
+                    rgba(152, 121, 82, 0.6) 100%
+                ),
+                url('Images/kids running.jpeg') top center / cover no-repeat,
+                linear-gradient(to bottom, #a8c4a8 0%, #987952 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Overlay for better text readability */
+        .layout-fullbg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(248, 246, 243, 0.4);
+            backdrop-filter: blur(1px);
+            z-index: 1;
+        }
+
+        /* LAYOUT OPTION 2: Split top/bottom */
+        .layout-split-tb {
+            font-family: 'Overlock', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .top-section {
+            height: 60vh;
+            background: url('Images/kids running.jpeg') center center / cover no-repeat;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(143, 175, 143, 0.3);
+            z-index: 1;
+        }
+
+        .bottom-section {
+            flex: 1;
+            background: linear-gradient(135deg, #987952 0%, #8FAF8F 100%);
+            padding: 60px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* LAYOUT OPTION 3: Split left/right */
+        .layout-split-lr {
+            font-family: 'Overlock', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        .layout-split-lr .left-section {
+            width: 50%;
+            background: linear-gradient(135deg, #987952 0%, #8FAF8F 100%);
+            padding: 60px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .layout-split-lr .right-section {
+            width: 50%;
+            background: url('Images/kids running.jpeg') center center / cover no-repeat;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .layout-split-lr .right-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(143, 175, 143, 0.3);
+            z-index: 1;
+        }
+
+        /* Main container - shared across all layouts */
+        .construction-container {
+            width: 90%;
+            max-width: 800px;
+            padding: 60px 40px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        /* Content container for split layouts */
+        .content-container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            color: white;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Add light sand background for better text readability */
+        .featured-box-brown {
+            background-color: rgba(248, 246, 243, 0.4);
+        }
+
+        /* Decorative corner elements */
+        .construction-container::before,
+        .construction-container::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(152, 121, 82, 0.1);
+        }
+
+        .construction-container::before {
+            top: -50px;
+            left: -50px;
+        }
+
+        .construction-container::after {
+            bottom: -50px;
+            right: -50px;
+            background: rgba(144, 26, 45, 0.1);
+        }
+
+        /* Logo */
+        .logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Headings */
+        h1 {
+            font-size: 2.5rem;
+            color: #987952;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #901a2d;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        /* Message text */
+        .message {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+            height: 6px;
+            background: rgba(152, 121, 82, 0.2);
+            border-radius: 3px;
+            margin: 40px auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #987952 0%, #901a2d 100%);
+            width: 0%;
+            border-radius: 3px;
+            animation: loadProgress 3s ease-out forwards;
+        }
+
+        @keyframes loadProgress {
+            to {
+                width: 75%;
+            }
+        }
+
+        /* Contact section */
+        .contact-section {
+            margin-top: 50px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(152, 121, 82, 0.2);
+        }
+
+        .contact-title {
+            font-size: 1.2rem;
+            color: #987952;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item:hover {
+            color: #901a2d;
+        }
+
+        .contact-item svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Social links */
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(152, 121, 82, 0.1);
+            color: #987952;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #987952;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Loading animation */
+        .loading-dots {
+            display: inline-flex;
+            gap: 5px;
+            margin-left: 10px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #901a2d;
+            animation: pulse 1.4s infinite ease-in-out both;
+        }
+
+        .dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes pulse {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Logo on top of text block (left section) - sand circle to match text box */
+        body.layout-split-lr .logo-overlay {
+            position: absolute;
+            top: 30px;
+            left: 25%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            z-index: 3;
+            
+            /* Sand background circle to match text box */
+            background: rgba(216, 186, 137, 0.541);
+            border-radius: 50%;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            
+            /* Center the logo image inside */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Logo image styling */
+        .logo-overlay img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        /* Keyframes for subtle rotation animation */
+        @keyframes subtle-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .construction-container, .featured-box-brown {
+                padding: 30px 20px;
+            }
+
+            .content-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .message {
+                font-size: 1rem;
+            }
+
+            .logo {
+                width: 150px;
+            }
+
+            .logo-overlay {
+                width: 100px;
+                top: 20px;
+            }
+
+            /* Switch to full background layout on mobile for left/right split */
+            .layout-split-lr {
+                background: 
+                    linear-gradient(
+                        to bottom,
+                        rgba(143, 175, 143, 0.1) 0%,
+                        rgba(143, 175, 143, 0.3) 30%,
+                        rgba(152, 121, 82, 0.4) 70%,
+                        rgba(152, 121, 82, 0.6) 100%
+                    ),
+                    url('Images/kids running.jpeg') top center / cover no-repeat,
+                    linear-gradient(to bottom, #a8c4a8 0%, #987952 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #333;
+                position: relative;
+                flex-direction: column;
+            }
+
+            .layout-split-lr::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(248, 246, 243, 0.4);
+                backdrop-filter: blur(1px);
+                z-index: 1;
+            }
+
+            .layout-split-lr .left-section {
+                width: 90%;
+                max-width: 800px;
+                z-index: 2;
+                background: none;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .layout-split-lr .right-section {
+                display: none;
+            }
+
+            .layout-split-lr .content-container {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .layout-split-lr .featured-box-brown {
+                width: 100%;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+
+            .layout-split-lr .logo-overlay {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.1rem;
+            }
+
+            .contact-info {
+                font-size: 0.9rem;
+            }
+
+            .top-section {
+                height: 40vh;
+                min-height: 250px;
+            }
+        }
+    </style>
+</head>
+
+<!-- Left/Right Split Layout -->
+<body class="layout-split-lr" id="layoutBody">
+    <div class="logo-overlay">
+        <img src="Images/Bluestem Logo.png" alt="Bluestem Montessori Elementary">
+    </div>
+    
+    <div class="left-section">
+        <div class="content-container">
+            <div class="featured-box-brown">
+                <h1>UNDER CONSTRUCTION</h1>
+                <h2>Coming Soon
+                    <span class="loading-dots">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </span>
+                </h2>
+                
+                <p class="message">
+                    We're building something beautiful for the Bluestem Montessori community.
+                </p>
+                
+                <div class="progress-container">
+                    <div class="progress-bar"></div>
+                </div>
+                
+                <p class="message">
+                    <strong>Fall 2025</strong>
+                </p>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        (402) 735-0987
+                    </div>
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        info@bluestemmontessori.com
+                    </div>
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        4530 A St, Lincoln, NE 68510
+                    </div>
+                </div>
+                
+                <!-- Social media links -->
+                <div class="social-links">
+                    <a href="https://www.facebook.com/bluestemmontessori" class="social-link" aria-label="Facebook">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://www.instagram.com/bluestemmontessori" class="social-link" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="right-section"></div>
+</body>
+</html>

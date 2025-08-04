@@ -72,6 +72,16 @@ test_component.jsx
 my_notes.md
 todo.txt
 experiments/
+dev-*
+backup-*
+test-*
+reference/
+experimental-*
+doctor-*
+copy-*
+sandboxing.html
+sandbox.html
+
 
 # Supabase local config (if using)
 supabase/.branches
@@ -93,7 +103,7 @@ uploads/
 public/uploads/
 
 # Large assets you're testing with
-larg_videos/
+large_videos/
 large_images/
 
 # Development and AI assistant files
@@ -101,3 +111,40 @@ large_images/
 .github/
 memory-bank/
 .blackboxrules
+models/
+.kilocode/
+logs/
+
+# MCP Servers and related
+*-mcp/
+*-MCP-*/
+*mcp*/
+*MCP*/
+lifecycle-mcp/
+hackernews-mcp/
+Google-Scholar-MCP-Server/
+Google-Search-MCP-Server/
+google-news-trends-mcp/
+docs-mcp-server/
+keep-mcp/
+searxng-mcp/
+semanticscholar-MCP-Server/
+server-google-news/
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+lifecycle.db*
+
+# Development documentation
+docs/
+reference/
+
+# Dev files (but keep important project docs)
+*.md
+!README.md
+
+# Claude files (backed up locally, not needed in git)
+CLAUDE.md
+CLAUDE.local.md

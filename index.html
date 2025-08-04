@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Overlock:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Public/page-styles.css">
+    <link rel="stylesheet" href="Public/Home.css">
     <style>
         body {
             font-family: 'Overlock', sans-serif;
@@ -148,8 +148,33 @@
         <div class="featured-box-green" style="background: linear-gradient(135deg, rgba(143, 175, 143, 0.15), rgba(143, 175, 143, 0.25)); backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.9);">
             <h1 class="fredericka-header-green" style="margin-bottom: 1rem; font-size: 2.5rem;">BLUESTEM MONTESSORI</h1>
             <p class="subtitle">Where Independence, Confidence & Passion Flourish</p>
-            <a href="Public/Home.html" class="enter-site-btn">Enter Our Learning Community</a>
+            <a href="Public/Home.html" class="enter-site-btn" id="enter-site-btn">Enter Our Learning Community</a>
         </div>
     </div>
+
+    <script>
+        // Redirect mobile and tablet devices to under construction page
+        function checkDeviceAndRedirect() {
+            // Check if screen width is less than 1024px (tablet and mobile)
+            if (window.innerWidth < 1024) {
+                // Redirect to under construction page
+                window.location.href = 'under_construction.html';
+            }
+        }
+
+        // Check on page load
+        document.addEventListener('DOMContentLoaded', checkDeviceAndRedirect);
+        
+        // Check on window resize (in case user resizes browser)
+        window.addEventListener('resize', checkDeviceAndRedirect);
+        
+        // Also check when clicking the enter site button as backup
+        document.getElementById('enter-site-btn').addEventListener('click', function(e) {
+            if (window.innerWidth < 1024) {
+                e.preventDefault();
+                window.location.href = 'under_construction.html';
+            }
+        });
+    </script>
 </body>
 </html>

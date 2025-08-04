@@ -148,6 +148,53 @@ function initPerformanceObserver() {
     });
 }
 
+// EMERGENCY OPTIMIZATIONS - Uncomment if performance critical
+/*
+// Animation Culling - Stop animations that aren't visible
+function initAnimationCulling() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                // Pause animations
+                entry.target.style.animationPlayState = 'paused';
+            } else {
+                entry.target.style.animationPlayState = 'running';
+            }
+        });
+    });
+    
+    // Observe all animated elements
+    document.querySelectorAll('[class*="animate"], [class*="fade"], [class*="slide"]').forEach(el => {
+        observer.observe(el);
+    });
+}
+
+// Remove DOM Elements - Most aggressive optimization
+function enableAggressiveOptimization() {
+    // Remove modal from DOM when closed, recreate when needed
+    const originalCloseModal = window.closeModal;
+    window.closeModal = function(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            // Store template before removing
+            const modalTemplate = modal.outerHTML;
+            window.modalTemplates = window.modalTemplates || {};
+            window.modalTemplates[modalId] = modalTemplate;
+            modal.remove(); // Actually remove from DOM
+        }
+    };
+    
+    // Recreate modal when needed
+    window.openModal = function(modalId) {
+        if (window.modalTemplates && window.modalTemplates[modalId]) {
+            document.body.insertAdjacentHTML('beforeend', window.modalTemplates[modalId]);
+            // Re-initialize modal events
+            initStoryModalCloseButtons();
+        }
+    };
+}
+*/
+
 // Form validation
 function initFormValidation() {
     const forms = document.querySelectorAll('form');
@@ -180,7 +227,7 @@ function initFormValidation() {
 // Modal system
 function initStoryModalCloseButtons() {
     // Close modal when clicking outside content
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', (e) => {
         const modal = document.querySelector('#storyModal');
         if (modal && e.target === modal) {
             modal.classList.remove('active');
@@ -189,7 +236,7 @@ function initStoryModalCloseButtons() {
     });
 
     // Close modal with Escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             const modal = document.querySelector('#storyModal');
             if (modal && modal.classList.contains('active')) {
@@ -274,7 +321,7 @@ function initHoverToOpen() {
         });
         
         // Click behavior - toggle the target
-        element.addEventListener('click', function(e) {
+        element.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             targetElement.classList.toggle(targetClass);
@@ -282,14 +329,14 @@ function initHoverToOpen() {
         
         // Touch behavior
         if (mobileTouch) {
-            element.addEventListener('touchstart', function(e) {
+            element.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 if (!targetElement.classList.contains(targetClass)) {
                     targetElement.classList.add(targetClass);
                 }
             }, { passive: false });
             
-            element.addEventListener('touchend', function(e) {
+            element.addEventListener('touchend', (e) => {
                 if (targetElement.classList.contains(targetClass)) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -433,7 +480,7 @@ function debounce(func, wait) {
 
 // Data toggle system - modular approach
 function initDataToggle() {
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', (e) => {
         const toggleElement = e.target.closest('[data-toggle]');
         if (!toggleElement) return;
         
@@ -530,7 +577,7 @@ function initMobileDebug() {
         blockedElements: []
     };
     
-    document.addEventListener('touchstart', function(e) {
+    document.addEventListener('touchstart', (e) => {
         touchMetrics.touchEvents++;
         
         const element = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
@@ -543,7 +590,7 @@ function initMobileDebug() {
         }
     }, { capture: true });
     
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', (e) => {
         touchMetrics.clickEvents++;
     }, { capture: true });
     
