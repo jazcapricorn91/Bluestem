@@ -427,8 +427,7 @@
             }
 
             .logo-overlay {
-                width: 100px;
-                top: 20px;
+                display: none !important;
             }
 
             /* Switch to full background layout on mobile for left/right split */
@@ -493,6 +492,13 @@
 
 
             .layout-split-lr .logo-overlay {
+                display: none;
+            }
+
+            /* Hide all logos and logo circle on mobile for cleaner layout */
+            .logo,
+            .logo-overlay,
+            .logo-overlay img {
                 display: none;
             }
         }
