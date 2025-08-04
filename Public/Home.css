@@ -1782,6 +1782,8 @@ body {
     height: 200%;
     background: radial-gradient(circle, rgba(143, 175, 143, 0.05) 0%, transparent 70%);
     animation: subtle-rotate 20s linear infinite;
+    z-index: -1;
+    pointer-events: none;
 }
 
 .featured-box-brown {
@@ -1803,6 +1805,8 @@ body {
     height: 200%;
     background: radial-gradient(circle, rgba(152, 121, 82, 0.05) 0%, transparent 70%);
     animation: subtle-rotate 20s linear infinite;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* Featured box header styles */
