@@ -63,8 +63,6 @@ function initQuoteLoader() {
                 }, step.delay);
             });
             
-            // Skip button for impatient users (especially mobile)
-            addSkipButton(quoteLoader);
             
         } else {
             finishLoading();
@@ -87,15 +85,6 @@ function finishLoading() {
     window.loaderFinished = true;
 }
 
-// Add skip button for better UX (mobile users are impatient!)
-function addSkipButton(quoteLoader) {
-    const skipButton = document.createElement('button');
-    skipButton.className = 'skip-loader';
-    skipButton.textContent = 'Skip';
-    skipButton.setAttribute('aria-label', 'Skip loading animation');
-    skipButton.addEventListener('click', finishLoading);
-    quoteLoader.appendChild(skipButton);
-}
 
 // Hero CTA scroll functionality  
 function initHeroCTAScroll() {

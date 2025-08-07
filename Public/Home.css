@@ -2764,30 +2764,4 @@ body {
     }
 }
 
-/* Skip button styling - subtle text appearance */
-.skip-loader {
-    position: fixed;
-    bottom: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: none;
-    color: rgba(255, 255, 255, 0.7);
-    border: none;
-    padding: 0;
-    font-family: inherit;
-    font-size: 0.9rem;
-    text-decoration: underline;
-    cursor: pointer;
-    z-index: 1000;
-    transition: color 0.3s ease;
-}
-
-.skip-loader:hover {
-    color: rgba(255, 255, 255, 1);
-}
-
-.skip-loader:focus {
-    outline: none;
-    color: rgba(255, 255, 255, 1);
-}
 
