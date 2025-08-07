@@ -234,7 +234,7 @@ function initStoryModalCloseButtons() {
         }
     });
 
-    // Close on Escape
+    // Close modal with Escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             const modal = document.querySelector('#storyModal');
@@ -246,7 +246,7 @@ function initStoryModalCloseButtons() {
     });
 }
 
-// Responsive button text
+// Update responsive button text based on screen size
 function updateResponsiveButtonText() {
     const responsiveButtons = document.querySelectorAll('[data-text-mobile]');
     responsiveButtons.forEach(button => {
@@ -258,10 +258,10 @@ function updateResponsiveButtonText() {
     });
 }
 
-// Resize listener
+// Listen for window resize
 window.addEventListener('resize', updateResponsiveButtonText);
 
-// Scroll animations
+// Scroll-based animations
 const animateOnScroll = debounce(() => {
     const elements = document.querySelectorAll('.animate-on-scroll');
     
@@ -279,21 +279,21 @@ function initScrollAnimations() {
     window.addEventListener('scroll', animateOnScroll);
 }
 
-// Page load control
+// Page load control - ensures page always loads at top
 function initPageLoadControl() {
-    // Force scroll to top
+    // Force scroll to top immediately
     window.scrollTo(0, 0);
-    // Prevent scrolling during load
+    // Add loading class to prevent scrolling
     document.body.classList.add('loading');
-    // Ensure position after render
+    // Ensure scroll position after initial render
     requestAnimationFrame(() => {
         window.scrollTo(0, 0);
     });
 }
 
-// Hover to open
+// Generic hover-to-open component
 function initHoverToOpen() {
-    // Find hover elements
+    // Elements with data-hover-open attribute
     const hoverElements = document.querySelectorAll('[data-hover-open]');
     
     hoverElements.forEach(element => {
@@ -305,28 +305,28 @@ function initHoverToOpen() {
         if (targetSelector) {
             targetElement = document.querySelector(targetSelector);
         } else {
-            // Find target
+            // Find target element
             const classBase = targetClass.replace('-visible', '').replace('active', 'modal');
             targetElement = element.closest(`.${classBase}`) || element.closest('[class*="block"]');
         }
         
         if (!targetElement) return;
         
-        // Hover
+        // Hover behavior
         element.addEventListener('mouseenter', () => {
             if (!targetElement.classList.contains(targetClass)) {
                 targetElement.classList.add(targetClass);
             }
         });
         
-        // Click toggle
+        // Click behavior - toggle the target
         element.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             targetElement.classList.toggle(targetClass);
         });
         
-        // Touch
+        // Touch behavior
         if (mobileTouch) {
             element.addEventListener('touchstart', (e) => {
                 e.preventDefault();
@@ -348,9 +348,9 @@ function initHoverToOpen() {
     });
 }
 
-// Hover to play
+// Generic hover-to-play component
 function initHoverToPlay() {
-    // Find video elements
+    // Elements with data-hover-play attribute
     const hoverPlayElements = document.querySelectorAll('[data-hover-play]');
     
     hoverPlayElements.forEach(element => {
@@ -360,7 +360,7 @@ function initHoverToPlay() {
         if (!video) return;
         
         element.addEventListener('mouseenter', () => {
-            video.play().catch(() => {});
+            video.play().catch(() => {}); // Graceful fallback for autoplay restrictions
         });
         
         element.addEventListener('mouseleave', () => {
@@ -379,9 +379,9 @@ function initHoverToPlay() {
     });
 }
 
-// Shake animations
+// Generic shake animation component
 function initShakeAnimations() {
-    // Find shake containers
+    // Elements with data-shake attribute
     const shakeContainers = document.querySelectorAll('[data-shake]');
     
     shakeContainers.forEach(container => {
@@ -417,7 +417,7 @@ function initShakeAnimations() {
             }, delay);
         }
         
-        // Start schedule
+        // Start shake schedule
         scheduleShake();
     });
 }
@@ -430,9 +430,9 @@ function initEnhancedDynamicBlurbs() {
     blurbs.forEach(blurb => {
         let touchTimer;
         
-        // Touch events
+        // Touch start
         blurb.addEventListener('touchstart', (e) => {
-            // Prevent default for blurb interaction
+            // Only prevent default if we're actually interacting with the blurb content
             if (e.target === blurb || blurb.contains(e.target)) {
                 e.preventDefault();
             }
@@ -444,16 +444,19 @@ function initEnhancedDynamicBlurbs() {
             clearTimeout(touchTimer);
         }, { passive: false });
         
+        // Touch end
         blurb.addEventListener('touchend', () => {
             blurb.classList.remove('touch-active');
             clearTimeout(touchTimer);
         });
         
+        // Touch cancel
         blurb.addEventListener('touchcancel', () => {
             blurb.classList.remove('touch-active');
             clearTimeout(touchTimer);
         });
         
+        // Touch move
         blurb.addEventListener('touchmove', () => {
             blurb.classList.remove('touch-active');
             clearTimeout(touchTimer);
@@ -461,7 +464,7 @@ function initEnhancedDynamicBlurbs() {
     });
 }
 
-// Debounce utility
+// Utility function for debouncing
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -474,7 +477,7 @@ function debounce(func, wait) {
     };
 }
 
-// Data toggle system
+// Data toggle system - modular approach
 function initDataToggle() {
     document.addEventListener('click', (e) => {
         const toggleElement = e.target.closest('[data-toggle]');
@@ -492,7 +495,7 @@ function initDataToggle() {
     });
 }
 
-// Get toggle config
+// Extract toggle configuration from element
 function getToggleConfig(toggleElement) {
     return {
         toggleClass: toggleElement.dataset.toggle,
@@ -501,7 +504,7 @@ function getToggleConfig(toggleElement) {
     };
 }
 
-// Find toggle target
+// Find the target element for toggle action
 function findToggleTarget(toggleElement, config) {
     if (config.targetSelector) {
         return document.querySelector(config.targetSelector);
@@ -511,12 +514,12 @@ function findToggleTarget(toggleElement, config) {
         return toggleElement;
     }
     
-    // Find parent
+    // Find parent element
     const parentSelector = `.${config.toggleClass.replace('card-visible', 'principle-block').replace('active', 'modal')}`;
     return toggleElement.closest(parentSelector) || toggleElement;
 }
 
-// Perform toggle
+// Perform the toggle action
 function performToggleAction(targetElement, config) {
     switch (config.action) {
         case 'add':
@@ -532,7 +535,7 @@ function performToggleAction(targetElement, config) {
     }
 }
 
-// Handle special cases
+// Handle special cases for specific components
 function handleSpecialCases(targetElement, toggleElement, config) {
     if (config.toggleClass === 'active' && targetElement.id === 'storyModal') {
         handleStoryModal(targetElement);
@@ -541,7 +544,7 @@ function handleSpecialCases(targetElement, toggleElement, config) {
     }
 }
 
-// Story modal handling
+// Story modal specific handling
 function handleStoryModal(targetElement) {
     if (targetElement.classList.contains('active')) {
         document.body.style.overflow = 'hidden';
@@ -550,7 +553,7 @@ function handleStoryModal(targetElement) {
     }
 }
 
-// Principle card handling
+// Principle card specific handling
 function handlePrincipleCard(targetElement, toggleElement, config) {
     let principleBlock = targetElement.closest('.principle-block');
     if (!principleBlock && toggleElement !== targetElement) {
@@ -563,7 +566,9 @@ function handlePrincipleCard(targetElement, toggleElement, config) {
 }
 
 
-// Mobile debugging
+// Scroll-based animations
+
+// Mobile interaction monitoring
 function initMobileDebug() {
     let touchMetrics = {
         touchEvents: 0,
@@ -588,7 +593,7 @@ function initMobileDebug() {
         touchMetrics.clickEvents++;
     }, { capture: true });
     
-    // Reset metrics
+    // Reset metrics periodically
     setInterval(() => {
         if (touchMetrics.touchEvents > 0 || touchMetrics.blockedElements.length > 0) {
             touchMetrics.touchEvents = 0;

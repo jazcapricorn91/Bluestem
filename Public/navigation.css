@@ -1,4 +1,4 @@
-/* Navigation System - Complete Styles */
+/* Navigation System */
 
 /* Header */
 .header {
@@ -38,7 +38,7 @@
     max-width: 220px;
 }
 
-/* Sticky Enrollment Bar Styles */
+/* Enrollment Bar */
 .sticky-enroll-bar {
     position: sticky;
     top: 0;

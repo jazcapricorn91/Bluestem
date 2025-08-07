@@ -1,9 +1,5 @@
 // Navigation Module
-// Handles all navigation functionality:
-// - Desktop/tablet glassmorphism dropdown
-// - Mobile blooming navigation
-// - Hamburger menu interactions
-// - Responsive navigation switching
+// Handles desktop dropdown, mobile nav, bloom navigation, hamburger menu
 
 class NavigationController {
     constructor() {
@@ -16,7 +12,7 @@ class NavigationController {
     }
 
     init() {
-        // Wait for DOM to be ready
+        // DOM ready check
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.setupNavigation());
         } else {
@@ -25,14 +21,14 @@ class NavigationController {
     }
 
     setupNavigation() {
-        // Get navigation elements
+        // Get elements
         this.hamburger = document.getElementById('hamburger-menu');
         this.floatingMenu = document.querySelector('.floating-menu-btn');
         this.mobileNav = document.getElementById('mobile-nav');
         this.bloomNav = document.getElementById('bloom-nav');
         this.navLinks = document.querySelector('.nav-links');
 
-        // Setup event listeners
+        // Setup listeners
         this.setupHamburgerMenu();
         this.setupFloatingMenu();
         this.setupNavLinkClicks();
@@ -40,7 +36,7 @@ class NavigationController {
         this.setupClickOutside();
     }
 
-    // Toggle functions
+    // Toggle methods
     toggleMobileNav() {
         if (this.mobileNav) {
             this.mobileNav.classList.toggle('open');
@@ -60,7 +56,7 @@ class NavigationController {
         }
     }
 
-    // Close functions
+    // Close methods
     closeMobileNav() {
         if (this.mobileNav) {
             this.mobileNav.classList.remove('open');
@@ -86,14 +82,14 @@ class NavigationController {
         this.closeDesktopNav();
     }
 
-    // Setup hamburger menu functionality
+    // Hamburger menu
     setupHamburgerMenu() {
         if (!this.hamburger) return;
 
         this.hamburger.addEventListener('click', () => {
-            // Use appropriate navigation for screen size
+            // Choose nav by screen size
             if (window.innerWidth >= 769) {
-                // Desktop/tablet dropdown
+                // Desktop dropdown
                 this.toggleDesktopNav();
             } else {
                 // Mobile nav
@@ -102,7 +98,7 @@ class NavigationController {
         });
     }
 
-    // Setup floating menu for mobile
+    // Floating menu
     setupFloatingMenu() {
         if (!this.floatingMenu || !this.bloomNav) return;
 
@@ -112,9 +108,9 @@ class NavigationController {
         });
     }
 
-    // Setup navigation link clicks to close menus
+    // Nav link clicks
     setupNavLinkClicks() {
-        // Close desktop dropdown when clicking links
+        // Desktop dropdown
         if (this.navLinks) {
             this.navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
@@ -123,7 +119,7 @@ class NavigationController {
             });
         }
 
-        // Close mobile nav when clicking links
+        // Mobile nav
         if (this.mobileNav) {
             this.mobileNav.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
@@ -133,7 +129,7 @@ class NavigationController {
         }
     }
 
-    // Setup bloom navigation option clicks
+    // Bloom nav clicks
     setupBloomNavClicks() {
         if (!this.bloomNav) return;
 
@@ -144,7 +140,7 @@ class NavigationController {
         });
     }
 
-    // Setup click outside to close bloom navigation
+    // Click outside to close
     setupClickOutside() {
         document.addEventListener('click', (event) => {
             const floatingContainer = document.querySelector('.floating-menu-container');
@@ -155,14 +151,14 @@ class NavigationController {
         });
     }
 
-    // Close all navigation menus
+    // Close all menus
     closeAll() {
         this.closeAllNavs();
     }
 }
 
-// Initialize navigation when script loads
+// Initialize navigation
 const navigation = new NavigationController();
 
-// Make navigation controller available globally for other scripts
+// Global access
 window.NavigationController = navigation;

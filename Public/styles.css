@@ -1,38 +1,37 @@
-/* Public-specific styles - Color utilities are in root style.css */
+/* Public styles */
 
-/* Custom CSS scrollbar styling - Modern, minimal design */
-/* Webkit scrollbar properties for Chrome, Safari, Edge */
+/* Scrollbar styling */
 
 /* Main scrollbar */
 ::-webkit-scrollbar {
-    width: 8px; /* Thin scrollbar width */
-    height: 8px; /* For horizontal scrollbars */
+    width: 8px;
+    height: 8px;
 }
 
-/* Scrollbar track (background) */
+/* Scrollbar track */
 ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05); /* Very subtle light gray track */
-    border-radius: 10px; /* Rounded track */
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
 }
 
-/* Scrollbar thumb (the draggable part) */
+/* Scrollbar thumb */
 ::-webkit-scrollbar-thumb {
-    background: rgba(152, 121, 82, 0.3); /* Using your brown color with transparency */
-    border-radius: 10px; /* Rounded thumb */
-    border: 2px solid transparent; /* Creates padding effect */
+    background: rgba(152, 121, 82, 0.3);
+    border-radius: 10px;
+    border: 2px solid transparent;
     background-clip: content-box;
-    transition: all 0.3s ease; /* Smooth hover effects */
+    transition: all 0.3s ease;
 }
 
 /* Scrollbar thumb on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(152, 121, 82, 0.6); /* Darker on hover */
-    transform: scaleY(1.1); /* Slight grow effect */
+    background: rgba(152, 121, 82, 0.6);
+    transform: scaleY(1.1);
 }
 
 /* Scrollbar thumb when active/being dragged */
 ::-webkit-scrollbar-thumb:active {
-    background: rgba(144, 26, 45, 0.7); /* Your red color when active */
+    background: rgba(144, 26, 45, 0.7);
 }
 
 /* Hide scrollbar arrows/buttons */
@@ -48,7 +47,7 @@
 /* Special styling for modal content area scrollbar */
 .laura-modal-content .laura-story-content::-webkit-scrollbar {
     width: 8px;
-    background: rgba(0, 0, 0, 0.02); /* Very subtle background */
+    background: rgba(0, 0, 0, 0.02);
 }
 
 .laura-modal-content .laura-story-content::-webkit-scrollbar-track {
@@ -57,7 +56,7 @@
 }
 
 .laura-modal-content .laura-story-content::-webkit-scrollbar-thumb {
-    background: rgba(152, 121, 82, 0.3); /* Brown to match your theme */
+    background: rgba(152, 121, 82, 0.3);
     border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background-clip: content-box;
@@ -156,13 +155,13 @@ body::after {
 
 /* Scrollbar gutter to prevent layout shift */
 html {
-    scrollbar-gutter: stable; /* Reserves space so viewport width never changes */
+    scrollbar-gutter: stable;
 }
 
 
 /* Footer Styles */
 .footer {
-    background: transparent; /* Let page background show through */
+    background: transparent;
     color: #2c3e50;
     font-family: 'Overlock', sans-serif;
     margin-top: 60px;
@@ -172,7 +171,7 @@ html {
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 20px 20px;
-    border-top: 2px solid rgba(152, 121, 82, 0.2); /* Subtle top border */
+    border-top: 2px solid rgba(152, 121, 82, 0.2);
 }
 
 .footer-content {

@@ -1,4 +1,4 @@
-// Contact Page JavaScript - Following Bluestem patterns
+// Contact page functionality
 
 document.addEventListener('DOMContentLoaded', function() {
     initContactForm();
@@ -52,7 +52,7 @@ function validateField(field) {
             break;
 
         case 'phone':
-            // Optional field, only validate if filled
+            // Optional validation
             if (value) {
                 const phoneRegex = /^[\d\s\-\(\)\+\.]{10,}$/;
                 if (!phoneRegex.test(value.replace(/\s/g, ''))) {
@@ -80,11 +80,11 @@ function validateField(field) {
             break;
 
         case 'optional':
-            // Always valid for optional fields
+            // Always valid
             break;
     }
 
-    // Update field appearance and error message
+    // Update field state
     if (isValid) {
         field.classList.remove('error');
         if (errorElement) errorElement.textContent = '';
@@ -109,7 +109,7 @@ async function handleFormSubmit(e) {
     const submitButton = form.querySelector('.form-submit-btn');
     const successMessage = document.getElementById('formSuccess');
     
-    // Validate all required fields
+    // Validate form
     let isFormValid = true;
     const inputs = form.querySelectorAll('input, select, textarea');
     inputs.forEach(input => {
@@ -142,8 +142,7 @@ async function handleFormSubmit(e) {
             data[key] = value;
         }
 
-        // Here you would normally send to your backend
-        // For now, simulate API call
+        // API call simulation
         await simulateFormSubmission(data);
         
         // Show success message
@@ -165,7 +164,7 @@ async function handleFormSubmit(e) {
 
 function simulateFormSubmission(data) {
     return new Promise((resolve, reject) => {
-        // Simulate network delay and potential errors
+        // Simulate network delay
         setTimeout(() => {
             // Validate required fields exist
             if (!data.name || !data.email || !data.message) {
@@ -173,15 +172,14 @@ function simulateFormSubmission(data) {
                 return;
             }
             
-            // In production, this would make an actual API call
-            // For now, simulate successful submission
+            // Simulate success
             resolve({ success: true, message: 'Thank you for contacting us!' });
         }, 1500);
     });
 }
 
 function initContactAnimations() {
-    // Enhanced hover effects for contact methods
+    // Contact method hover effects
     const contactMethods = document.querySelectorAll('.contact-method');
     contactMethods.forEach(method => {
         method.addEventListener('mouseenter', function() {
@@ -223,7 +221,7 @@ function initContactAnimations() {
         });
     }, observerOptions);
 
-    // Observe contact methods for animation
+    // Animate contact methods
     contactMethods.forEach(method => {
         method.style.opacity = '0';
         method.style.transform = 'translateY(20px)';
@@ -231,7 +229,7 @@ function initContactAnimations() {
         observer.observe(method);
     });
 
-    // Observe form for animation
+    // Animate form
     const formContainer = document.querySelector('.form-container');
     if (formContainer) {
         formContainer.style.opacity = '0';
@@ -250,19 +248,19 @@ function initQuickActionCards() {
             const formSection = document.querySelector('#contact-form, .contact-form-section');
             const inquiryDropdown = document.getElementById('inquiryType');
             
-            // Pre-select the inquiry type in dropdown
+            // Pre-select inquiry type
             if (inquiryDropdown && inquiryType) {
                 inquiryDropdown.value = inquiryType;
                 
-                // Clear any existing error state
+                // Clear error state
                 inquiryDropdown.classList.remove('error');
                 const errorElement = document.querySelector(`[data-error-for="inquiryType"]`);
                 if (errorElement) errorElement.textContent = '';
             }
             
-            // Smooth scroll to form with slight offset for better UX
+            // Scroll to form
             if (formSection) {
-                const yOffset = -20; // Slight offset from top
+                const yOffset = -20;
                 const elementPosition = formSection.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset + yOffset;
                 
@@ -271,14 +269,14 @@ function initQuickActionCards() {
                     behavior: 'smooth'
                 });
                 
-                // Focus on first empty required field after scroll
+                // Focus first empty field
                 setTimeout(() => {
                     focusFirstEmptyField();
                 }, 800);
             }
         });
         
-        // Add visual feedback for clickable cards
+        // Visual feedback
         card.style.cursor = 'pointer';
         
         // Add keyboard support
@@ -289,7 +287,7 @@ function initQuickActionCards() {
             }
         });
         
-        // Make card focusable for accessibility
+        // Accessibility
         if (!card.hasAttribute('tabindex')) {
             card.setAttribute('tabindex', '0');
         }
@@ -300,7 +298,7 @@ function focusFirstEmptyField() {
     const form = document.getElementById('contactForm');
     if (!form) return;
     
-    // Priority order for focusing fields
+    // Focus priority
     const fieldSelectors = [
         '#firstName',
         '#lastName', 
