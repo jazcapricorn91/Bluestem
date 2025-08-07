@@ -117,9 +117,20 @@ logs/
 
 # MCP Servers and related
 *-mcp/
+*-mcp-*/
 *-MCP-*/
 *mcp*/
 *MCP*/
+mcp-*/
+MCP-*/
+*-server/
+*-servers/
+*-Server/
+*-Servers/
+server-*/
+servers-*/
+Server-*/
+Servers-*/
 lifecycle-mcp/
 hackernews-mcp/
 Google-Scholar-MCP-Server/
@@ -130,6 +141,16 @@ keep-mcp/
 searxng-mcp/
 semanticscholar-MCP-Server/
 server-google-news/
+mcp-servers-official/
+puppeteer-mcp-*/
+mcp-accessibility-scanner/
+mcp-feature-discussion/
+divide-and-conquer-mcp-server/
+code-analysis-mcp/
+datadog-mcp/
+react-analyzer-mcp/
+forevervm/
+ForeverVM/
 
 # Database files
 *.db
@@ -148,3 +169,12 @@ reference/
 # Claude files (backed up locally, not needed in git)
 CLAUDE.md
 CLAUDE.local.md
+
+Kiloexamples/
+.vscode/
+downlaods_folder/
+logs/
+models/
+*.py
+lifecycle.db*
+NUL

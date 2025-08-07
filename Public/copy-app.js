@@ -258,8 +258,26 @@ function initFormValidation() {
             });
             
             if (isValid) {
-                // Form submission logic here
-                console.log('Form submitted successfully');
+                // Show success feedback to user
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                
+                submitButton.textContent = 'Submitting...';
+                submitButton.disabled = true;
+                
+                // In production, this would submit to actual endpoint
+                setTimeout(() => {
+                    submitButton.textContent = 'Sent!';
+                    submitButton.classList.add('success');
+                    
+                    // Reset after 3 seconds
+                    setTimeout(() => {
+                        submitButton.textContent = originalText;
+                        submitButton.classList.remove('success');
+                        submitButton.disabled = false;
+                        form.reset();
+                    }, 3000);
+                }, 1000);
             }
         });
     });
@@ -679,8 +697,8 @@ function initProgramVideos() {
         if (video) {
             // Play video on hover
             card.addEventListener('mouseenter', () => {
-                video.play().catch(err => {
-                    console.log('Video play failed:', err);
+                video.play().catch(() => {
+                    // Fallback to static image - no action needed, image already visible
                 });
             });
             
@@ -694,8 +712,8 @@ function initProgramVideos() {
             card.addEventListener('touchstart', (e) => {
                 // Check if video is playing
                 if (video.paused) {
-                    video.play().catch(err => {
-                        console.log('Video play failed:', err);
+                    video.play().catch(() => {
+                        // Fallback to static image - no action needed, image already visible
                     });
                 } else {
                     video.pause();

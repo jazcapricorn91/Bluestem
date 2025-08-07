@@ -1,0 +1,531 @@
+/* Public-specific styles - Color utilities are in root style.css */
+
+/* Custom CSS scrollbar styling - Modern, minimal design */
+/* Webkit scrollbar properties for Chrome, Safari, Edge */
+
+/* Main scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* Thin scrollbar width */
+    height: 8px; /* For horizontal scrollbars */
+}
+
+/* Scrollbar track (background) */
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05); /* Very subtle light gray track */
+    border-radius: 10px; /* Rounded track */
+}
+
+/* Scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+    background: rgba(152, 121, 82, 0.3); /* Using your brown color with transparency */
+    border-radius: 10px; /* Rounded thumb */
+    border: 2px solid transparent; /* Creates padding effect */
+    background-clip: content-box;
+    transition: all 0.3s ease; /* Smooth hover effects */
+}
+
+/* Scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(152, 121, 82, 0.6); /* Darker on hover */
+    transform: scaleY(1.1); /* Slight grow effect */
+}
+
+/* Scrollbar thumb when active/being dragged */
+::-webkit-scrollbar-thumb:active {
+    background: rgba(144, 26, 45, 0.7); /* Your red color when active */
+}
+
+/* Hide scrollbar arrows/buttons */
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+/* Corner where horizontal and vertical scrollbars meet */
+::-webkit-scrollbar-corner {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Special styling for modal content area scrollbar */
+.laura-modal-content .laura-story-content::-webkit-scrollbar {
+    width: 8px;
+    background: rgba(0, 0, 0, 0.02); /* Very subtle background */
+}
+
+.laura-modal-content .laura-story-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 4px;
+}
+
+.laura-modal-content .laura-story-content::-webkit-scrollbar-thumb {
+    background: rgba(152, 121, 82, 0.3); /* Brown to match your theme */
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-clip: content-box;
+}
+
+.laura-modal-content .laura-story-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(152, 121, 82, 0.5);
+}
+
+/* Firefox scrollbar styling (limited support) */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(152, 121, 82, 0.3) rgba(0, 0, 0, 0.05);
+}
+
+/* Global Background Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f8f6f3;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Soft Linen Parallax Background - Only for pages with linen-background class */
+body.linen-background::before {
+    content: '';
+    position: fixed;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(152, 121, 82, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(143, 175, 143, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(152, 121, 82, 0.01) 0%, transparent 40%);
+    background-size: 800px 800px, 600px 600px, 400px 400px;
+    animation: linen-drift 60s ease-in-out infinite;
+    z-index: -2;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 800vh;
+    background: linear-gradient(
+        135deg,
+        rgba(152, 121, 82, 0.4) 0%,
+        rgba(152, 121, 82, 0.25) 8%,
+        rgba(152, 121, 82, 0.15) 15%,
+        rgba(152, 121, 82, 0.08) 25%,
+        rgba(152, 121, 82, 0.04) 35%,
+        rgba(152, 121, 82, 0.02) 45%,
+        rgba(152, 121, 82, 0.01) 55%,
+        rgba(152, 121, 82, 0.005) 65%,
+        rgba(152, 121, 82, 0.002) 75%,
+        rgba(152, 121, 82, 0.001) 85%,
+        transparent 100%
+    );
+    z-index: -1;
+    pointer-events: none;
+    transform: translateY(var(--parallax-offset, 0));
+}
+
+@keyframes linen-drift {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.8;
+    }
+    25% {
+        transform: translate(-20px, -30px) rotate(0.5deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(15px, -10px) rotate(-0.3deg);
+        opacity: 0.9;
+    }
+    75% {
+        transform: translate(-10px, 20px) rotate(0.2deg);
+        opacity: 1;
+    }
+}
+
+@keyframes linen-weave {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(20px, 15px);
+    }
+}
+
+/* Scrollbar gutter to prevent layout shift */
+html {
+    scrollbar-gutter: stable; /* Reserves space so viewport width never changes */
+}
+
+
+/* Footer Styles */
+.footer {
+    background: transparent; /* Let page background show through */
+    color: #2c3e50;
+    font-family: 'Overlock', sans-serif;
+    margin-top: 60px;
+}
+
+.footer-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px 20px;
+    border-top: 2px solid rgba(152, 121, 82, 0.2); /* Subtle top border */
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.footer-section h3 {
+    color: #987952;
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(152, 121, 82, 0.3);
+}
+
+.footer-section p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    color: #666;
+}
+
+.footer-section a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: #987952;
+    text-decoration: underline;
+}
+
+/* Logo and Social Section */
+.footer-logo-social {
+    text-align: center;
+    padding: 25px 0;
+    border-top: 1px solid rgba(152, 121, 82, 0.2);
+    border-bottom: 1px solid rgba(152, 121, 82, 0.2);
+}
+
+.footer-logo {
+    height: 70px;
+    width: auto;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer-logo:hover {
+    opacity: 1;
+}
+
+.footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: rgba(152, 121, 82, 0.1);
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background: rgba(152, 121, 82, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Bottom Legal Section */
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 25px 20px 40px;
+}
+
+.footer-legal {
+    text-align: center;
+}
+
+.footer-copyright {
+    font-weight: 600;
+    color: #987952;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.footer-disclaimer {
+    color: #666;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Global Section Title Styles */
+.section-title {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 2.5rem;
+    color: #987952;
+    text-align: center;
+    margin-bottom: 50px;
+    font-weight: 400;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    letter-spacing: 1px;
+}
+
+/* Global Fredericka Header Styles */
+.fredericka-header-green {
+    font-family: 'Fredericka the Great', cursive;
+    font-weight: 400;
+    color: #8faf8f;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    letter-spacing: 1px;
+    font-size: 2.5rem;
+}
+
+.fredericka-header-brown {
+    font-family: 'Fredericka the Great', cursive;
+    font-weight: 400;
+    color: #987952;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    letter-spacing: 1px;
+    font-size: 2.5rem;
+}
+
+/* Global Featured Box Styles */
+.featured-box-green {
+    position: relative;
+    margin: 40px 0;
+    padding: 35px;
+    background: linear-gradient(135deg, rgba(143, 175, 143, 0.03), rgba(143, 175, 143, 0.08));
+    border-radius: 25px;
+    border: 2px solid rgba(143, 175, 143, 0.15);
+    overflow: hidden;
+}
+
+.featured-box-green::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(143, 175, 143, 0.05) 0%, transparent 70%);
+    animation: subtle-rotate 20s linear infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.featured-box-brown {
+    position: relative;
+    margin: 40px 0;
+    padding: 35px;
+    background: linear-gradient(135deg, rgba(152, 121, 82, 0.03), rgba(152, 121, 82, 0.08));
+    border-radius: 25px;
+    border: 2px solid rgba(152, 121, 82, 0.15);
+    overflow: hidden;
+}
+
+.featured-box-brown::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(152, 121, 82, 0.05) 0%, transparent 70%);
+    animation: subtle-rotate 20s linear infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.featured-box-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.featured-box-title {
+    font-family: 'Overlock', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 0;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.05);
+}
+
+.featured-box-green .featured-box-title {
+    color: #8faf8f;
+}
+
+.featured-box-brown .featured-box-title {
+    color: #987952;
+}
+
+.featured-box-line {
+    flex: 1;
+    height: 2px;
+}
+
+.featured-box-green .featured-box-line {
+    background: linear-gradient(90deg, #8faf8f 0%, rgba(143, 175, 143, 0.2) 50%, transparent 100%);
+}
+
+.featured-box-brown .featured-box-line {
+    background: linear-gradient(90deg, #987952 0%, rgba(152, 121, 82, 0.2) 50%, transparent 100%);
+}
+
+.featured-box-text {
+    font-family: 'Overlock', sans-serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #444;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.featured-box-text em {
+    font-style: normal;
+    font-weight: 600;
+    position: relative;
+    padding: 0 3px;
+}
+
+.featured-box-green .featured-box-text em {
+    color: #8faf8f;
+}
+
+.featured-box-brown .featured-box-text em {
+    color: #987952;
+}
+
+.featured-box-text em::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.featured-box-green .featured-box-text em::after {
+    background: rgba(143, 175, 143, 0.3);
+}
+
+.featured-box-brown .featured-box-text em::after {
+    background: rgba(152, 121, 82, 0.3);
+}
+
+.featured-box-green:hover .featured-box-text em::after,
+.featured-box-brown:hover .featured-box-text em::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+@keyframes subtle-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Global Button Styles */
+.laura-cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #987952, #7d6543);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(152, 121, 82, 0.3);
+}
+
+.laura-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(152, 121, 82, 0.4);
+    background: linear-gradient(135deg, #7d6543, #6b5939);
+}
+
+/* Responsive Footer */
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    
+    .footer-main {
+        padding: 35px 20px 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        text-align: center;
+    }
+    
+    .footer-main {
+        padding: 30px 15px 15px;
+    }
+    
+    .footer-logo-social {
+        padding: 20px 0;
+    }
+    
+    .footer-logo {
+        height: 60px;
+        margin-bottom: 15px;
+    }
+    
+    .footer-social {
+        gap: 12px;
+    }
+    
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .footer-bottom {
+        padding: 20px 15px 30px;
+    }
+    
+    .footer-copyright {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+    }
+    
+    .footer-disclaimer {
+        font-size: 0.8rem;
+        text-align: center;
+    }
+}

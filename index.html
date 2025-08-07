@@ -175,6 +175,38 @@
                 window.location.href = 'under_construction.html';
             }
         });
+
+        // Mobile navigation redirect function (for consistency with other pages)
+        function initMobileNavRedirect() {
+            const mobileQuery = window.matchMedia('(max-width: 768px)');
+            
+            function handleMobileNavigation() {
+                if (mobileQuery.matches) {
+                    // Mobile: redirect navigation links to under construction
+                    const navLinks = document.querySelectorAll('a[href*="under_construction.html"]');
+                    navLinks.forEach(link => {
+                        link.href = 'under_construction.html';
+                    });
+                    
+                    // Also redirect any non-contact/home internal links
+                    const allNavLinks = document.querySelectorAll('nav a, .nav-links a, .mobile-nav a, .bloom-option');
+                    allNavLinks.forEach(link => {
+                        const href = link.getAttribute('href');
+                        if (href && !href.includes('Home.html') && !href.includes('Contact.html') && 
+                            !href.includes('tel:') && !href.includes('mailto:') && !href.includes('under_construction.html')) {
+                            link.href = 'under_construction.html';
+                        }
+                    });
+                }
+            }
+            
+            // Run on load and when screen size changes
+            handleMobileNavigation();
+            mobileQuery.addListener(handleMobileNavigation);
+        }
+        
+        // Initialize navigation redirect
+        initMobileNavRedirect();
     </script>
 </body>
 </html>

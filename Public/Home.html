@@ -13,7 +13,22 @@
     <meta name="geo.position" content="40.8136;-96.7026">
     <meta name="ICBM" content="40.8136, -96.7026">
     
+    <!-- Browser Tab Title -->
     <title>Bluestem Montessori School Lincoln NE | Inclusive Private School | Preschool - High School</title>
+    
+    <!-- Social Media Sharing (Open Graph) - What shows when shared on Facebook, LinkedIn, etc. -->
+    <meta property="og:title" content="Bluestem Montessori Elementary School - Lincoln, Nebraska">
+    <meta property="og:description" content="Discover inclusive Montessori education in Lincoln, Nebraska. Child-led learning, hands-on STEM, and nature-based discovery for preschool through high school.">
+    <meta property="og:image" content="https://www.bluestemmontessori.com/Images/Bluestem Full Logo.png">
+    <meta property="og:url" content="https://www.bluestemmontessori.com">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Bluestem Montessori School">
+    
+    <!-- Twitter Card - What shows when shared on Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bluestem Montessori Elementary School - Lincoln, Nebraska">
+    <meta name="twitter:description" content="Discover inclusive Montessori education in Lincoln, Nebraska. Child-led learning, hands-on STEM, and nature-based discovery for preschool through high school.">
+    <meta name="twitter:image" content="https://www.bluestemmontessori.com/Images/Bluestem Full Logo.png">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../Images/favicon.png">
@@ -27,6 +42,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Overlock:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="navigation.css">
     <link rel="stylesheet" href="Home.css">
@@ -578,7 +594,7 @@ Learning</h3>
                     <a href="../under_construction.html" class="social-icon" aria-label="Instagram">
                         <img src="../vectors/Instagram.svg" alt="Instagram" width="24" height="24">
                     </a>
-                    <a href="../under_construction.html" class="social-icon" aria-label="Youtube">
+                    <a href="https://www.youtube.com/channel/UCMIzP-M156EZM067hTonRsQ" class="social-icon" aria-label="Youtube">
                         <img src="../vectors/Youtube.svg" alt="Youtube" width="24" height="24">
                     </a>
                     <a href="mailto:info@bluestemmontessori.com" class="social-icon" aria-label="Email">
@@ -729,6 +745,45 @@ Learning</h3>
             </div>
         </div>
     </div>
+
+    <!-- Mobile Navigation Redirect Script -->
+    <script>
+        // Mobile navigation redirect to under construction on mobile devices
+        function initMobileNavRedirect() {
+            const mobileQuery = window.matchMedia('(max-width: 768px)');
+            
+            function handleMobileNavigation() {
+                if (mobileQuery.matches) {
+                    // Mobile: redirect navigation links to under construction
+                    const navLinks = document.querySelectorAll('a[href*="under_construction.html"]');
+                    navLinks.forEach(link => {
+                        link.href = '../under_construction.html';
+                    });
+                    
+                    // Also redirect any non-contact/home internal links
+                    const allNavLinks = document.querySelectorAll('nav a, .nav-links a, .mobile-nav a, .bloom-option');
+                    allNavLinks.forEach(link => {
+                        const href = link.getAttribute('href');
+                        if (href && !href.includes('Home.html') && !href.includes('Contact.html') && 
+                            !href.includes('tel:') && !href.includes('mailto:') && !href.includes('under_construction.html')) {
+                            link.href = '../under_construction.html';
+                        }
+                    });
+                }
+            }
+            
+            // Run on load and when screen size changes
+            handleMobileNavigation();
+            mobileQuery.addListener(handleMobileNavigation);
+        }
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initMobileNavRedirect);
+        } else {
+            initMobileNavRedirect();
+        }
+    </script>
 
 </body>
 </html>
