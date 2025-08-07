@@ -78,8 +78,10 @@ function finishLoading() {
         quoteLoader.style.display = 'none';
         quoteLoader.setAttribute('aria-hidden', 'true');
     }
+    
     document.body.classList.remove('loading');
     window.scrollTo(0, 0);
+    
     
     // Mark loader as finished to prevent timer-based scroll resets
     window.loaderFinished = true;

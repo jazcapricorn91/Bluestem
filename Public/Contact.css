@@ -107,6 +107,13 @@
     gap: 25px;
     max-width: 900px;
     margin: 0 auto;
+    position: relative;
+    padding: 20px;
+    border-radius: 20px;
+    background: 
+        radial-gradient(circle at 15% 25%, rgba(143, 175, 143, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(152, 121, 82, 0.08) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(144, 26, 45, 0.03) 0%, transparent 100%);
 }
 
 .quick-action-card {
@@ -166,17 +173,213 @@
     margin: 0;
 }
 
-/* Contact Hero Background */
-.contact-bg {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../Images/contact-hero-bg.jpg');
+.card-content {
+    position: relative;
+    z-index: 2;
+}
+
+.card-photo-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.03;
+    z-index: 1;
+    border-radius: 15px;
+}
+
+.bluestem-touch {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #987952;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.quick-action-card[data-inquiry-type="visit"] .card-photo-bg {
+    background-image: url('../Images/classroom-tour.jpg');
+}
+
+.quick-action-card[data-inquiry-type="general"] .card-photo-bg {
+    background-image: url('../Images/laura-teaching.jpg');
+}
+
+.quick-action-card[data-inquiry-type="enrollment"] .card-photo-bg {
+    background-image: url('../Images/students-learning.jpg');
+}
+
+/* Understated Hero Design */
+.contact-hero-section.understated-hero {
+    background: linear-gradient(135deg, #f8f6f3 0%, #f2ede6 100%);
+    padding: 80px 0 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background pattern covers entire hero section */
+.contact-hero-section.understated-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../Images/Stripes.jpeg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    opacity: 0.3;
+    z-index: 1;
 }
 
-/* Fallback if contact-hero-bg.jpg doesn't exist */
-.contact-bg {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../Images/Bluestem_Main_Building.jpg');
+.contact-pattern-bg {
+    display: none; /* Use ::before instead */
+}
+
+/* Ensure content stays above background */
+.contact-hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.contact-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.breadcrumb-current {
+    color: #987952;
+    font-weight: 600;
+}
+
+.breadcrumb-arrow {
+    color: #ccc;
+}
+
+.hero-text-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 40px;
+}
+
+.contact-hero-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #987952;
+}
+
+.contact-hero-subtitle {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #666;
+}
+
+.contact-action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto 40px;
+}
+
+.action-tile {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(152, 121, 82, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    cursor: pointer;
+    text-align: left;
+}
+
+.action-tile:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: #987952;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(152, 121, 82, 0.15);
+}
+
+.action-tile.primary-action {
+    border-color: #987952;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.tile-icon {
+    font-size: 1.8rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(152, 121, 82, 0.1);
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.tile-content h3 {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.tile-detail {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.tile-arrow {
+    margin-left: auto;
+    font-size: 1.2rem;
+    color: #987952;
+    transform: translateX(-5px);
+    transition: transform 0.3s ease;
+}
+
+.action-tile:hover .tile-arrow {
+    transform: translateX(0);
+}
+
+.contact-quick-stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    font-size: 0.9rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-weight: 700;
+    color: #987952;
+    font-size: 1.1rem;
+}
+
+.stat-label {
+    color: #777;
+    font-size: 0.8rem;
+}
+
+.stat-divider {
+    color: #ddd;
+    font-weight: 300;
 }
 
 /* Contact Methods Side Panel */
@@ -251,6 +454,9 @@
     position: relative;
     overflow: hidden;
     text-align: center;
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .contact-method::before {
@@ -271,6 +477,8 @@
 .contact-method:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: inherit;
 }
 
 .contact-icon {
@@ -317,6 +525,23 @@
 
 .contact-method a:hover {
     color: #7d6543;
+}
+
+/* Override link styling when the entire box is a link */
+a.contact-method h3 {
+    color: #987952;
+}
+
+a.contact-method p {
+    color: #555;
+}
+
+a.contact-method:hover h3 {
+    color: #987952;
+}
+
+a.contact-method:hover p {
+    color: #555;
 }
 
 .address-subtext {
