@@ -1,13 +1,13 @@
-// DOM content loaded event
+// DOM ready initialization
 document.addEventListener('DOMContentLoaded', () => {
-    // Navigation handled by navigation.js module
+    // Navigation handled by navigation.js
     
-    // Mobile debugging helper
+    // Mobile debugging
     if (window.innerWidth <= 768) {
         initMobileDebug();
     }
     
-    // Initialize all modules
+    // Core modules
     initSmoothScrolling();
     initLazyLoading();
     initPerformanceObserver();
@@ -15,55 +15,56 @@ document.addEventListener('DOMContentLoaded', () => {
     initStoryModalCloseButtons();
     initDataToggle();
     
-    // Enhanced modules
+    // Enhanced components
     initBackgroundCarousel();
     initEnhancedDynamicBlurbs();
+    // Photo animations handled by page-specific JS files
     
-    // Generic components
+    // Hover behaviors
     initHoverToOpen();
     initHoverToPlay();
     initShakeAnimations();
     
-    // Additional modules
+    // Page controls
     initPageLoadControl();
     initScrollAnimations();
     
     updateResponsiveButtonText();
     
-    // Program videos use hover-to-play behavior
+    // Program videos use hover behavior
 });
 
 
 
-// Background image carousel with lazy loading
+// Background carousel
 function initBackgroundCarousel() {
-    const images = document.querySelectorAll('.bg-image');
+    const images = document.querySelectorAll('.hero-carousel__image');
     if (images.length === 0) return;
     
     let currentIndex = 0;
     
-    // Load and show first image immediately
+    // Load first image
     loadBackgroundImage(images[currentIndex]);
-    images[currentIndex].classList.add('active');
+    images[currentIndex].classList.add('hero-carousel__image--active');
     
-    // Preload next image
+    // Preload next
     if (images.length > 1) {
         loadBackgroundImage(images[1]);
     }
     
-    // Rotate images every 8 seconds
+    // 8-second rotation
     setInterval(() => {
-        images[currentIndex].classList.remove('active');
+        images[currentIndex].classList.remove('hero-carousel__image--active');
         currentIndex = (currentIndex + 1) % images.length;
-        images[currentIndex].classList.add('active');
+        images[currentIndex].classList.add('hero-carousel__image--active');
         
-        // Preload next image for smooth transition
+        // Preload next
         const nextIndex = (currentIndex + 1) % images.length;
         loadBackgroundImage(images[nextIndex]);
     }, 8000);
 }
 
-// Load background image only when needed
+// Lazy load background images
 function loadBackgroundImage(imageElement) {
     if (!imageElement.dataset.loaded && imageElement.dataset.bgSrc) {
         imageElement.style.backgroundImage = `url(${imageElement.dataset.bgSrc})`;
@@ -71,7 +72,7 @@ function loadBackgroundImage(imageElement) {
     }
 }
 
-// Smooth scrolling for anchor links
+// Smooth scrolling
 function initSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -87,7 +88,7 @@ function initSmoothScrolling() {
     });
 }
 
-// Lazy loading for images
+// Lazy loading
 function initLazyLoading() {
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -107,12 +108,12 @@ function initLazyLoading() {
     });
 }
 
-// Performance optimization - pause off-screen content
+// Performance optimization
 function initPerformanceObserver() {
     const performanceObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (!entry.isIntersecting) {
-                // Pause videos when off-screen
+                // Pause off-screen videos
                 const videos = entry.target.querySelectorAll('video');
                 videos.forEach(video => {
                     if (!video.paused) {
@@ -121,41 +122,40 @@ function initPerformanceObserver() {
                     }
                 });
                 
-                // Disable hover effects on hidden elements
+                // Disable hover on hidden elements
                 entry.target.style.pointerEvents = 'none';
                 
             } else {
-                // Resume videos when back in view
+                // Resume videos
                 const videos = entry.target.querySelectorAll('video');
                 videos.forEach(video => {
                     if (video.dataset.wasPlaying === 'true') {
-                        video.play().catch(() => {}); // Graceful fallback
+                        video.play().catch(() => {});
                         delete video.dataset.wasPlaying;
                     }
                 });
                 
-                // Re-enable hover effects
+                // Re-enable hover
                 entry.target.style.pointerEvents = '';
             }
         });
     }, {
-        rootMargin: '50px' // Start optimizing slightly before elements leave viewport
+        rootMargin: '50px'
     });
     
-    // Observe video containers and animation-heavy elements
+    // Observe performance-sensitive elements
     document.querySelectorAll('[data-hover-play], .dynamic-blurb, .photo-box').forEach(element => {
         performanceObserver.observe(element);
     });
 }
 
-// EMERGENCY OPTIMIZATIONS - Uncomment if performance critical
+// EMERGENCY OPTIMIZATIONS - Uncomment if needed
 /*
-// Animation Culling - Stop animations that aren't visible
+// Animation culling
 function initAnimationCulling() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (!entry.isIntersecting) {
-                // Pause animations
                 entry.target.style.animationPlayState = 'paused';
             } else {
                 entry.target.style.animationPlayState = 'running';
@@ -163,32 +163,32 @@ function initAnimationCulling() {
         });
     });
     
-    // Observe all animated elements
+    // Observe animated elements
     document.querySelectorAll('[class*="animate"], [class*="fade"], [class*="slide"]').forEach(el => {
         observer.observe(el);
     });
 }
 
-// Remove DOM Elements - Most aggressive optimization
+// DOM removal optimization
 function enableAggressiveOptimization() {
-    // Remove modal from DOM when closed, recreate when needed
+    // Remove modal when closed
     const originalCloseModal = window.closeModal;
     window.closeModal = function(modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
-            // Store template before removing
+            // Store template
             const modalTemplate = modal.outerHTML;
             window.modalTemplates = window.modalTemplates || {};
             window.modalTemplates[modalId] = modalTemplate;
-            modal.remove(); // Actually remove from DOM
+            modal.remove();
         }
     };
     
-    // Recreate modal when needed
+    // Recreate when needed
     window.openModal = function(modalId) {
         if (window.modalTemplates && window.modalTemplates[modalId]) {
             document.body.insertAdjacentHTML('beforeend', window.modalTemplates[modalId]);
-            // Re-initialize modal events
+            // Re-initialize events
             initStoryModalCloseButtons();
         }
     };
@@ -203,7 +203,7 @@ function initFormValidation() {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Basic validation
+            // Validation
             const requiredFields = form.querySelectorAll('[required]');
             let isValid = true;
             
@@ -217,7 +217,7 @@ function initFormValidation() {
             });
             
             if (isValid) {
-                // Form submission logic here
+                // Submit form
             }
         });
     });
@@ -226,7 +226,7 @@ function initFormValidation() {
 
 // Modal system
 function initStoryModalCloseButtons() {
-    // Close modal when clicking outside content
+    // Close on outside click
     document.addEventListener('click', (e) => {
         const modal = document.querySelector('#storyModal');
         if (modal && e.target === modal) {
@@ -235,7 +235,7 @@ function initStoryModalCloseButtons() {
         }
     });
 
-    // Close modal with Escape key
+    // Close on Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             const modal = document.querySelector('#storyModal');
@@ -247,7 +247,7 @@ function initStoryModalCloseButtons() {
     });
 }
 
-// Update responsive button text based on screen size
+// Responsive button text
 function updateResponsiveButtonText() {
     const responsiveButtons = document.querySelectorAll('[data-text-mobile]');
     responsiveButtons.forEach(button => {
@@ -259,10 +259,10 @@ function updateResponsiveButtonText() {
     });
 }
 
-// Listen for window resize
+// Resize listener
 window.addEventListener('resize', updateResponsiveButtonText);
 
-// Scroll-based animations
+// Scroll animations
 const animateOnScroll = debounce(() => {
     const elements = document.querySelectorAll('.animate-on-scroll');
     
@@ -280,21 +280,21 @@ function initScrollAnimations() {
     window.addEventListener('scroll', animateOnScroll);
 }
 
-// Page load control - ensures page always loads at top
+// Page load control
 function initPageLoadControl() {
-    // Force scroll to top immediately
+    // Force scroll to top
     window.scrollTo(0, 0);
-    // Add loading class to prevent scrolling
+    // Prevent scrolling during load
     document.body.classList.add('loading');
-    // Ensure scroll position after initial render
+    // Ensure position after render
     requestAnimationFrame(() => {
         window.scrollTo(0, 0);
     });
 }
 
-// Generic hover-to-open component
+// Hover to open
 function initHoverToOpen() {
-    // Elements with data-hover-open attribute
+    // Find hover elements
     const hoverElements = document.querySelectorAll('[data-hover-open]');
     
     hoverElements.forEach(element => {
@@ -306,28 +306,28 @@ function initHoverToOpen() {
         if (targetSelector) {
             targetElement = document.querySelector(targetSelector);
         } else {
-            // Find target element
+            // Find target
             const classBase = targetClass.replace('-visible', '').replace('active', 'modal');
             targetElement = element.closest(`.${classBase}`) || element.closest('[class*="block"]');
         }
         
         if (!targetElement) return;
         
-        // Hover behavior
+        // Hover
         element.addEventListener('mouseenter', () => {
             if (!targetElement.classList.contains(targetClass)) {
                 targetElement.classList.add(targetClass);
             }
         });
         
-        // Click behavior - toggle the target
+        // Click toggle
         element.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             targetElement.classList.toggle(targetClass);
         });
         
-        // Touch behavior
+        // Touch
         if (mobileTouch) {
             element.addEventListener('touchstart', (e) => {
                 e.preventDefault();
@@ -349,9 +349,9 @@ function initHoverToOpen() {
     });
 }
 
-// Generic hover-to-play component
+// Hover to play
 function initHoverToPlay() {
-    // Elements with data-hover-play attribute
+    // Find video elements
     const hoverPlayElements = document.querySelectorAll('[data-hover-play]');
     
     hoverPlayElements.forEach(element => {
@@ -361,7 +361,7 @@ function initHoverToPlay() {
         if (!video) return;
         
         element.addEventListener('mouseenter', () => {
-            video.play().catch(() => {}); // Graceful fallback for autoplay restrictions
+            video.play().catch(() => {});
         });
         
         element.addEventListener('mouseleave', () => {
@@ -380,9 +380,9 @@ function initHoverToPlay() {
     });
 }
 
-// Generic shake animation component
+// Shake animations
 function initShakeAnimations() {
-    // Elements with data-shake attribute
+    // Find shake containers
     const shakeContainers = document.querySelectorAll('[data-shake]');
     
     shakeContainers.forEach(container => {
@@ -418,7 +418,7 @@ function initShakeAnimations() {
             }, delay);
         }
         
-        // Start shake schedule
+        // Start schedule
         scheduleShake();
     });
 }
@@ -431,9 +431,9 @@ function initEnhancedDynamicBlurbs() {
     blurbs.forEach(blurb => {
         let touchTimer;
         
-        // Touch start
+        // Touch events
         blurb.addEventListener('touchstart', (e) => {
-            // Only prevent default if we're actually interacting with the blurb content
+            // Prevent default for blurb interaction
             if (e.target === blurb || blurb.contains(e.target)) {
                 e.preventDefault();
             }
@@ -445,19 +445,16 @@ function initEnhancedDynamicBlurbs() {
             clearTimeout(touchTimer);
         }, { passive: false });
         
-        // Touch end
         blurb.addEventListener('touchend', () => {
             blurb.classList.remove('touch-active');
             clearTimeout(touchTimer);
         });
         
-        // Touch cancel
         blurb.addEventListener('touchcancel', () => {
             blurb.classList.remove('touch-active');
             clearTimeout(touchTimer);
         });
         
-        // Touch move
         blurb.addEventListener('touchmove', () => {
             blurb.classList.remove('touch-active');
             clearTimeout(touchTimer);
@@ -465,7 +462,7 @@ function initEnhancedDynamicBlurbs() {
     });
 }
 
-// Utility function for debouncing
+// Debounce utility
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -478,7 +475,7 @@ function debounce(func, wait) {
     };
 }
 
-// Data toggle system - modular approach
+// Data toggle system
 function initDataToggle() {
     document.addEventListener('click', (e) => {
         const toggleElement = e.target.closest('[data-toggle]');
@@ -496,7 +493,7 @@ function initDataToggle() {
     });
 }
 
-// Extract toggle configuration from element
+// Get toggle config
 function getToggleConfig(toggleElement) {
     return {
         toggleClass: toggleElement.dataset.toggle,
@@ -505,7 +502,7 @@ function getToggleConfig(toggleElement) {
     };
 }
 
-// Find the target element for toggle action
+// Find toggle target
 function findToggleTarget(toggleElement, config) {
     if (config.targetSelector) {
         return document.querySelector(config.targetSelector);
@@ -515,12 +512,12 @@ function findToggleTarget(toggleElement, config) {
         return toggleElement;
     }
     
-    // Find parent element
+    // Find parent
     const parentSelector = `.${config.toggleClass.replace('card-visible', 'principle-block').replace('active', 'modal')}`;
     return toggleElement.closest(parentSelector) || toggleElement;
 }
 
-// Perform the toggle action
+// Perform toggle
 function performToggleAction(targetElement, config) {
     switch (config.action) {
         case 'add':
@@ -536,7 +533,7 @@ function performToggleAction(targetElement, config) {
     }
 }
 
-// Handle special cases for specific components
+// Handle special cases
 function handleSpecialCases(targetElement, toggleElement, config) {
     if (config.toggleClass === 'active' && targetElement.id === 'storyModal') {
         handleStoryModal(targetElement);
@@ -545,7 +542,7 @@ function handleSpecialCases(targetElement, toggleElement, config) {
     }
 }
 
-// Story modal specific handling
+// Story modal handling
 function handleStoryModal(targetElement) {
     if (targetElement.classList.contains('active')) {
         document.body.style.overflow = 'hidden';
@@ -554,7 +551,7 @@ function handleStoryModal(targetElement) {
     }
 }
 
-// Principle card specific handling
+// Principle card handling
 function handlePrincipleCard(targetElement, toggleElement, config) {
     let principleBlock = targetElement.closest('.principle-block');
     if (!principleBlock && toggleElement !== targetElement) {
@@ -567,9 +564,7 @@ function handlePrincipleCard(targetElement, toggleElement, config) {
 }
 
 
-// Scroll-based animations
-
-// Mobile interaction monitoring
+// Mobile debugging
 function initMobileDebug() {
     let touchMetrics = {
         touchEvents: 0,
@@ -594,7 +589,7 @@ function initMobileDebug() {
         touchMetrics.clickEvents++;
     }, { capture: true });
     
-    // Reset metrics periodically
+    // Reset metrics
     setInterval(() => {
         if (touchMetrics.touchEvents > 0 || touchMetrics.blockedElements.length > 0) {
             touchMetrics.touchEvents = 0;

@@ -1,5 +1,4 @@
-// Home page specific functionality
-// This module handles all features specific to the homepage
+// Home page functionality
 
 // Initialize home page features
 document.addEventListener('DOMContentLoaded', function() {
@@ -9,17 +8,17 @@ document.addEventListener('DOMContentLoaded', function() {
     initEnhancedPhotoAnimations();
 });
 
-// Quote loader animation - Optimized for mobile and accessibility
+// Quote loader
 function initQuoteLoader() {
     window.addEventListener('load', () => {
         const quoteLoader = document.querySelector('.quote-loader');
         
-        // Respect user's motion preferences
+        // Motion preferences
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         
-        // Scroll to top for consistent experience
+        // Reset scroll
         window.scrollTo(0, 0);
-        
+
         if (quoteLoader) {
             // Named constants for better maintainability
             const TIMING = prefersReducedMotion ? {
@@ -36,14 +35,14 @@ function initQuoteLoader() {
                 REMOVE: 13000
             };
             
-            // Animation sequence with error handling
+            // Animation steps
             const animationSteps = [
                 { delay: TIMING.BACKGROUND, action: () => quoteLoader.classList.add('show-bg') },
                 { delay: TIMING.QUOTE, action: () => quoteLoader.classList.add('show-quote') },
                 { delay: TIMING.AUTHOR, action: () => quoteLoader.classList.add('show-author') },
                 { delay: TIMING.FADE_OUT, action: () => quoteLoader.classList.add('fade-out') },
                 { delay: TIMING.REMOVE, action: () => {
-                    // Only run if loader wasn't manually finished
+                    // Check loader state
                     if (!window.loaderFinished) {
                         finishLoading();
                     }
@@ -56,8 +55,7 @@ function initQuoteLoader() {
                     try {
                         step.action();
                     } catch (error) {
-                        // Handle animation failure gracefully
-                        // Fallback: remove loader immediately
+                        // Fallback on error
                         finishLoading();
                     }
                 }, step.delay);
@@ -70,11 +68,11 @@ function initQuoteLoader() {
     });
 }
 
-// Helper function for consistent cleanup
+// Finish loading
 function finishLoading() {
     const quoteLoader = document.querySelector('.quote-loader');
     if (quoteLoader) {
-        // SEO: Hide instead of remove
+        // Hide loader
         quoteLoader.style.display = 'none';
         quoteLoader.setAttribute('aria-hidden', 'true');
     }
@@ -83,7 +81,7 @@ function finishLoading() {
     window.scrollTo(0, 0);
     
     
-    // Mark loader as finished to prevent timer-based scroll resets
+    // Mark finished
     window.loaderFinished = true;
 }
 

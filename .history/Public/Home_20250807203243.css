@@ -1,5 +1,3 @@
-/* Page-specific styles extracted from inline styles */
-
 /* Base reset styles - MUST be at the top */
 * {
     margin: 0;
@@ -1713,20 +1711,20 @@ html, body {
 .featured-box-green:hover .featured-box-text em::after,
 .featured-box-brown:hover .featured-box-text em::after {
     transform: scaleX(1);
-    transform-origin: left;
-}
-
-/* Laura Story Title with Fredericka font */
+    transform-origin: lefttory Title with Fredericka font */
 .laura-modal-content .laura-story-title {
     font-size: 2.5rem;
     font-weight: 400; /* Normal weight for decorative Fredericka font */
-    margin-bottom: 10px;
+;
+}
+
+/* Laura S    margin-bottom: 10px;
     font-family: 'Fredericka the Great', cursive; /* Fredericka font */
     color: #987952; /* Brown color */
-    -webkit-text-stroke: 1px rgba(255,255,255,0.8); /* Crisp white outline */
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Simple drop shadow */
-    position: relative;
-    z-index: 1;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.8) !important; /* Crisp white outline */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important; /* Simple drop shadow */
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 .laura-modal-content .laura-story-subtitle {
@@ -1974,46 +1972,6 @@ html, body {
         min-width: auto;
         align-self: center;
     }
-}
-
-/* Additional styles moved from inline */
-
-/* Header */
-.header {
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(10px);
-    color: #2c3e50;
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.logo-icon {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 0.3rem 2rem 0.3rem 2rem;
-    position: relative;
-    max-width: 220px;
 }
 
 /* Additional styles moved from inline */

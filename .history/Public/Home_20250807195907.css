@@ -1,34 +1,33 @@
-/* Page-specific styles extracted from inline styles */
 
-/* Base reset styles - MUST be at the top */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-/* Prevent animation inheritance bugs on pseudo-elements */
 *::before,
 *::after {
     animation: initial;
 }
 
-/* Remove underlines from enrollment branding links */
+
+
+
 .enroll-bluestem,
 .enroll-montessori {
     text-decoration: none;
 }
 
-/* Prevent scrolling during loader animation - HOME PAGE ONLY */
 body.loading {
-    overflow: hidden; /* Actually prevents scrolling during loader */
+    overflow: hidden;
     position: fixed;
     width: 100%;
     height: 100%;
-    /* Mobile fix: Ensure touch events still work */
-    -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
-    touch-action: none; /* Prevent scroll but allow taps */
-    /* The gutter space stays reserved even when overflow is hidden */
+    -webkit-overflow-scrolling: touch;
+    touch-action: none;
 }
+
+
+
 
 /* Laura's Story Button */
 .story-button {
@@ -50,8 +49,20 @@ body.loading {
     box-shadow: 0 4px 12px rgba(152, 121, 82, 0.3);
 }
 
-/* Base styles with mobile overflow fix */
-html, body {
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    html {
+        overflow-x: hidden;
+    }
+}
+
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
@@ -59,13 +70,6 @@ html, body {
     width: 100%;
     margin: 0;
     padding: 0;
-}
-
-/* Mobile-only overflow fix to prevent buttons from running away */
-@media (max-width: 768px) {
-    html, body {
-        overflow-x: hidden;
-    }
 }
 
 /* Hero Section */
@@ -752,6 +756,56 @@ html, body {
     transform: translateY(-5px);
 }
 
+.value-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(45deg, #5dade2, #85c1e9);
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+
+/* Footer */
+.footer {
+    background: #2c3e50;
+    color: white;
+    padding: 3rem 2rem 1rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.footer-section h3 {
+    margin-bottom: 1rem;
+    color: #85c1e9;
+}
+
+.footer-section p, .footer-section a {
+    color: #bdc3c7;
+    text-decoration: none;
+    line-height: 1.8;
+}
+
+.footer-section a:hover {
+    color: #85c1e9;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #34495e;
+    color: #95a5a6;
+}
 
 /* Principles Module Styles */
 .principles-module {
@@ -962,7 +1016,6 @@ html, body {
     transition: color 0.3s ease;
 }
 
-/* Text becomes visible when card is pulled out */
 .principle-block.card-visible .text-content-box .principle-text {
     color: white;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -981,14 +1034,12 @@ html, body {
     transition: opacity 0.3s ease 0.5s;
 }
 
-/* Hide titles when cards are visible */
 .principle-block.card-visible .principle-title {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease 0s;
 }
 
-/* Mission and Lifelong Learning titles - position to the right */
 .mission-block .principle-title,
 .lifelong-block .principle-title {
     position: absolute;
@@ -998,7 +1049,6 @@ html, body {
     left: auto;
 }
 
-/* Add padding for mobile positioning of Lifelong Love title */
 .lifelong-block .principle-content {
     padding-left: 25px;
 }
@@ -1026,7 +1076,6 @@ html, body {
     transform: scale(1.02);
 }
 
-/* Visual feedback when card is open */
 .principle-block.card-visible .principle-visual {
     cursor: pointer;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -1039,19 +1088,16 @@ html, body {
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
 }
 
-/* Visual on top for clicking */
 .principle-visual {
     position: relative;
     z-index: 2;
     pointer-events: auto;
 }
 
-/* Make sure the text box doesn't block the visual when it's behind */
 .principle-block:not(.card-visible) .text-content-box {
     pointer-events: none;
 }
 
-/* Visual backgrounds for different principles */
 .mission-visual,
 .individualized-visual,
 .lifelong-visual {
@@ -1269,7 +1315,6 @@ html, body {
     }
 }
 
-/* Card entrance animations */
 .programs-grid .program-card {
     opacity: 0;
     animation: fadeInUp 0.8s ease-out forwards;
@@ -1287,12 +1332,10 @@ html, body {
 .values-grid .value-item:nth-child(3) { animation-delay: 0.8s; }
 .values-grid .value-item:nth-child(4) { animation-delay: 1s; }
 
-/* Hover state - brown for all value icons */
 .values-grid .value-item:hover .value-icon {
     background: linear-gradient(135deg, #987952, #7a6142);
 }
 
-/* Hover state - card background and text color */
 .values-grid .value-item:hover {
     background: rgba(143, 175, 143, 0.15);
 }
@@ -1405,12 +1448,10 @@ html, body {
         text-align: center;
     }
     
-    /* Remove mobile padding when not needed */
     .lifelong-block .principle-content {
         padding-left: 0;
     }
     
-    /* Stack Individualized Learning title on mobile */
     .individual-block .principle-title {
         white-space: pre-line;
     }
@@ -1534,19 +1575,17 @@ html, body {
     background: linear-gradient(135deg, #8faf8f, #7a9d7a); /* Green background */
     color: white;
     border-radius: 20px 20px 0 0;
-    position: sticky !important; /* Make header sticky */
-    top: 0 !important;
-    z-index: 10 !important;
+    position: sticky; 
+    top: 0;
+    z-index: 10;
     overflow: hidden;
-    flex-shrink: 0; /* Prevent header from shrinking */
-}
+    flex-shrink: 0;
 
-/* Laura Story Header Animation */
 .laura-modal-content .laura-story-header::before {
     content: '';
-    position: absolute !important;
-    top: -50% !important;
-    left: -50% !important;
+    position: absolute;
+    top: -50%;
+    left: -50%;
     width: 200%;
     height: 200%;
     background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
@@ -1716,41 +1755,38 @@ html, body {
     transform-origin: left;
 }
 
-/* Laura Story Title with Fredericka font */
 .laura-modal-content .laura-story-title {
     font-size: 2.5rem;
-    font-weight: 400; /* Normal weight for decorative Fredericka font */
+    font-weight: 400;
     margin-bottom: 10px;
-    font-family: 'Fredericka the Great', cursive; /* Fredericka font */
-    color: #987952; /* Brown color */
-    -webkit-text-stroke: 1px rgba(255,255,255,0.8); /* Crisp white outline */
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Simple drop shadow */
+    font-family: 'Fredericka the Great', cursive;
+    color: #987952;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.8);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     position: relative;
     z-index: 1;
 }
 
 .laura-modal-content .laura-story-subtitle {
-    font-size: 1.2rem !important;
-    opacity: 0.9 !important;
-    font-style: italic !important;
-    color: white !important;
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-style: italic;
+    color: white;
 }
 
 /* Make the content area scrollable */
 .laura-modal-content .laura-story-content {
-    padding: 30px 40px !important;
-    flex: 1 !important;
-    overflow-y: auto !important; /* Content area scrolls */
-    max-height: calc(90vh - 140px) !important; /* Subtract header height */
-}
-
+    padding: 30px 40px;
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(90vh - 140px); 
 .laura-modal-content .laura-story-intro {
-    font-size: 1.1rem !important;
-    line-height: 1.7 !important;
-    color: #444 !important;
-    margin-bottom: 30px !important;
-    text-align: center !important;
-    font-style: italic !important;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #444;
+    margin-bottom: 30px;
+    text-align: center;
+    font-style: italic;
 }
 
 .laura-modal-content {
@@ -1758,7 +1794,7 @@ html, body {
     border-radius: 20px;
     max-width: 800px;
     max-height: 90vh;
-    overflow: hidden; /* Remove scroll from main container */
+    overflow: hidden; 
     position: relative;
     margin: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -1974,46 +2010,6 @@ html, body {
         min-width: auto;
         align-self: center;
     }
-}
-
-/* Additional styles moved from inline */
-
-/* Header */
-.header {
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(10px);
-    color: #2c3e50;
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.logo-icon {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 0.3rem 2rem 0.3rem 2rem;
-    position: relative;
-    max-width: 220px;
 }
 
 /* Additional styles moved from inline */
@@ -2637,7 +2633,7 @@ html, body {
 }
 
 .card-video:hover .card-overlay {
-    background: rgba(0, 0, 0, 0.1); /* Even more transparent on hover */
+    background: rgba(0, 0, 0, 0.1); 
     backdrop-filter: blur(2px);
 }
 
@@ -2704,7 +2700,7 @@ html, body {
 }
 
 .value-item:hover .value-icon {
-    background: #987952; /* Darker brown on hover */
+    background: #987952; 
 }
 
 .value-svg {
@@ -2730,7 +2726,6 @@ html, body {
 /* Keep original values section responsive behavior */
 
     
-    /* Announcement banner mobile styles */
     .announcement-banner {
         margin: 30px 0;
         padding: 30px 20px;
@@ -2753,4 +2748,30 @@ html, body {
     }
 }
 
+/* Skip button styling - subtle text appearance */
+.skip-loader {
+    position: fixed;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: none;
+    color: rgba(255, 255, 255, 0.7);
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    cursor: pointer;
+    z-index: 1000;
+    transition: color 0.3s ease;
+}
+
+.skip-loader:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.skip-loader:focus {
+    outline: none;
+    color: rgba(255, 255, 255, 1);
+}
 
