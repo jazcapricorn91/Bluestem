@@ -1,13 +1,13 @@
-// DOM content loaded event
+// DOM ready initialization
 document.addEventListener('DOMContentLoaded', () => {
-    // Navigation handled by navigation.js module
+    // Navigation handled by navigation.js
     
-    // Mobile debugging helper
+    // Mobile debugging
     if (window.innerWidth <= 768) {
         initMobileDebug();
     }
     
-    // Initialize all modules
+    // Core modules
     initSmoothScrolling();
     initLazyLoading();
     initPerformanceObserver();
@@ -15,16 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
     initStoryModalCloseButtons();
     initDataToggle();
     
-    // Enhanced modules
+    // Enhanced components
     initBackgroundCarousel();
     initEnhancedDynamicBlurbs();
     
-    // Generic components
+    // Hover behaviors
     initHoverToOpen();
     initHoverToPlay();
     initShakeAnimations();
     
-    // Additional modules
+    // Page controls
     initPageLoadControl();
     initScrollAnimations();
     
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// Background image carousel with lazy loading
+// Background carousel
 function initBackgroundCarousel() {
     const images = document.querySelectorAll('.bg-image');
     if (images.length === 0) return;
@@ -63,7 +63,7 @@ function initBackgroundCarousel() {
     }, 8000);
 }
 
-// Load background image only when needed
+// Load image on demand
 function loadBackgroundImage(imageElement) {
     if (!imageElement.dataset.loaded && imageElement.dataset.bgSrc) {
         imageElement.style.backgroundImage = `url(${imageElement.dataset.bgSrc})`;
@@ -71,7 +71,7 @@ function loadBackgroundImage(imageElement) {
     }
 }
 
-// Smooth scrolling for anchor links
+// Smooth scroll navigation
 function initSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -87,7 +87,7 @@ function initSmoothScrolling() {
     });
 }
 
-// Lazy loading for images
+// Lazy load images
 function initLazyLoading() {
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -107,7 +107,7 @@ function initLazyLoading() {
     });
 }
 
-// Performance optimization - pause off-screen content
+// Performance monitoring
 function initPerformanceObserver() {
     const performanceObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -148,9 +148,9 @@ function initPerformanceObserver() {
     });
 }
 
-// EMERGENCY OPTIMIZATIONS - Uncomment if performance critical
+// EMERGENCY OPTIMIZATIONS
 /*
-// Animation Culling - Stop animations that aren't visible
+// Animation culling
 function initAnimationCulling() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -169,7 +169,7 @@ function initAnimationCulling() {
     });
 }
 
-// Remove DOM Elements - Most aggressive optimization
+// DOM removal optimization
 function enableAggressiveOptimization() {
     // Remove modal from DOM when closed, recreate when needed
     const originalCloseModal = window.closeModal;
@@ -224,7 +224,7 @@ function initFormValidation() {
 }
 
 
-// Modal system
+// Modal controls
 function initStoryModalCloseButtons() {
     // Close modal when clicking outside content
     document.addEventListener('click', (e) => {
@@ -247,7 +247,7 @@ function initStoryModalCloseButtons() {
     });
 }
 
-// Update responsive button text based on screen size
+// Responsive button text
 function updateResponsiveButtonText() {
     const responsiveButtons = document.querySelectorAll('[data-text-mobile]');
     responsiveButtons.forEach(button => {
@@ -276,11 +276,12 @@ const animateOnScroll = debounce(() => {
     });
 }, 100);
 
+// Scroll animations
 function initScrollAnimations() {
     window.addEventListener('scroll', animateOnScroll);
 }
 
-// Page load control - ensures page always loads at top
+// Page load control
 function initPageLoadControl() {
     // Force scroll to top immediately
     window.scrollTo(0, 0);
@@ -292,7 +293,7 @@ function initPageLoadControl() {
     });
 }
 
-// Generic hover-to-open component
+// Hover interactions
 function initHoverToOpen() {
     // Elements with data-hover-open attribute
     const hoverElements = document.querySelectorAll('[data-hover-open]');
@@ -349,7 +350,7 @@ function initHoverToOpen() {
     });
 }
 
-// Generic hover-to-play component
+// Video hover controls
 function initHoverToPlay() {
     // Elements with data-hover-play attribute
     const hoverPlayElements = document.querySelectorAll('[data-hover-play]');
@@ -380,7 +381,7 @@ function initHoverToPlay() {
     });
 }
 
-// Generic shake animation component
+// Shake animations
 function initShakeAnimations() {
     // Elements with data-shake attribute
     const shakeContainers = document.querySelectorAll('[data-shake]');
@@ -424,7 +425,7 @@ function initShakeAnimations() {
 }
 
 
-// Dynamic blurbs
+// Dynamic blurb controls
 function initEnhancedDynamicBlurbs() {
     const blurbs = document.querySelectorAll('.dynamic-blurb');
     
@@ -465,7 +466,7 @@ function initEnhancedDynamicBlurbs() {
     });
 }
 
-// Utility function for debouncing
+// Debounce utility
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -478,7 +479,7 @@ function debounce(func, wait) {
     };
 }
 
-// Data toggle system - modular approach
+// Data toggle system
 function initDataToggle() {
     document.addEventListener('click', (e) => {
         const toggleElement = e.target.closest('[data-toggle]');
@@ -496,7 +497,7 @@ function initDataToggle() {
     });
 }
 
-// Extract toggle configuration from element
+// Get toggle config
 function getToggleConfig(toggleElement) {
     return {
         toggleClass: toggleElement.dataset.toggle,
@@ -505,7 +506,7 @@ function getToggleConfig(toggleElement) {
     };
 }
 
-// Find the target element for toggle action
+// Find toggle target
 function findToggleTarget(toggleElement, config) {
     if (config.targetSelector) {
         return document.querySelector(config.targetSelector);
@@ -536,7 +537,7 @@ function performToggleAction(targetElement, config) {
     }
 }
 
-// Handle special cases for specific components
+// Handle special cases
 function handleSpecialCases(targetElement, toggleElement, config) {
     if (config.toggleClass === 'active' && targetElement.id === 'storyModal') {
         handleStoryModal(targetElement);
@@ -554,7 +555,7 @@ function handleStoryModal(targetElement) {
     }
 }
 
-// Principle card specific handling
+// Principle card handling
 function handlePrincipleCard(targetElement, toggleElement, config) {
     let principleBlock = targetElement.closest('.principle-block');
     if (!principleBlock && toggleElement !== targetElement) {

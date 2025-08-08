@@ -1,5 +1,4 @@
-// Home page specific functionality
-// This module handles all features specific to the homepage
+// Home page functionality
 
 // Initialize home page features
 document.addEventListener('DOMContentLoaded', function() {
@@ -9,19 +8,19 @@ document.addEventListener('DOMContentLoaded', function() {
     initEnhancedPhotoAnimations();
 });
 
-// Quote loader animation - Optimized for mobile and accessibility
+// Quote loader
 function initQuoteLoader() {
     window.addEventListener('load', () => {
         const quoteLoader = document.querySelector('.quote-loader');
         
-        // Respect user's motion preferences
+        // Motion preferences
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         
-        // Scroll to top for consistent experience
+        // Reset scroll
         window.scrollTo(0, 0);
         
         if (quoteLoader) {
-            // Named constants for better maintainability
+            // Timing constants
             const TIMING = prefersReducedMotion ? {
                 BACKGROUND: 200,
                 QUOTE: 1000,

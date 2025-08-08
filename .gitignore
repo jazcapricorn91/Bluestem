@@ -178,3 +178,4 @@ models/
 *.py
 lifecycle.db*
 NUL
+.history/
