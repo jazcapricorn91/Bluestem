@@ -117,7 +117,7 @@
 }
 
 .quick-action-card {
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--color-white-transparency-80);
     padding: 30px 20px;
     border-radius: 15px;
     text-align: center;
@@ -140,7 +140,7 @@
 }
 
 .quick-action-card:hover {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--color-white-transparency-95);
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
@@ -236,6 +236,135 @@
     z-index: 1;
 }
 
+/* Dark mode hero adjustments */
+@media (prefers-color-scheme: dark) {
+    .contact-hero-section.understated-hero {
+        background: var(--color-gray-bg);
+    }
+    
+    .contact-hero-section.understated-hero::before {
+        opacity: 1; /* Remove opacity to show full image */
+    }
+    
+    /* Add darkening overlay */
+    .contact-hero-section.understated-hero::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, 
+            rgba(24, 22, 18, 0.7) 0%, 
+            rgba(35, 32, 26, 0.6) 50%, 
+            rgba(24, 22, 18, 0.8) 100%);
+        z-index: 1;
+        pointer-events: none;
+    }
+    
+    /* Ensure content stays above overlay */
+    .contact-hero-content {
+        z-index: 2;
+    }
+}
+
+/* Dark mode via class */
+body.dark-mode .contact-hero-section.understated-hero {
+    background: var(--color-gray-bg);
+}
+
+body.dark-mode .contact-hero-section.understated-hero::before {
+    opacity: 1;
+}
+
+body.dark-mode .contact-hero-section.understated-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(24, 22, 18, 0.7) 0%, 
+        rgba(35, 32, 26, 0.6) 50%, 
+        rgba(24, 22, 18, 0.8) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+body.dark-mode .contact-hero-content {
+    z-index: 2;
+}
+
+/* Dark mode text contrast fixes */
+@media (prefers-color-scheme: dark) {
+    /* Construction notice - override inline styles */
+    div[style*="background: rgba(152, 121, 82, 0.1)"] {
+        background: rgba(152, 121, 82, 0.3) !important;
+        border-left-color: var(--color-brown-lighter) !important;
+    }
+    
+    p[style*="color: #987952"] {
+        color: var(--color-brown-lighter) !important;
+    }
+    
+    a[style*="color: #901a2d"] {
+        color: var(--color-red-primary) !important;
+    }
+    
+    /* General grey text improvements */
+    .contact-hero-subtitle,
+    .tile-detail,
+    .stat-label,
+    .form-subtitle,
+    .contact-description,
+    .address-subtext,
+    .office-note p {
+        color: var(--color-gray-lightest) !important;
+    }
+    
+    /* Brown text improvements */
+    .contact-hero-title,
+    .tile-content h3,
+    .contact-methods-title,
+    .contact-method h3,
+    .hours-item h3 {
+        color: var(--color-brown-lighter) !important;
+    }
+}
+
+/* Dark mode via class */
+body.dark-mode div[style*="background: rgba(152, 121, 82, 0.1)"] {
+    background: rgba(152, 121, 82, 0.3) !important;
+    border-left-color: var(--color-brown-lighter) !important;
+}
+
+body.dark-mode p[style*="color: #987952"] {
+    color: var(--color-brown-lighter) !important;
+}
+
+body.dark-mode a[style*="color: #901a2d"] {
+    color: var(--color-red-primary) !important;
+}
+
+body.dark-mode .contact-hero-subtitle,
+body.dark-mode .tile-detail,
+body.dark-mode .stat-label,
+body.dark-mode .form-subtitle,
+body.dark-mode .contact-description,
+body.dark-mode .address-subtext,
+body.dark-mode .office-note p {
+    color: var(--color-gray-lightest) !important;
+}
+
+body.dark-mode .contact-hero-title,
+body.dark-mode .tile-content h3,
+body.dark-mode .contact-methods-title,
+body.dark-mode .contact-method h3,
+body.dark-mode .hours-item h3 {
+    color: var(--color-brown-lighter) !important;
+}
+
 .contact-pattern-bg {
     display: none; /* Use ::before instead */
 }
@@ -291,7 +420,7 @@
 }
 
 .action-tile {
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--color-white-transparency-90);
     border: 1px solid rgba(152, 121, 82, 0.1);
     border-radius: 12px;
     padding: 20px;
@@ -304,7 +433,7 @@
 }
 
 .action-tile:hover {
-    background: rgba(255, 255, 255, 1);
+    background: var(--color-card-bg-solid);
     border-color: #987952;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(152, 121, 82, 0.15);
@@ -312,7 +441,7 @@
 
 .action-tile.primary-action {
     border-color: #987952;
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--color-white-transparency-90);
 }
 
 .tile-icon {
@@ -407,7 +536,7 @@
 /* Home-style Floating Shapes */
 .floating-shape {
     position: absolute;
-    background: rgba(255,255,255,0.1);
+    background: var(--color-white-transparency-10);
     border-radius: 50%;
     animation: float 6s ease-in-out infinite;
     pointer-events: none;
@@ -446,7 +575,7 @@
 }
 
 .contact-methods-side .contact-method {
-    background: rgba(248, 246, 243, 0.9);
+    background: var(--color-card-bg);
     padding: 25px 20px;
     border-radius: 15px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
@@ -603,7 +732,7 @@ a.contact-method:hover p {
 
 /* Form Styles */
 .contact-form {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--color-form-bg);
     padding: 50px;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -639,7 +768,7 @@ a.contact-method:hover p {
     font-size: 1rem;
     font-family: inherit;
     transition: all 0.3s ease;
-    background: #fff;
+    background: var(--color-input-bg);
 }
 
 .form-group input:focus,
@@ -708,7 +837,7 @@ a.contact-method:hover p {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: var(--color-white);
     font-size: 14px;
     font-weight: bold;
 }
@@ -730,7 +859,7 @@ a.contact-method:hover p {
 /* Submit Button */
 .form-submit-btn {
     background: linear-gradient(135deg, #b52233, #d4435a);
-    color: white;
+    color: var(--color-white);
     border: none;
     padding: 18px 40px;
     border-radius: 50px;
@@ -769,7 +898,7 @@ a.contact-method:hover p {
 }
 
 .form-success p {
-    color: #155724;
+    color: var(--color-green-dark);
     margin: 0;
     font-size: 1.1rem;
 }
@@ -785,7 +914,7 @@ a.contact-method:hover p {
 /* Office Hours Floating Shapes */
 .office-hours .floating-shape {
     position: absolute;
-    background: rgba(255,255,255,0.08);
+    background: var(--color-white-transparency-08);
     border-radius: 50%;
     animation: float 8s ease-in-out infinite;
     pointer-events: none;
@@ -822,7 +951,7 @@ a.contact-method:hover p {
 }
 
 .hours-item {
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--color-white-transparency-80);
     padding: 30px 20px;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);

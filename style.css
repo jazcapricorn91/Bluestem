@@ -15,34 +15,733 @@
    Google Fonts: https://fonts.googleapis.com/css2?family=Gravitas+One&display=swap
 */
 
-/* CSS Custom Properties - Bluestem Color Palette */
+/* ===================================
+   CSS Custom Properties - Global Color System
+   Used across Public site AND User applications
+   =================================== */
 :root {
+    /* Legacy Bluestem Color Names (maintained for backward compatibility) */
     --bluestem-brown: #987952;
     --bluestem-red: #901a2d;
     --bluestem-green: #8faf8f;
     --bluestem-sand: #d8ba89;
     --bluestem-cream: #f8f6f3;
+    
+    /* Primary Brand Colors */
+    --color-green-primary: #8faf8f;
+    --color-green-secondary: #7a9d7a;
+    --color-green-tertiary: #6b8e6b;
+    --color-green-light: #95b395;
+    --color-green-lighter: #a5c3a5;
+    --color-green-lightest: #b0d0b0;
+    --color-green-dark: #5a8a5a;
+    --color-green-darker: #549c7f;
+    --color-green-darkest: #4c8474;
+    
+    /* Secondary Brand Colors */
+    --color-brown-primary: #987952;
+    --color-brown-primary-40: rgba(152, 121, 82, 0.4);
+    --color-brown-primary-30: rgba(152, 121, 82, 0.3);
+    --color-brown-primary-25: rgba(152, 121, 82, 0.25);
+    --color-brown-primary-20: rgba(152, 121, 82, 0.2);
+    --color-brown-primary-15: rgba(152, 121, 82, 0.15);
+    --color-brown-primary-10: rgba(152, 121, 82, 0.1);
+    --color-brown-primary-08: rgba(152, 121, 82, 0.08);
+    --color-brown-primary-05: rgba(152, 121, 82, 0.05);
+    --color-brown-primary-04: rgba(152, 121, 82, 0.04);
+    --color-brown-primary-03: rgba(152, 121, 82, 0.03);
+    --color-brown-primary-02: rgba(152, 121, 82, 0.02);
+    --color-brown-primary-01: rgba(152, 121, 82, 0.01);
+    --color-brown-primary-005: rgba(152, 121, 82, 0.005);
+    --color-brown-primary-002: rgba(152, 121, 82, 0.002);
+    --color-brown-primary-001: rgba(152, 121, 82, 0.001);
+    --color-brown-secondary: #7d6543;
+    --color-brown-tertiary: #7a6142;
+    --color-brown-light: #bfa97a;
+    --color-brown-lighter: #d4c3a0;
+    --color-brown-dark: #6b5939;
+    --color-brown-darker: #5a4a30;
+    
+    /* Accent Colors */
+    --color-red-primary: #901a2d;
+    --color-red-primary-25: rgba(144, 26, 45, 0.25);
+    --color-red-secondary: #840a3b;
+    --color-red-tertiary: #6d0f1c;
+    --color-red-quaternary: #38031e;
+    --color-red-shadow: #38031e;
+    --color-red-dark: #6d0f1c;
+    --color-red-error: #ff6b6b;
+    
+    /* Neutral Colors */
+    --color-white: #ffffff;
+    --color-text-on-dark: #2c2c2c;
+    --color-white-95: rgba(255, 255, 255, 0.95);
+    --color-white-90: rgba(255, 255, 255, 0.9);
+    --color-white-80: rgba(255, 255, 255, 0.8);
+    --color-white-30: rgba(255, 255, 255, 0.3);
+    --color-white-20: rgba(255, 255, 255, 0.2);
+    --color-white-18: rgba(255, 255, 255, 0.18);
+    --color-white-10: rgba(255, 255, 255, 0.1);
+    --color-white-05: rgba(255, 255, 255, 0.05);
+    
+    --color-black: #000000;
+    --color-black-90: rgba(0, 0, 0, 0.9);
+    --color-black-80: rgba(0, 0, 0, 0.8);
+    --color-black-70: rgba(0, 0, 0, 0.7);
+    --color-black-50: rgba(0, 0, 0, 0.5);
+    --color-black-40: rgba(0, 0, 0, 0.4);
+    --color-black-37: rgba(0, 0, 0, 0.37);
+    --color-black-30: rgba(0, 0, 0, 0.3);
+    --color-black-20: rgba(0, 0, 0, 0.2);
+    --color-black-15: rgba(0, 0, 0, 0.15);
+    --color-black-12: rgba(0, 0, 0, 0.12);
+    --color-black-10: rgba(0, 0, 0, 0.1);
+    --color-black-08: rgba(0, 0, 0, 0.08);
+    --color-black-05: rgba(0, 0, 0, 0.05);
+    --color-black-02: rgba(0, 0, 0, 0.02);
+    
+    /* Gray Scale */
+    --color-gray-darkest: #2c2c2c;
+    --color-gray-darker: #2c3e50;
+    --color-gray-dark: #333;
+    --color-gray-medium: #444;
+    --color-gray-light: #555;
+    --color-gray-lighter: #666;
+    --color-gray-lightest: #999;
+    --color-gray-bg: #f8f8f8;
+    --color-gray-bg-light: #f8f9fa;
+    --color-gray-bg-lighter: #e9ecef;
+    --color-gray-bg-lightest: #f9f8f6;
+    
+    /* Background Colors */
+    --color-bg-linen: #f8f6f3;
+    --color-bg-white-gradient: linear-gradient(135deg, #f8fdf8, #ffffff);
+    --color-bg-white-soft: linear-gradient(to right, #f0f8f0, #ffffff);
+    --color-bg-white-warm: linear-gradient(to right, #f9f8f6, #ffffff);
+    
+    /* Transparent Colors */
+    --color-transparent: transparent;
+    
+    /* Announcement Banner Background */
+    --color-announcement-bg: linear-gradient(135deg, #5a8a5a, #7eb37e);
+    
+    /* Green Transparencies */
+    --color-green-primary-80: rgba(143, 175, 143, 0.8);
+    --color-green-primary-40: rgba(143, 175, 143, 0.4);
+    --color-green-primary-30: rgba(143, 175, 143, 0.3);
+    --color-green-primary-25: rgba(143, 175, 143, 0.25);
+    --color-green-primary-20: rgba(143, 175, 143, 0.2);
+    --color-green-primary-15: rgba(143, 175, 143, 0.15);
+    --color-green-primary-10: rgba(143, 175, 143, 0.1);
+    --color-green-primary-08: rgba(143, 175, 143, 0.08);
+    --color-green-primary-05: rgba(143, 175, 143, 0.05);
+    --color-green-primary-04: rgba(143, 175, 143, 0.04);
+    --color-green-primary-03: rgba(143, 175, 143, 0.03);
+    --color-green-primary-02: rgba(143, 175, 143, 0.02);
+    --color-green-primary-01: rgba(143, 175, 143, 0.01);
+    --color-green-primary-005: rgba(143, 175, 143, 0.005);
+    --color-green-primary-002: rgba(143, 175, 143, 0.002);
+    --color-green-primary-001: rgba(143, 175, 143, 0.001);
+    
+    --color-green-secondary-80: rgba(122, 157, 122, 0.8);
+    --color-green-tertiary-80: rgba(107, 142, 107, 0.8);
+    --color-green-quaternary-80: rgba(92, 127, 92, 0.8);
+    
+    /* Brown Transparencies */
+    --color-brown-primary-40: rgba(152, 121, 82, 0.4);
+    --color-brown-primary-30: rgba(152, 121, 82, 0.3);
+    --color-brown-primary-25: rgba(152, 121, 82, 0.25);
+    --color-brown-primary-20: rgba(152, 121, 82, 0.2);
+    --color-brown-primary-15: rgba(152, 121, 82, 0.15);
+    --color-brown-primary-10: rgba(152, 121, 82, 0.1);
+    --color-brown-primary-08: rgba(152, 121, 82, 0.08);
+    --color-brown-primary-05: rgba(152, 121, 82, 0.05);
+    --color-brown-primary-04: rgba(152, 121, 82, 0.04);
+    --color-brown-primary-03: rgba(152, 121, 82, 0.03);
+    --color-brown-primary-02: rgba(152, 121, 82, 0.02);
+    --color-brown-primary-01: rgba(152, 121, 82, 0.01);
+    --color-brown-primary-005: rgba(152, 121, 82, 0.005);
+    --color-brown-primary-002: rgba(152, 121, 82, 0.002);
+    --color-brown-primary-001: rgba(152, 121, 82, 0.001);
+    
+    /* Red Transparencies */
+    --color-red-primary-90: rgba(144, 26, 45, 0.9);
+    --color-red-primary-70: rgba(144, 26, 45, 0.7);
+    --color-red-primary-30: rgba(144, 26, 45, 0.3);
+    --color-red-primary-25: rgba(144, 26, 45, 0.25);
+    
+    /* Dark Overlay Transparencies */
+    --color-dark-overlay-55: rgba(30, 30, 30, 0.55);
+    --color-dark-overlay-light: rgba(90, 110, 90, 0.1);
+    --color-dark-overlay-brown: rgba(139, 69, 19, 0.1);
+    
+    /* Card and Overlay Backgrounds (Dark mode compatible) */
+    --color-card-bg: rgba(255, 255, 255, 0.9);
+    --color-card-bg-hover: rgba(255, 255, 255, 0.95);
+    --color-card-bg-solid: #ffffff;
+    --color-overlay-bg: rgba(255, 255, 255, 0.8);
+    --color-hero-bg: linear-gradient(135deg, rgba(248, 246, 243, 0.9), rgba(255, 255, 255, 0.8));
+    --color-form-bg: rgba(255, 255, 255, 0.95);
+    --color-input-bg: #ffffff;
+    
+    /* White Transparency Overrides (Light mode - direct white values) */
+    --color-white-transparency-95: rgba(255, 255, 255, 0.95);
+    --color-white-transparency-90: rgba(255, 255, 255, 0.9);
+    --color-white-transparency-80: rgba(255, 255, 255, 0.8);
+    --color-white-transparency-10: rgba(255, 255, 255, 0.1);
+    --color-white-transparency-08: rgba(255, 255, 255, 0.08);
+    --color-white-transparency-05: rgba(255, 255, 255, 0.05);
+    --color-white-transparency-03: rgba(255, 255, 255, 0.03);
+    --color-white-transparency-01: rgba(255, 255, 255, 0.01);
+    
+    /* Gradient Definitions */
+    --gradient-green-primary: linear-gradient(135deg, #8faf8f, #7a9d7a);
+    --gradient-green-secondary: linear-gradient(135deg, #9cb89c, #8aa88a);
+    --gradient-green-tertiary: linear-gradient(135deg, #a5c3a5, #92b192);
+    --gradient-green-quaternary: linear-gradient(135deg, #b0d0b0, #9fbf9f);
+    --gradient-green-dark: linear-gradient(135deg, #87a587, #7a9d7a);
+    --gradient-green-darker: linear-gradient(135deg, #95b395, #82a082);
+    --gradient-green-darkest: linear-gradient(135deg, #a8c8a8, #95b595);
+    --gradient-green-vivid: linear-gradient(135deg, #5a8a5a, #7eb37e);
+    
+    --gradient-brown-primary: linear-gradient(135deg, #987952, #7d6543);
+    --gradient-brown-secondary: linear-gradient(135deg, #987952, #7a6142);
+    --gradient-brown-dark: linear-gradient(135deg, #7d6543, #6b5939);
+    
+    --gradient-mixed-green-brown: linear-gradient(to bottom, #8faf8f, #987952);
+    --gradient-mixed-brown-green: linear-gradient(to bottom, #987952, rgba(152, 121, 82, 0.3));
+    --gradient-mixed-green-transparent: linear-gradient(to bottom, #8faf8f, rgba(143, 175, 143, 0.3));
+    
+    /* Line Gradients */
+    --gradient-line-green: linear-gradient(90deg, #8faf8f 0%, rgba(143, 175, 143, 0.2) 50%, transparent 100%);
+    --gradient-line-brown: linear-gradient(90deg, #987952 0%, rgba(152, 121, 82, 0.2) 50%, transparent 100%);
+    --gradient-line-brown-subtle: linear-gradient(90deg, transparent, #987952, transparent);
+    --gradient-line-brown-lighter: linear-gradient(90deg, transparent, rgba(152, 121, 82, 0.2), transparent);
+    --gradient-line-brown-lightest: linear-gradient(90deg, transparent, rgba(152, 121, 82, 0.1), transparent);
+
+     /* ===================================
+         Semantic Theme Tokens (use these going forward)
+         Map to brand palette above; overridden in dark contexts below
+         =================================== */
+     /* Surfaces */
+     --surface-1: var(--color-bg-linen);        /* base page background */
+     --surface-2: var(--color-white);           /* cards, panels */
+     --surface-3: var(--color-gray-bg-lightest);/* elevated/alt */
+     --elevated-overlay: var(--color-white-95); /* subtle overlay */
+
+     /* Text */
+     --text-1: var(--color-gray-dark);          /* primary text */
+     --text-2: var(--color-gray-medium);        /* secondary text */
+     --text-inverse: var(--color-white);        /* on dark chips */
+
+     /* Borders & shadows */
+     --border-1: var(--color-black-08);
+     --border-2: var(--color-black-12);
+     --shadow-color: var(--color-black-20);
+
+     /* Brand accents */
+     --accent: var(--color-green-primary);
+     --link: var(--color-green-dark);
 }
 
-/* Bluestem Color Utility Classes */
-/* Text colors */
-.text-brown { color: var(--bluestem-brown); }
-.text-red { color: var(--bluestem-red); }
-.text-green { color: var(--bluestem-green); }
-.text-sand { color: var(--bluestem-sand); }
-.text-cream { color: var(--bluestem-cream); }
+/* ===================================
+   Global Scrollbar Styling
+   Used across Public site AND User applications
+   =================================== */
 
-/* Background colors */
-.bg-brown { background-color: var(--bluestem-brown); }
-.bg-red { background-color: var(--bluestem-red); }
-.bg-green { background-color: var(--bluestem-green); }
-.bg-sand { background-color: var(--bluestem-sand); }
-.bg-cream { background-color: var(--bluestem-cream); }
+/* Custom CSS scrollbar styling - Modern, minimal design */
+/* Webkit scrollbar properties for Chrome, Safari, Edge */
 
-/* Border colors */
-.border-brown { border-color: var(--bluestem-brown); }
-.border-red { border-color: var(--bluestem-red); }
-.border-green { border-color: var(--bluestem-green); }
-.border-sand { border-color: var(--bluestem-sand); }
-.border-cream { border-color: var(--bluestem-cream); }
+/* Main scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* Thin scrollbar width */
+    height: 8px; /* For horizontal scrollbars */
+}
+
+/* Scrollbar track (background) */
+::-webkit-scrollbar-track {
+    background: var(--color-black-05); /* Very subtle light gray track */
+    border-radius: 10px; /* Rounded track */
+}
+
+/* Scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+    background: var(--color-brown-primary-30); /* Using brown color with transparency */
+    border-radius: 10px; /* Rounded thumb */
+    border: 2px solid transparent; /* Creates padding effect */
+    background-clip: content-box;
+    transition: all 0.3s ease; /* Smooth hover effects */
+}
+
+/* Scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-brown-primary-40); /* Darker on hover */
+    transform: scaleY(1.1); /* Slight grow effect */
+}
+
+/* Scrollbar thumb when active/being dragged */
+::-webkit-scrollbar-thumb:active {
+    background: var(--color-red-primary-70); /* Red color when active */
+}
+
+/* Hide scrollbar arrows/buttons */
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+/* Corner where horizontal and vertical scrollbars meet */
+::-webkit-scrollbar-corner {
+    background: var(--color-black-05);
+}
+
+/* Special styling for modal content area scrollbar */
+.laura-modal-content .laura-story-content::-webkit-scrollbar {
+    width: 8px;
+    background: var(--color-black-02); /* Very subtle background */
+}
+
+.laura-modal-content .laura-story-content::-webkit-scrollbar-track {
+    background: var(--color-black-02);
+    border-radius: 4px;
+}
+
+.laura-modal-content .laura-story-content::-webkit-scrollbar-thumb {
+    background: var(--color-brown-primary-30); /* Brown to match theme */
+    border-radius: 4px;
+    border: 1px solid var(--color-white-10);
+    background-clip: content-box;
+}
+
+.laura-modal-content .laura-story-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-brown-primary-40);
+}
+
+/* Firefox scrollbar styling (limited support) */
+html {
+    color-scheme: light dark; /* Enable native dark UI for inputs, scrollbars, etc. */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brown-primary-30) var(--color-black-05);
+    scrollbar-gutter: stable; /* Reserves space so viewport width never changes */
+}
+
+/* Bluestem Utility Classes */
+
+/* Typography Sizes */
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+.text-2xl { font-size: 1.5rem; }
+.text-3xl { font-size: 1.875rem; }
+.text-4xl { font-size: 2.25rem; }
+.text-5xl { font-size: 2.5rem; }
+
+/* Font Families */
+.font-fredericka { font-family: 'Fredericka the Great', cursive; }
+.font-overlock { font-family: 'Overlock', sans-serif; }
+.font-gravitas { font-family: 'Gravitas One', serif; }
+
+/* Font Weights */
+.font-normal { font-weight: 400; }
+.font-bold { font-weight: 700; }
+.font-black { font-weight: 900; }
+
+/* Text Colors */
+.text-brown { color: var(--color-brown-primary); }
+.text-green { color: var(--color-green-primary); }
+.text-red { color: var(--color-red-primary); }
+.text-white { color: var(--color-white); }
+.text-gray { color: var(--color-gray-medium); }
+.text-gray-light { color: var(--color-gray-lighter); }
+.text-gray-dark { color: var(--color-gray-dark); }
+
+/* Background Colors */
+.bg-brown { background-color: var(--color-brown-primary); }
+.bg-green { background-color: var(--color-green-primary); }
+.bg-red { background-color: var(--color-red-primary); }
+.bg-white { background-color: var(--color-white); }
+.bg-linen { background-color: var(--color-bg-linen); }
+
+/* Text Alignment */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* Spacing */
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+
+
+/* ===================================
+     Bluestem Dark Mode (Soft Earthy)
+     For future implementation: add a class to <body> or use media query
+     =================================== */
+/*
+    To enable dark mode, you can use either:
+    1. A class on <body>: body.dark-mode { ... }
+    2. Or a media query: @media (prefers-color-scheme: dark) { ... }
+    This section provides the variables for both approaches.
+*/
+
+
+/* Dark mode via .dark-mode class on <body> */
+body.dark-mode {
+        /* Deep, muted brand colors for dark backgrounds */
+        --bluestem-brown: #5a4a30;
+        --bluestem-red: #b85c6b;
+        --bluestem-green: #3d5c3d;
+        --bluestem-sand: #a08c6b;
+        --bluestem-cream: #23201a;
+
+        --color-green-primary: #3d5c3d;
+        --color-green-secondary: #2e4632;
+        --color-green-tertiary: #27422a;
+        --color-green-light: #4c7a4c;
+        --color-green-lighter: #5a8a5a;
+        --color-green-lightest: #6b9d6b;
+        --color-green-dark: #223522;
+        --color-green-darker: #1a2a1a;
+        --color-green-darkest: #141d14;
+
+        /* Green Transparencies - Dark Mode */
+        --color-green-primary-80: rgba(61, 92, 61, 0.8);
+        --color-green-primary-40: rgba(61, 92, 61, 0.4);
+        --color-green-primary-30: rgba(61, 92, 61, 0.3);
+        --color-green-primary-25: rgba(61, 92, 61, 0.25);
+        --color-green-primary-20: rgba(61, 92, 61, 0.2);
+        --color-green-primary-15: rgba(61, 92, 61, 0.15);
+        --color-green-primary-10: rgba(61, 92, 61, 0.1);
+        --color-green-primary-08: rgba(61, 92, 61, 0.08);
+        --color-green-primary-05: rgba(61, 92, 61, 0.05);
+        --color-green-primary-04: rgba(61, 92, 61, 0.04);
+        --color-green-primary-03: rgba(61, 92, 61, 0.03);
+        --color-green-primary-02: rgba(61, 92, 61, 0.02);
+        --color-green-primary-01: rgba(61, 92, 61, 0.01);
+        --color-green-primary-005: rgba(61, 92, 61, 0.005);
+        --color-green-primary-002: rgba(61, 92, 61, 0.002);
+        --color-green-primary-001: rgba(61, 92, 61, 0.001);
+
+        --color-brown-primary: #5a4a30;
+        --color-brown-primary-40: rgba(90, 74, 48, 0.4);
+        --color-brown-primary-30: rgba(90, 74, 48, 0.3);
+        --color-brown-primary-25: rgba(90, 74, 48, 0.25);
+        --color-brown-primary-20: rgba(90, 74, 48, 0.2);
+        --color-brown-primary-15: rgba(90, 74, 48, 0.15);
+        --color-brown-primary-10: rgba(90, 74, 48, 0.1);
+        --color-brown-primary-08: rgba(90, 74, 48, 0.08);
+        --color-brown-primary-05: rgba(90, 74, 48, 0.05);
+        --color-brown-primary-04: rgba(90, 74, 48, 0.04);
+        --color-brown-primary-03: rgba(90, 74, 48, 0.03);
+        --color-brown-primary-02: rgba(90, 74, 48, 0.02);
+        --color-brown-primary-01: rgba(90, 74, 48, 0.01);
+        --color-brown-primary-005: rgba(90, 74, 48, 0.005);
+        --color-brown-primary-002: rgba(90, 74, 48, 0.002);
+        --color-brown-primary-001: rgba(90, 74, 48, 0.001);
+        --color-brown-secondary: #3d2f1a;
+        --color-brown-tertiary: #2e2314;
+        --color-brown-light: #7d6543;
+        --color-brown-lighter: #a08c6b;
+        --color-brown-dark: #2e2314;
+        --color-brown-darker: #1a140a;
+
+        --color-red-primary: #8b2635;
+        --color-red-secondary: #d4707c;
+        --color-red-tertiary: #c05663;
+        --color-red-quaternary: #a03a4a;
+        --color-red-error: #ff9999;
+
+        --color-white: #f5f3ea;
+        --color-text-on-dark: #e0ddd6;
+        --color-white-95: rgba(245, 243, 234, 0.95);
+        --color-white-90: rgba(245, 243, 234, 0.9);
+        --color-white-80: rgba(245, 243, 234, 0.8);
+        --color-white-30: rgba(245, 243, 234, 0.3);
+        --color-white-20: rgba(245, 243, 234, 0.2);
+        --color-white-18: rgba(245, 243, 234, 0.18);
+        --color-white-10: rgba(245, 243, 234, 0.1);
+        --color-white-05: rgba(245, 243, 234, 0.05);
+
+        --color-black: #181612;
+        --color-black-90: rgba(24, 22, 18, 0.9);
+        --color-black-80: rgba(24, 22, 18, 0.8);
+        --color-black-70: rgba(24, 22, 18, 0.7);
+        --color-black-50: rgba(24, 22, 18, 0.5);
+        --color-black-40: rgba(24, 22, 18, 0.4);
+        --color-black-37: rgba(24, 22, 18, 0.37);
+        --color-black-30: rgba(24, 22, 18, 0.3);
+        --color-black-20: rgba(24, 22, 18, 0.2);
+        --color-black-15: rgba(24, 22, 18, 0.15);
+        --color-black-12: rgba(24, 22, 18, 0.12);
+        --color-black-10: rgba(24, 22, 18, 0.1);
+        --color-black-08: rgba(24, 22, 18, 0.08);
+        --color-black-05: rgba(24, 22, 18, 0.05);
+        --color-black-02: rgba(24, 22, 18, 0.02);
+
+        --color-gray-darkest: #f5f3ea;
+        --color-gray-darker: #e0ddd6;
+        --color-gray-dark: #d0ccc3;
+        --color-gray-medium: #444;
+        --color-gray-light: #555;
+        --color-gray-lighter: #666;
+        --color-gray-lightest: #999;
+        --color-gray-bg: #23201a;
+        --color-gray-bg-light: #2c2c2c;
+        --color-gray-bg-lighter: #23201a;
+        --color-gray-bg-lightest: #181612;
+
+        --color-bg-linen: #23201a;
+        --color-bg-white-gradient: linear-gradient(135deg, #23201a, #181612);
+        --color-bg-white-soft: linear-gradient(to right, #23201a, #181612);
+        --color-bg-white-warm: linear-gradient(to right, #23201a, #23201a);
+        
+        /* Card and Overlay Backgrounds (Dark mode) */
+        --color-card-bg: rgba(35, 32, 26, 0.9);
+        --color-card-bg-hover: rgba(35, 32, 26, 0.95);
+        --color-card-bg-solid: #23201a;
+        --color-value-card-bg: #3d3426;
+        --color-overlay-bg: rgba(35, 32, 26, 0.8);
+        --color-hero-bg: linear-gradient(135deg, rgba(35, 32, 26, 0.9), rgba(24, 22, 18, 0.8));
+        --color-form-bg: rgba(35, 32, 26, 0.95);
+        --color-input-bg: #2c2a24;
+        
+        /* White Transparency Overrides (Dark mode compatible) */
+        --color-white-transparency-95: rgba(35, 32, 26, 0.95);
+        --color-white-transparency-90: rgba(35, 32, 26, 0.9);
+        --color-white-transparency-80: rgba(35, 32, 26, 0.8);
+        --color-white-transparency-10: rgba(35, 32, 26, 0.1);
+        --color-white-transparency-08: rgba(35, 32, 26, 0.08);
+        --color-white-transparency-05: rgba(35, 32, 26, 0.05);
+        --color-white-transparency-03: rgba(35, 32, 26, 0.03);
+        --color-white-transparency-01: rgba(35, 32, 26, 0.01);
+
+        --color-transparent: transparent;
+        
+        /* Announcement Banner Background - Darker for dark mode */
+        --color-announcement-bg: linear-gradient(135deg, #2e4632, #3d5c3d);
+        
+        /* Gradient Definitions - Dark Mode Versions */
+        --gradient-green-primary: linear-gradient(135deg, #3d5c3d, #2e4632);
+        --gradient-green-secondary: linear-gradient(135deg, #4c7a4c, #3d5c3d);
+        --gradient-green-tertiary: linear-gradient(135deg, #5a8a5a, #4c7a4c);
+        --gradient-green-quaternary: linear-gradient(135deg, #6b9d6b, #5a8a5a);
+        --gradient-green-dark: linear-gradient(135deg, #223522, #1a2a1a);
+        --gradient-green-darker: linear-gradient(135deg, #1a2a1a, #141d14);
+        --gradient-green-darkest: linear-gradient(135deg, #27422a, #223522);
+        --gradient-green-vivid: linear-gradient(135deg, #2e4632, #3d5c3d);
+        
+        --gradient-brown-primary: linear-gradient(135deg, #5a4a30, #3d2f1a);
+        --gradient-brown-secondary: linear-gradient(135deg, #5a4a30, #2e2314);
+        --gradient-brown-dark: linear-gradient(135deg, #3d2f1a, #2e2314);
+        
+        --gradient-mixed-green-brown: linear-gradient(to bottom, #3d5c3d, #5a4a30);
+        --gradient-mixed-brown-green: linear-gradient(to bottom, #5a4a30, rgba(90, 74, 48, 0.3));
+        --gradient-mixed-green-transparent: linear-gradient(to bottom, #3d5c3d, rgba(61, 92, 61, 0.3));
+        
+        /* Line Gradients - Dark Mode Versions */
+        --gradient-line-green: linear-gradient(90deg, #3d5c3d 0%, rgba(61, 92, 61, 0.2) 50%, transparent 100%);
+        --gradient-line-brown: linear-gradient(90deg, #5a4a30 0%, rgba(90, 74, 48, 0.2) 50%, transparent 100%);
+        --gradient-line-brown-subtle: linear-gradient(90deg, transparent, #5a4a30, transparent);
+        --gradient-line-brown-lighter: linear-gradient(90deg, transparent, rgba(90, 74, 48, 0.2), transparent);
+    --gradient-line-brown-lightest: linear-gradient(90deg, transparent, rgba(90, 74, 48, 0.1), transparent);
+
+    /* Semantic Theme Tokens - Dark mapping */
+    --surface-1: var(--color-gray-bg);          /* base page bg */
+    --surface-2: var(--color-gray-bg-light);    /* cards, panels */
+    --surface-3: var(--color-gray-bg-lighter);  /* elevated/alt */
+    --elevated-overlay: var(--color-white-05);  /* subtle overlay */
+
+    --text-1: var(--color-white-90);
+    --text-2: var(--color-white-80);
+    --text-inverse: var(--color-black);
+
+    --border-1: var(--color-white-10);
+    --border-2: var(--color-white-18);
+    --shadow-color: var(--color-black-80);
+
+    --accent: var(--color-green-light);
+    --link: var(--color-green-light);
+}
+
+/* Dark mode via system preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bluestem-brown: #5a4a30;
+        --bluestem-red: #881629;
+        --bluestem-green: #3d5c3d;
+        --bluestem-sand: #a08c6b;
+        --bluestem-cream: #23201a;
+
+        --color-green-primary: #3d5c3d;
+        --color-green-secondary: #2e4632;
+        --color-green-tertiary: #27422a;
+        --color-green-light: #4c7a4c;
+        --color-green-lighter: #5a8a5a;
+        --color-green-lightest: #6b9d6b;
+        --color-green-dark: #223522;
+        --color-green-darker: #1a2a1a;
+        --color-green-darkest: #141d14;
+
+        /* Green Transparencies - Dark Mode (System Preference) */
+        --color-green-primary-80: rgba(61, 92, 61, 0.8);
+        --color-green-primary-40: rgba(61, 92, 61, 0.4);
+        --color-green-primary-30: rgba(61, 92, 61, 0.3);
+        --color-green-primary-25: rgba(61, 92, 61, 0.25);
+        --color-green-primary-20: rgba(61, 92, 61, 0.2);
+        --color-green-primary-15: rgba(61, 92, 61, 0.15);
+        --color-green-primary-10: rgba(61, 92, 61, 0.1);
+        --color-green-primary-08: rgba(61, 92, 61, 0.08);
+        --color-green-primary-05: rgba(61, 92, 61, 0.05);
+        --color-green-primary-04: rgba(61, 92, 61, 0.04);
+        --color-green-primary-03: rgba(61, 92, 61, 0.03);
+        --color-green-primary-02: rgba(61, 92, 61, 0.02);
+        --color-green-primary-01: rgba(61, 92, 61, 0.01);
+        --color-green-primary-005: rgba(61, 92, 61, 0.005);
+        --color-green-primary-002: rgba(61, 92, 61, 0.002);
+        --color-green-primary-001: rgba(61, 92, 61, 0.001);
+
+        --color-brown-primary: #5a4a30;
+        --color-brown-primary-40: rgba(90, 74, 48, 0.4);
+        --color-brown-primary-30: rgba(90, 74, 48, 0.3);
+        --color-brown-primary-25: rgba(90, 74, 48, 0.25);
+        --color-brown-primary-20: rgba(90, 74, 48, 0.2);
+        --color-brown-primary-15: rgba(90, 74, 48, 0.15);
+        --color-brown-primary-10: rgba(90, 74, 48, 0.1);
+        --color-brown-primary-08: rgba(90, 74, 48, 0.08);
+        --color-brown-primary-05: rgba(90, 74, 48, 0.05);
+        --color-brown-primary-04: rgba(90, 74, 48, 0.04);
+        --color-brown-primary-03: rgba(90, 74, 48, 0.03);
+        --color-brown-primary-02: rgba(90, 74, 48, 0.02);
+        --color-brown-primary-01: rgba(90, 74, 48, 0.01);
+        --color-brown-primary-005: rgba(90, 74, 48, 0.005);
+        --color-brown-primary-002: rgba(90, 74, 48, 0.002);
+        --color-brown-primary-001: rgba(90, 74, 48, 0.001);
+        --color-brown-secondary: #3d2f1a;
+        --color-brown-tertiary: #2e2314;
+        --color-brown-light: #7d6543;
+        --color-brown-lighter: #a08c6b;
+        --color-brown-dark: #2e2314;
+        --color-brown-darker: #1a140a;
+
+        --color-red-primary: #2e0a05;
+        --color-red-secondary: #d4707c;
+        --color-red-tertiary: #c05663;
+        --color-red-quaternary: #a03a4a;
+        --color-red-error: #522222;
+
+        --color-white: #f5f3ea;
+        --color-text-on-dark: #e0ddd6;
+        --color-white-95: rgba(245, 243, 234, 0.95);
+        --color-white-90: rgba(245, 243, 234, 0.9);
+        --color-white-80: rgba(245, 243, 234, 0.8);
+        --color-white-30: rgba(245, 243, 234, 0.3);
+        --color-white-20: rgba(245, 243, 234, 0.2);
+        --color-white-18: rgba(245, 243, 234, 0.18);
+        --color-white-10: rgba(245, 243, 234, 0.1);
+        --color-white-05: rgba(245, 243, 234, 0.05);
+
+        --color-black: #181612;
+        --color-black-90: rgba(24, 22, 18, 0.9);
+        --color-black-80: rgba(24, 22, 18, 0.8);
+        --color-black-70: rgba(24, 22, 18, 0.7);
+        --color-black-50: rgba(24, 22, 18, 0.5);
+        --color-black-40: rgba(24, 22, 18, 0.4);
+        --color-black-37: rgba(24, 22, 18, 0.37);
+        --color-black-30: rgba(24, 22, 18, 0.3);
+        --color-black-20: rgba(24, 22, 18, 0.2);
+        --color-black-15: rgba(24, 22, 18, 0.15);
+        --color-black-12: rgba(24, 22, 18, 0.12);
+        --color-black-10: rgba(24, 22, 18, 0.1);
+        --color-black-08: rgba(24, 22, 18, 0.08);
+        --color-black-05: rgba(24, 22, 18, 0.05);
+        --color-black-02: rgba(24, 22, 18, 0.02);
+
+        --color-gray-darkest: #f5f3ea;
+        --color-gray-darker: #e0ddd6;
+        --color-gray-dark: #d0ccc3;
+        --color-gray-medium: #444;
+        --color-gray-light: #555;
+        --color-gray-lighter: #666;
+        --color-gray-lightest: #999;
+        --color-gray-bg: #23201a;
+        --color-gray-bg-light: #2c2c2c;
+        --color-gray-bg-lighter: #23201a;
+        --color-gray-bg-lightest: #181612;
+
+        --color-bg-linen: #23201a;
+        --color-bg-white-gradient: linear-gradient(135deg, #23201a, #181612);
+        --color-bg-white-soft: linear-gradient(to right, #23201a, #181612);
+        --color-bg-white-warm: linear-gradient(to right, #23201a, #23201a);
+        
+        /* Card and Overlay Backgrounds (Dark mode) */
+        --color-card-bg: rgba(35, 32, 26, 0.9);
+        --color-card-bg-hover: rgba(35, 32, 26, 0.95);
+        --color-card-bg-solid: #23201a;
+        --color-overlay-bg: rgba(35, 32, 26, 0.8);
+        --color-hero-bg: linear-gradient(135deg, rgba(35, 32, 26, 0.9), rgba(24, 22, 18, 0.8));
+        --color-form-bg: rgba(35, 32, 26, 0.95);
+        --color-input-bg: #2c2a24;
+        
+        /* White Transparency Overrides (Dark mode compatible) */
+        --color-white-transparency-95: rgba(35, 32, 26, 0.95);
+        --color-white-transparency-90: rgba(35, 32, 26, 0.9);
+        --color-white-transparency-80: rgba(35, 32, 26, 0.8);
+        --color-white-transparency-10: rgba(35, 32, 26, 0.1);
+        --color-white-transparency-08: rgba(35, 32, 26, 0.08);
+        --color-white-transparency-05: rgba(35, 32, 26, 0.05);
+        --color-white-transparency-03: rgba(35, 32, 26, 0.03);
+        --color-white-transparency-01: rgba(35, 32, 26, 0.01);
+
+        --color-transparent: transparent;
+        
+        /* Announcement Banner Background - Darker for dark mode */
+        --color-announcement-bg: linear-gradient(135deg, #2e4632, #3d5c3d);
+        
+        /* Gradient Definitions - Dark Mode Versions */
+        --gradient-green-primary: linear-gradient(135deg, #3d5c3d, #2e4632);
+        --gradient-green-secondary: linear-gradient(135deg, #4c7a4c, #3d5c3d);
+        --gradient-green-tertiary: linear-gradient(135deg, #5a8a5a, #4c7a4c);
+        --gradient-green-quaternary: linear-gradient(135deg, #6b9d6b, #5a8a5a);
+        --gradient-green-dark: linear-gradient(135deg, #223522, #1a2a1a);
+        --gradient-green-darker: linear-gradient(135deg, #1a2a1a, #141d14);
+        --gradient-green-darkest: linear-gradient(135deg, #27422a, #223522);
+        --gradient-green-vivid: linear-gradient(135deg, #2e4632, #3d5c3d);
+        
+        --gradient-brown-primary: linear-gradient(135deg, #5a4a30, #3d2f1a);
+        --gradient-brown-secondary: linear-gradient(135deg, #5a4a30, #2e2314);
+        --gradient-brown-dark: linear-gradient(135deg, #3d2f1a, #2e2314);
+        
+        --gradient-mixed-green-brown: linear-gradient(to bottom, #3d5c3d, #5a4a30);
+        --gradient-mixed-brown-green: linear-gradient(to bottom, #5a4a30, rgba(90, 74, 48, 0.3));
+        --gradient-mixed-green-transparent: linear-gradient(to bottom, #3d5c3d, rgba(61, 92, 61, 0.3));
+        
+        /* Line Gradients - Dark Mode Versions */
+        --gradient-line-green: linear-gradient(90deg, #3d5c3d 0%, rgba(61, 92, 61, 0.2) 50%, transparent 100%);
+        --gradient-line-brown: linear-gradient(90deg, #5a4a30 0%, rgba(90, 74, 48, 0.2) 50%, transparent 100%);
+        --gradient-line-brown-subtle: linear-gradient(90deg, transparent, #5a4a30, transparent);
+        --gradient-line-brown-lighter: linear-gradient(90deg, transparent, rgba(90, 74, 48, 0.2), transparent);
+        --gradient-line-brown-lightest: linear-gradient(90deg, transparent, rgba(90, 74, 48, 0.1), transparent);
+        
+    /* Semantic Theme Tokens - Dark mapping (system preference) */
+    --surface-1: var(--color-gray-bg);
+    --surface-2: var(--color-gray-bg-light);
+    --surface-3: var(--color-gray-bg-lighter);
+    --elevated-overlay: var(--color-white-05);
+
+    --text-1: var(--color-white-90);
+    --text-2: var(--color-white-80);
+    --text-inverse: var(--color-black);
+
+    --border-1: var(--color-white-10);
+    --border-2: var(--color-white-18);
+    --shadow-color: var(--color-black-80);
+
+    --accent: var(--color-green-light);
+    --link: var(--color-green-light);
+    }
+}
 

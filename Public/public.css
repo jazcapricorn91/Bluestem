@@ -1,84 +1,11 @@
-/* Public-specific styles - Color utilities are in root style.css */
-
-/* Custom CSS scrollbar styling - Modern, minimal design */
-/* Webkit scrollbar properties for Chrome, Safari, Edge */
-
-/* Main scrollbar */
-::-webkit-scrollbar {
-    width: 8px; /* Thin scrollbar width */
-    height: 8px; /* For horizontal scrollbars */
-}
-
-/* Scrollbar track (background) */
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05); /* Very subtle light gray track */
-    border-radius: 10px; /* Rounded track */
-}
-
-/* Scrollbar thumb (the draggable part) */
-::-webkit-scrollbar-thumb {
-    background: rgba(152, 121, 82, 0.3); /* Using your brown color with transparency */
-    border-radius: 10px; /* Rounded thumb */
-    border: 2px solid transparent; /* Creates padding effect */
-    background-clip: content-box;
-    transition: all 0.3s ease; /* Smooth hover effects */
-}
-
-/* Scrollbar thumb on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(152, 121, 82, 0.6); /* Darker on hover */
-    transform: scaleY(1.1); /* Slight grow effect */
-}
-
-/* Scrollbar thumb when active/being dragged */
-::-webkit-scrollbar-thumb:active {
-    background: rgba(144, 26, 45, 0.7); /* Your red color when active */
-}
-
-/* Hide scrollbar arrows/buttons */
-::-webkit-scrollbar-button {
-    display: none;
-}
-
-/* Corner where horizontal and vertical scrollbars meet */
-::-webkit-scrollbar-corner {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-/* Special styling for modal content area scrollbar */
-.laura-modal-content .laura-story-content::-webkit-scrollbar {
-    width: 8px;
-    background: rgba(0, 0, 0, 0.02); /* Very subtle background */
-}
-
-.laura-modal-content .laura-story-content::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.02);
-    border-radius: 4px;
-}
-
-.laura-modal-content .laura-story-content::-webkit-scrollbar-thumb {
-    background: rgba(152, 121, 82, 0.3); /* Brown to match your theme */
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background-clip: content-box;
-}
-
-.laura-modal-content .laura-story-content::-webkit-scrollbar-thumb:hover {
-    background: rgba(152, 121, 82, 0.5);
-}
-
-/* Firefox scrollbar styling (limited support) */
-html {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(152, 121, 82, 0.3) rgba(0, 0, 0, 0.05);
-}
+/* Public-specific styles - Global color system and scrollbar are in root style.css */
 
 /* Global Background Styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background: #f8f6f3;
+    color: var(--color-gray-dark);
+    background: var(--color-bg-linen);
     position: relative;
     overflow-x: hidden;
 }
@@ -92,9 +19,9 @@ body.linen-background::before {
     width: 120%;
     height: 120%;
     background: 
-        radial-gradient(circle at 20% 30%, rgba(152, 121, 82, 0.02) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(143, 175, 143, 0.02) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(152, 121, 82, 0.01) 0%, transparent 40%);
+        radial-gradient(circle at 20% 30%, var(--color-brown-primary-02) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, var(--color-green-primary-02) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, var(--color-brown-primary-01) 0%, transparent 40%);
     background-size: 800px 800px, 600px 600px, 400px 400px;
     animation: linen-drift 60s ease-in-out infinite;
     z-index: -2;
@@ -109,16 +36,16 @@ body::after {
     height: 800vh;
     background: linear-gradient(
         135deg,
-        rgba(152, 121, 82, 0.4) 0%,
-        rgba(152, 121, 82, 0.25) 8%,
-        rgba(152, 121, 82, 0.15) 15%,
-        rgba(152, 121, 82, 0.08) 25%,
-        rgba(152, 121, 82, 0.04) 35%,
-        rgba(152, 121, 82, 0.02) 45%,
-        rgba(152, 121, 82, 0.01) 55%,
-        rgba(152, 121, 82, 0.005) 65%,
-        rgba(152, 121, 82, 0.002) 75%,
-        rgba(152, 121, 82, 0.001) 85%,
+        var(--color-brown-primary-40) 0%,
+        var(--color-brown-primary-25) 8%,
+        var(--color-brown-primary-15) 15%,
+        var(--color-brown-primary-08) 25%,
+        var(--color-brown-primary-04) 35%,
+        var(--color-brown-primary-02) 45%,
+        var(--color-brown-primary-01) 55%,
+        var(--color-brown-primary-005) 65%,
+        var(--color-brown-primary-002) 75%,
+        var(--color-brown-primary-001) 85%,
         transparent 100%
     );
     z-index: -1;
@@ -154,16 +81,12 @@ body::after {
     }
 }
 
-/* Scrollbar gutter to prevent layout shift */
-html {
-    scrollbar-gutter: stable; /* Reserves space so viewport width never changes */
-}
 
 
 /* Footer Styles */
 .footer {
     background: transparent; /* Let page background show through */
-    color: #2c3e50;
+    color: var(--color-gray-darker);
     font-family: 'Overlock', sans-serif;
     margin-top: 60px;
 }
@@ -172,7 +95,7 @@ html {
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 20px 20px;
-    border-top: 2px solid rgba(152, 121, 82, 0.2); /* Subtle top border */
+    border-top: 2px solid var(--color-brown-primary-20); /* Subtle top border */
 }
 
 .footer-content {
@@ -183,28 +106,28 @@ html {
 }
 
 .footer-section h3 {
-    color: #987952;
+    color: var(--color-brown-primary);
     font-family: 'Fredericka the Great', cursive;
     font-size: 1.5rem;
     margin-bottom: 15px;
     padding-bottom: 8px;
-    border-bottom: 1px solid rgba(152, 121, 82, 0.3);
+    border-bottom: 1px solid var(--color-brown-primary-30);
 }
 
 .footer-section p {
     margin-bottom: 10px;
     line-height: 1.6;
-    color: #666;
+    color: var(--color-gray-lighter);
 }
 
 .footer-section a {
-    color: #666;
+    color: var(--color-gray-lighter);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .footer-section a:hover {
-    color: #987952;
+    color: var(--color-brown-primary);
     text-decoration: underline;
 }
 
@@ -212,8 +135,8 @@ html {
 .footer-logo-social {
     text-align: center;
     padding: 25px 0;
-    border-top: 1px solid rgba(152, 121, 82, 0.2);
-    border-bottom: 1px solid rgba(152, 121, 82, 0.2);
+    border-top: 1px solid var(--color-brown-primary-20);
+    border-bottom: 1px solid var(--color-brown-primary-20);
 }
 
 .footer-logo {
@@ -243,7 +166,7 @@ html {
     justify-content: center;
     width: 45px;
     height: 45px;
-    background: rgba(152, 121, 82, 0.1);
+    background: var(--color-brown-primary-10);
     border-radius: 50%;
     text-decoration: none;
     font-size: 1.3rem;
@@ -251,7 +174,7 @@ html {
 }
 
 .social-icon:hover {
-    background: rgba(152, 121, 82, 0.2);
+    background: var(--color-brown-primary-20);
     transform: translateY(-2px);
 }
 
@@ -268,57 +191,29 @@ html {
 
 .footer-copyright {
     font-weight: 600;
-    color: #987952;
+    color: var(--color-brown-primary);
     margin-bottom: 15px;
     font-size: 0.95rem;
 }
 
 .footer-disclaimer {
-    color: #666;
+    color: var(--color-gray-lighter);
     font-size: 0.85rem;
     line-height: 1.5;
     margin: 0;
 }
 
-/* Global Section Title Styles */
-.section-title {
-    font-family: 'Fredericka the Great', cursive;
-    font-size: 2.5rem;
-    color: #987952;
-    text-align: center;
-    margin-bottom: 50px;
-    font-weight: 400;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    letter-spacing: 1px;
-}
-
-/* Global Fredericka Header Styles */
-.fredericka-header-green {
-    font-family: 'Fredericka the Great', cursive;
-    font-weight: 400;
-    color: #8faf8f;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    letter-spacing: 1px;
-    font-size: 2.5rem;
-}
-
-.fredericka-header-brown {
-    font-family: 'Fredericka the Great', cursive;
-    font-weight: 400;
-    color: #987952;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    letter-spacing: 1px;
-    font-size: 2.5rem;
-}
+/* Global Section Title Styles - Using utility classes now */
+/* Headers now use: .font-fredericka .text-[size] .text-[color] .text-center .mb-[spacing] */
 
 /* Global Featured Box Styles */
 .featured-box-green {
     position: relative;
     margin: 40px 0;
     padding: 35px;
-    background: linear-gradient(135deg, rgba(143, 175, 143, 0.03), rgba(143, 175, 143, 0.08));
+    background: linear-gradient(135deg, var(--color-green-primary-03), var(--color-green-primary-08));
     border-radius: 25px;
-    border: 2px solid rgba(143, 175, 143, 0.15);
+    border: 2px solid var(--color-green-primary-15);
     overflow: hidden;
 }
 
@@ -329,7 +224,7 @@ html {
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(143, 175, 143, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--color-green-primary-05) 0%, transparent 70%);
     animation: subtle-rotate 20s linear infinite;
     z-index: -1;
     pointer-events: none;
@@ -339,9 +234,9 @@ html {
     position: relative;
     margin: 40px 0;
     padding: 35px;
-    background: linear-gradient(135deg, rgba(152, 121, 82, 0.03), rgba(152, 121, 82, 0.08));
+    background: linear-gradient(135deg, var(--color-brown-primary-03), var(--color-brown-primary-08));
     border-radius: 25px;
-    border: 2px solid rgba(152, 121, 82, 0.15);
+    border: 2px solid var(--color-brown-primary-15);
     overflow: hidden;
 }
 
@@ -352,7 +247,7 @@ html {
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(152, 121, 82, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--color-brown-primary-05) 0%, transparent 70%);
     animation: subtle-rotate 20s linear infinite;
     z-index: -1;
     pointer-events: none;
@@ -378,11 +273,11 @@ html {
 }
 
 .featured-box-green .featured-box-title {
-    color: #8faf8f;
+    color: var(--color-green-primary);
 }
 
 .featured-box-brown .featured-box-title {
-    color: #987952;
+    color: var(--color-brown-primary);
 }
 
 .featured-box-line {
@@ -391,18 +286,18 @@ html {
 }
 
 .featured-box-green .featured-box-line {
-    background: linear-gradient(90deg, #8faf8f 0%, rgba(143, 175, 143, 0.2) 50%, transparent 100%);
+    background: var(--gradient-line-green);
 }
 
 .featured-box-brown .featured-box-line {
-    background: linear-gradient(90deg, #987952 0%, rgba(152, 121, 82, 0.2) 50%, transparent 100%);
+    background: var(--gradient-line-brown);
 }
 
 .featured-box-text {
     font-family: 'Overlock', sans-serif;
     font-size: 1.05rem;
     line-height: 1.8;
-    color: #444;
+    color: var(--color-gray-medium);
     margin: 0;
     position: relative;
     z-index: 1;
@@ -416,11 +311,11 @@ html {
 }
 
 .featured-box-green .featured-box-text em {
-    color: #8faf8f;
+    color: var(--color-green-primary);
 }
 
 .featured-box-brown .featured-box-text em {
-    color: #987952;
+    color: var(--color-brown-primary);
 }
 
 .featured-box-text em::after {
@@ -436,11 +331,11 @@ html {
 }
 
 .featured-box-green .featured-box-text em::after {
-    background: rgba(143, 175, 143, 0.3);
+    background: var(--color-green-primary-30);
 }
 
 .featured-box-brown .featured-box-text em::after {
-    background: rgba(152, 121, 82, 0.3);
+    background: var(--color-brown-primary-30);
 }
 
 .featured-box-green:hover .featured-box-text em::after,
@@ -457,20 +352,20 @@ html {
 /* Global Button Styles */
 .laura-cta-button {
     display: inline-block;
-    background: linear-gradient(135deg, #987952, #7d6543);
-    color: white;
+    background: var(--gradient-brown-primary);
+    color: var(--color-white);
     padding: 12px 30px;
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 20px rgba(152, 121, 82, 0.3);
+    box-shadow: 0 5px 20px var(--color-brown-primary-30);
 }
 
 .laura-cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(152, 121, 82, 0.4);
-    background: linear-gradient(135deg, #7d6543, #6b5939);
+    box-shadow: 0 8px 25px var(--color-brown-primary-40);
+    background: var(--gradient-brown-dark);
 }
 
 /* Responsive Footer */

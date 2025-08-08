@@ -27,8 +27,8 @@ body.loading {
 
 /* Laura's Story Button */
 .story-button {
-    background: linear-gradient(135deg, #987952, #7d6543);
-    color: white;
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-secondary));
+    color: var(--color-text-on-dark);
     border: none;
     padding: 8px 16px;
     border-radius: 20px;
@@ -37,19 +37,19 @@ body.loading {
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 8px;
-    box-shadow: 0 2px 8px rgba(152, 121, 82, 0.2);
+    box-shadow: 0 2px 8px var(--color-brown-primary-20);
 }
 
 .story-button:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(152, 121, 82, 0.3);
+    box-shadow: 0 4px 12px var(--color-brown-primary-30);
 }
 
 /* Base styles */
 html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: var(--color-text-on-dark);
     max-width: 100%;
     width: 100%;
     margin: 0;
@@ -79,7 +79,7 @@ html, body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(90,110,90,0.1), rgba(139,69,19,0.1));
+    background: linear-gradient(var(--color-dark-overlay-light), var(--color-dark-overlay-brown));
     z-index: 2;
 }
 
@@ -140,12 +140,12 @@ html, body {
     font-size: clamp(5rem, 15vw, 12rem);
     font-weight: 900;
     line-height: 0.8;
-    color: transparent;
-    -webkit-text-stroke: 4px white;
-    text-stroke: 4px white;
+    color: var(--color-transparent);
+    -webkit-text-stroke: 4px var(--color-white);
+    text-stroke: 4px var(--color-white);
     position: relative;
     margin-bottom: 1rem;
-    text-shadow: 0 0 20px rgba(0,0,0,0.5);
+    text-shadow: 0 0 20px var(--color-black-50);
 }
 
 .outlined-text::before {
@@ -156,21 +156,21 @@ html, body {
     width: 100%;
     height: 100%;
     background:
-        linear-gradient(rgba(30,30,30,0.55), rgba(30,30,30,0.55)),
+        linear-gradient(var(--color-dark-overlay-55), var(--color-dark-overlay-55)),
         url('https://images.unsplash.com/photo-1464983953574-0892a716854b?w=1400') center/cover;
     background-blend-mode: darken;
     background-clip: text;
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: var(--color-transparent);
     animation: slideBackgroundOutlined 32s ease-in-out infinite;
 }
 
 /* Subtitle */
 .hero-subtitle {
     font-size: clamp(1.2rem, 3vw, 2rem);
-    color: white;
+    color: var(--color-white);
     margin-bottom: 3rem;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    text-shadow: 1px 1px 3px var(--color-black-70);
     font-weight: 300;
     letter-spacing: 0.1em;
     opacity: 0;
@@ -182,10 +182,10 @@ html, body {
     display: inline-flex;
     align-items: center;
     gap: 1rem;
-    background: rgba(255,255,255,0.95);
-    color: #2c3e50;
+    background: var(--color-white-transparency-80);
+    color: var(--color-text-on-dark);
     padding: 1.5rem 3rem;
-    border: none;
+    border: 2px solid var(--color-black-20);
     border-radius: 60px;
     font-size: 1.3rem;
     font-weight: 600;
@@ -193,15 +193,15 @@ html, body {
     transition: all 0.4s ease;
     text-decoration: none;
     backdrop-filter: blur(10px);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 40px var(--color-black-30);
     opacity: 0;
     animation: fadeInUp 1s ease 1.5s both;
 }
 
 .hero-cta:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    background: white;
+    box-shadow: 0 20px 60px var(--color-black-40);
+    background: var(--color-white);
 }
 
 /* Scroll indicator */
@@ -210,7 +210,7 @@ html, body {
     bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
-    color: white;
+    color: var(--color-white);
     text-align: center;
     z-index: 3;
     opacity: 0;
@@ -226,12 +226,12 @@ html, body {
 .school-module {
     max-width: 1400px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.98);
+    background: var(--color-card-bg);
     backdrop-filter: blur(10px);
     box-shadow: 
-        0 25px 70px rgba(0,0,0,0.12),
-        0 5px 20px rgba(152, 121, 82, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+        0 25px 70px var(--color-black-20),
+        0 5px 20px var(--color-brown-primary-15);
+    border: 1px solid var(--color-white-10);
     border-radius: 40px;
     padding: 80px;
     position: relative;
@@ -254,21 +254,21 @@ html, body {
     font-size: 3.8rem;
     font-weight: 400;
     line-height: 1.1;
-    color: #2c2c2c;
+    color: var(--color-text-on-dark);
     font-family: 'Fredericka the Great', cursive;
     margin-bottom: 40px;
     letter-spacing: 2px;
 }
 
 .school-module .big-typography .highlight {
-    color: #987952;
+    color: var(--color-brown-primary);
     position: relative;
 }
 
 .school-module .content-text {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: #444;
+    color: var(--color-green-primary);
     margin-bottom: 25px;
     font-weight: 400;
     font-family: 'Overlock', sans-serif;
@@ -279,8 +279,8 @@ html, body {
     width: 100%;
     margin: 50px 0;
     padding: 50px 40px;
-    background: linear-gradient(135deg, #5a8a5a, #7eb37e);
-    color: white;
+    background: var(--color-announcement-bg);
+    color: var(--color-white);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -311,7 +311,7 @@ html, body {
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: white;
+    background-color: var(--color-gray-darkest);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -322,7 +322,7 @@ html, body {
 }
 
 .quote-loader.show-bg {
-    background-color: #901a2d;
+    background-color: var(--color-red-primary);
 }
 
 .quote-loader.show-quote .quote-text {
@@ -343,7 +343,7 @@ html, body {
 .quote-text {
     font-family: "Gravitas One", serif;
     font-size: 2rem;
-    color: white;
+    color: var(--color-white);
     text-align: center;
     margin-bottom: 1rem;
     padding: 0 2rem;
@@ -354,7 +354,7 @@ html, body {
 
 .quote-author {
     font-size: 1.2rem;
-    color: #987952;
+    color: var(--color-brown-primary);
     font-style: italic;
     opacity: 0;
     transform: translateY(20px);
@@ -368,14 +368,14 @@ html, body {
     min-height: 100vh;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #f8fdf8, #ffffff);
+    background: var(--color-bg-white-gradient);
 }
 
 /* Left Side: Logo Module */
 .logo-module-left {
     width: 50%;
     position: relative;
-    background: transparent;
+    background: var(--color-transparent);
     padding: 80px 40px;
     display: flex;
     align-items: center;
@@ -387,7 +387,7 @@ html, body {
 .sandbox-module-right {
     width: 50%;
     position: relative;
-    background: transparent;
+    background: var(--color-transparent);
     padding: 80px 40px;
     display: flex;
     align-items: center;
@@ -407,16 +407,16 @@ html, body {
 .green-circle {
     width: 400px;
     height: 400px;
-    background: linear-gradient(135deg, #8faf8f, #7a9d7a);
+    background: linear-gradient(135deg, var(--color-green-primary), var(--color-green-secondary));
     border-radius: 50%;
     position: relative;
-    box-shadow: 0 20px 60px rgba(143, 175, 143, 0.3);
+    box-shadow: 0 20px 60px var(--color-green-primary-30);
 }
 
 /* Additional organic green shapes */
 .organic-shape {
     position: absolute;
-    background: linear-gradient(135deg, #9cb89c, #8aa88a);
+    background: var(--gradient-green-secondary);
     border-radius: 50%;
     opacity: 0.6;
     z-index: 2;
@@ -427,7 +427,7 @@ html, body {
     height: 180px;
     top: -60px;
     right: -80px;
-    background: linear-gradient(135deg, #a5c3a5, #92b192);
+    background: var(--gradient-green-tertiary);
 }
 
 .organic-2 {
@@ -435,7 +435,7 @@ html, body {
     height: 120px;
     bottom: -40px;
     left: -50px;
-    background: linear-gradient(135deg, #b0d0b0, #9fbf9f);
+    background: var(--gradient-green-quaternary);
 }
 
 .organic-3 {
@@ -443,7 +443,7 @@ html, body {
     height: 200px;
     top: 150px;
     left: -70px;
-    background: linear-gradient(135deg, #87a587, #7a9d7a);
+    background: var(--gradient-green-dark);
     opacity: 0.4;
 }
 
@@ -452,7 +452,7 @@ html, body {
     height: 140px;
     top: -50px;
     left: 50px;
-    background: linear-gradient(135deg, #95b395, #82a082);
+    background: var(--gradient-green-darker);
     opacity: 0.5;
 }
 
@@ -461,14 +461,14 @@ html, body {
     height: 160px;
     bottom: 30px;
     right: -60px;
-    background: linear-gradient(135deg, #a8c8a8, #95b595);
+    background: var(--gradient-green-darkest);
     opacity: 0.3;
 }
 
 .white-logo-circle {
     width: 280px;
     height: 280px;
-    background: white;
+    background: var(--color-white);
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -478,7 +478,7 @@ html, body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px var(--color-black-10);
     z-index: 6;
 }
 
@@ -499,15 +499,15 @@ html, body {
     font-size: 2.2rem;
     font-weight: 900;
     letter-spacing: 4px;
-    color: #2c2c2c;
+    color: var(--color-text-on-dark);
     font-family: 'Impact', 'Arial Black', sans-serif;
     margin-bottom: 5px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    text-shadow: 1px 1px 2px var(--color-black-10);
 }
 
 .logo-subtitle {
     font-size: 0.8rem;
-    color: #666;
+    color: var(--color-gray-lighter);
     font-weight: 300;
     letter-spacing: 2px;
     font-family: 'Times New Roman', serif;
@@ -516,12 +516,12 @@ html, body {
 /* Overlapping blurbs */
 .dynamic-blurb {
     position: absolute;
-    background: rgba(143, 175, 143, 0.4);
+    background: var(--color-green-primary-40);
     padding: 12px;
     border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    box-shadow: 0 15px 40px var(--color-black-12);
     transition: all 0.4s ease;
-    border: 3px solid transparent;
+    border: 3px solid var(--color-transparent);
     max-width: 250px;
     z-index: 10;
     overflow: hidden;
@@ -545,14 +545,14 @@ html, body {
 .dynamic-blurb:active,
 .dynamic-blurb.touch-active {
     transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 25px 60px rgba(0,0,0,0.2);
-    border-color: #8faf8f;
+    box-shadow: 0 25px 60px var(--color-black-20);
+    border-color: var(--color-green-primary);
     z-index: 20;
 }
 
 /* Blurb content */
 .blurb-content {
-    background: rgba(143, 175, 143, 0.15);
+    background: var(--color-green-primary-15);
     padding: 25px 30px;
     backdrop-filter: blur(5px);
     height: 100%;
@@ -565,8 +565,8 @@ html, body {
 }
 
 .blurb-content * {
-    color: white;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    color: var(--color-white);
+    text-shadow: 0 2px 4px var(--color-black-30);
     transition: opacity 0.5s ease;
 }
 
@@ -574,9 +574,9 @@ html, body {
 .dynamic-blurb:hover .blurb-content,
 .dynamic-blurb:active .blurb-content,
 .dynamic-blurb.touch-active .blurb-content {
-    background: rgba(143, 175, 143, 0);
+    background: var(--color-transparent);
     backdrop-filter: blur(0px);
-    border-color: rgba(143, 175, 143, 0);
+    border-color: var(--color-transparent);
 }
 
 .dynamic-blurb:hover .blurb-content *,
@@ -646,6 +646,7 @@ html, body {
     font-size: 0.8rem;
     line-height: 1.4;
     font-style: italic;
+    color: var(--color-white);
 }
 
 /* Programs grid styles */
@@ -656,17 +657,17 @@ html, body {
 }
 
 .program-card {
-    background: white;
+    background: var(--color-card-bg);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px var(--color-black-10);
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .program-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    box-shadow: 0 20px 50px var(--color-black-15);
 }
 
 .card-image {
@@ -686,13 +687,13 @@ html, body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, rgba(93, 173, 226, 0.8), rgba(133, 193, 233, 0.8));
+    background: linear-gradient(135deg, var(--color-green-primary-80), var(--color-green-secondary-80));
     opacity: 0;
     transition: opacity 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--color-gray-dark);
     font-size: 1.2rem;
     font-weight: bold;
 }
@@ -708,17 +709,17 @@ html, body {
 .card-content h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #2c3e50;
+    color: var(--color-text-on-dark);
 }
 
 .card-content p {
-    color: #666;
+    color: var(--color-text-on-dark);
     line-height: 1.6;
 }
 
 /* Values Section */
 .values {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    background: linear-gradient(135deg, var(--color-gray-bg-light), var(--color-gray-bg-lighter));
     padding: 5rem 2rem;
 }
 
@@ -736,10 +737,10 @@ html, body {
 }
 
 .value-item {
-    background: white;
+    background: var(--color-card-bg);
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 5px 20px var(--color-black-08);
     transition: transform 0.3s ease;
 }
 
@@ -752,10 +753,10 @@ html, body {
 .principles-module {
     max-width: 1400px;
     margin: 80px auto;
-    background: #ffffff;
+    background: var(--color-card-bg-solid);
     border-radius: 40px;
     padding: 80px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    box-shadow: 0 20px 60px var(--color-black-08);
     position: relative;
     overflow: hidden;
 }
@@ -794,7 +795,7 @@ html, body {
 .slide-arrow {
     position: absolute;
     font-size: 2rem;
-    color: #8faf8f;
+    color: var(--color-green-primary);
     z-index: 1;
     top: 50%;
     transform: translateY(-50%);
@@ -853,7 +854,7 @@ html, body {
 
 /* Text content box */
 .text-content-box {
-    background: linear-gradient(135deg, #8faf8f, #7a9d7a);
+    background: linear-gradient(135deg, var(--color-green-primary), var(--color-green-secondary));
     border-radius: 25px;
     padding: 40px 120px 40px 40px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
@@ -872,7 +873,7 @@ html, body {
     position: absolute;
     top: 0;
     left: 0;
-    border: 8px solid #8faf8f;
+    border: 8px solid var(--color-green-primary);
     box-sizing: border-box;
     overflow-y: auto;
     scrollbar-width: none; /* Firefox */
@@ -946,7 +947,7 @@ html, body {
 }
 
 .text-content-box .principle-text {
-    color: #8faf8f;
+    color: var(--color-green-primary);
     font-size: 1.1rem;
     line-height: 1.6;
     margin-bottom: 15px;
@@ -959,7 +960,7 @@ html, body {
 
 /* Text visibility */
 .principle-block.card-visible .text-content-box .principle-text {
-    color: white;
+    color: var(--color-gray-dark);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
@@ -967,9 +968,9 @@ html, body {
     cursor: pointer;
     font-size: 2.5rem;
     font-weight: 900;
-    color: #2c2c2c;
+    color: var(--color-brown-primary);
     margin-bottom: 25px;
-    font-family: 'Impact', sans-serif;
+    font-family: 'Fredericka the Great', cursive;
     letter-spacing: 1px;
     position: relative;
     z-index: 5;
@@ -1001,16 +1002,16 @@ html, body {
 .principle-visual {
     height: 350px;
     border-radius: 25px;
-    background: linear-gradient(135deg, #8faf8f, #7a9d7a);
+    background: linear-gradient(135deg, var(--color-green-primary), var(--color-green-secondary));
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 5rem;
-    color: white;
+    color: var(--color-gray-dark);
     position: relative;
     overflow: hidden;
     transition: transform 0.3s ease;
-    border: 8px solid #8faf8f;
+    border: 8px solid var(--color-green-primary);
     box-sizing: border-box;
     z-index: 20;
     cursor: pointer;
@@ -1024,14 +1025,14 @@ html, body {
 /* Visual feedback when card is open */
 .principle-block.card-visible .principle-visual {
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px var(--color-black-20);
     z-index: 3;
     position: relative;
 }
 
 .principle-block.card-visible .principle-visual:hover {
     transform: scale(0.98);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 5px 20px var(--color-black-15);
 }
 
 /* Visual on top for clicking */
@@ -1056,30 +1057,30 @@ html, body {
 }
 
 .mission-visual {
-    background: linear-gradient(135deg, rgba(143, 175, 143, 0.8), rgba(122, 157, 122, 0.8)),
+    background: linear-gradient(135deg, var(--color-green-primary-80), var(--color-green-secondary-80)),
                 url('../Images/Mission.jpg');
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;
-    border-color: #8faf8f;
+    border-color: var(--color-green-primary);
 }
 
 .individualized-visual {
-    background: linear-gradient(135deg, rgba(122, 157, 122, 0.8), rgba(107, 142, 107, 0.8)),
+    background: linear-gradient(135deg, var(--color-green-secondary-80), var(--color-green-tertiary-80)),
                 url('../Images/Individual.jpg');
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;
-    border-color: #7a9d7a;
+    border-color: var(--color-green-secondary);
 }
 
 .lifelong-visual {
-    background: linear-gradient(135deg, rgba(107, 142, 107, 0.8), rgba(92, 127, 92, 0.8)),
+    background: linear-gradient(135deg, var(--color-green-tertiary-80), var(--color-green-quaternary-80)),
                 url('../Images/Love_of_Learning.jpg');
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;
-    border-color: #6b8e6b;
+    border-color: var(--color-green-tertiary);
 }
 
 /* Founder Module Styles on Right */
@@ -1097,7 +1098,7 @@ html, body {
 .sandbox-module-right .founder-title {
     font-size: 2.5rem;
     font-weight: 400;
-    color: #8faf8f;
+    color: var(--color-green-primary);
     font-family: 'Fredericka the Great', cursive;
     letter-spacing: 2px;
     margin-bottom: 10px;
@@ -1105,7 +1106,7 @@ html, body {
 
 .sandbox-module-right .founder-subtitle {
     font-size: 1.1rem;
-    color: #666;
+    color: var(--color-gray-lighter);
     font-style: italic;
 }
 
@@ -1124,8 +1125,8 @@ html, body {
     width: 280px;
     height: 520px;
     border-radius: 20px;
-    background: rgba(143, 175, 143, 0.4);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    background: var(--color-green-primary-40);
+    box-shadow: 0 15px 30px var(--color-black-10);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -1141,15 +1142,15 @@ html, body {
 }
 
 .sandbox-module-right .founder-quote {
-    background: white;
+    background: var(--color-white);
     padding: 25px 30px;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-    border-left: 5px solid #8faf8f;
+    box-shadow: 0 10px 25px var(--color-black-12);
+    border-left: 5px solid var(--color-green-primary);
     margin-top: 20px;
     font-size: 1.1rem;
     font-style: italic;
-    color: #555;
+    color: var(--color-gray-light);
     line-height: 1.6;
     font-weight: 500;
 }
@@ -1157,13 +1158,13 @@ html, body {
 .sandbox-module-right .founder-name-title {
     font-size: 2rem;
     font-weight: 700;
-    color: #2c2c2c;
+    color: var(--color-text-on-dark);
     margin-bottom: 8px;
     font-family: 'Times New Roman', serif;
 }
 
 .sandbox-module-right .founder-credentials {
-    color: #8faf8f;
+    color: var(--color-green-primary);
     font-weight: 600;
     margin-bottom: 20px;
     font-size: 1rem;
@@ -1172,30 +1173,30 @@ html, body {
 .sandbox-module-right .story-text {
     font-size: 1rem;
     line-height: 1.7;
-    color: #444;
+    color: var(--color-gray-medium);
     margin-bottom: 18px;
     font-family: 'Georgia', serif;
 }
 
 .sandbox-module-right .founder-values {
-    background: rgba(143, 175, 143, 0.4);
+    background: var(--color-green-primary-40);
     padding: 30px;
     border-radius: 20px;
     margin-top: 30px;
-    border-left: 5px solid #8faf8f;
+    border-left: 5px solid var(--color-green-primary);
     width: 100%;
 }
 
 .sandbox-module-right .values-title {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #2c2c2c;
+    color: var(--color-text-on-dark);
     margin-bottom: 12px;
 }
 
 .sandbox-module-right .values-text {
     font-size: 0.95rem;
-    color: #555;
+    color: var(--color-gray-light);
     font-style: italic;
     line-height: 1.6;
 }
@@ -1204,8 +1205,8 @@ html, body {
 .sandbox-module-right .founder-concepts {
     margin: 35px 0;
     padding: 30px;
-    background: linear-gradient(to right, #f0f8f0, #ffffff);
-    border-left: 4px solid #8faf8f;
+    background: var(--color-bg-white-soft);
+    border-left: 4px solid var(--color-green-primary);
     border-radius: 0 20px 20px 0;
     position: relative;
     overflow: hidden;
@@ -1218,14 +1219,14 @@ html, body {
     left: 0;
     width: 4px;
     height: 100%;
-    background: linear-gradient(to bottom, #8faf8f, rgba(143, 175, 143, 0.3));
+    background: linear-gradient(to bottom, var(--color-green-primary), var(--color-green-primary-30));
 }
 
 .sandbox-module-right .concepts-text {
     font-family: 'Overlock', sans-serif;
     font-size: 1.05rem;
     line-height: 1.8;
-    color: #444;
+    color: var(--color-gray-darkest);
     margin: 0;
 }
 
@@ -1235,20 +1236,20 @@ html, body {
     font-size: 3.5rem;
     line-height: 0.8;
     margin: 8px 8px 0 0;
-    color: #8faf8f;
+    color: var(--color-green-primary);
     font-weight: 400;
 }
 
 .sandbox-module-right .concepts-text strong {
-    color: #8faf8f;
+    color: var(--color-green-primary);
     font-weight: 700;
 }
 
 .sandbox-module-right .concepts-text em {
     font-style: normal;
-    color: #2c2c2c;
+    color: var(--color-gray-dark);
     font-weight: 600;
-    border-bottom: 2px solid rgba(143, 175, 143, 0.2);
+    border-bottom: 2px solid var(--color-green-primary-20);
     padding-bottom: 1px;
 }
 
@@ -1282,18 +1283,18 @@ html, body {
 .values-grid .value-item:nth-child(3) { animation-delay: 0.8s; }
 .values-grid .value-item:nth-child(4) { animation-delay: 1s; }
 
-/* Hover state - brown for all value icons */
+/* Hover state -*/
 .values-grid .value-item:hover .value-icon {
-    background: linear-gradient(135deg, #987952, #7a6142);
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-tertiary));
 }
 
 /* Hover state - card background and text color */
 .values-grid .value-item:hover {
-    background: rgba(143, 175, 143, 0.15);
+    background: var(--color-green-primary-15);
 }
 
 .values-grid .value-item:hover p {
-    color: white;
+    color: var(--color-brown-darker);
 }
 
 @keyframes bounce {
@@ -1322,7 +1323,7 @@ html, body {
     }
     
     .sandbox-module-right {
-        border-top: 1px solid rgba(0,0,0,0.05);
+        border-top: 1px solid var(--color-black-05);
     }
 }
 
@@ -1526,8 +1527,8 @@ html, body {
 .laura-modal-content .laura-story-header {
     text-align: center;
     padding: 40px 40px 20px;
-    background: linear-gradient(135deg, #8faf8f, #7a9d7a);
-    color: white;
+    background: linear-gradient(135deg, var(--color-green-primary), var(--color-green-secondary));
+    color: var(--color-white);
     border-radius: 20px 20px 0 0;
     position: sticky;
     top: 0;
@@ -1544,7 +1545,7 @@ html, body {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--color-white-10) 0%, var(--color-transparent) 70%);
     animation: laura-gentle-rotate 20s ease-in-out infinite;
 }
 
@@ -1557,8 +1558,8 @@ html, body {
 .fredericka-header-green {
     font-family: 'Fredericka the Great', cursive;
     font-weight: 400;
-    color: #8faf8f;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    color: var(--color-green-primary);
+    text-shadow: 1px 1px 2px var(--color-black-20);
     letter-spacing: 1px;
     font-size: 2.5rem;
 }
@@ -1566,8 +1567,8 @@ html, body {
 .fredericka-header-brown {
     font-family: 'Fredericka the Great', cursive;
     font-weight: 400;
-    color: #987952;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    color: var(--color-brown-primary);
+    text-shadow: 1px 1px 2px var(--color-black-20);
     letter-spacing: 1px;
     font-size: 2.5rem;
 }
@@ -1577,9 +1578,9 @@ html, body {
     position: relative;
     margin: 40px 0;
     padding: 35px;
-    background: linear-gradient(135deg, rgba(143, 175, 143, 0.03), rgba(143, 175, 143, 0.08));
+    background: linear-gradient(135deg, var(--color-green-primary-03), var(--color-green-primary-08));
     border-radius: 25px;
-    border: 2px solid rgba(143, 175, 143, 0.15);
+    border: 2px solid var(--color-green-primary-15);
     overflow: hidden;
 }
 
@@ -1590,7 +1591,7 @@ html, body {
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(143, 175, 143, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--color-green-primary-05) 0%, var(--color-transparent) 70%);
     animation: subtle-rotate 20s linear infinite;
     z-index: -1;
     pointer-events: none;
@@ -1600,9 +1601,9 @@ html, body {
     position: relative;
     margin: 40px 0;
     padding: 35px;
-    background: linear-gradient(135deg, rgba(152, 121, 82, 0.03), rgba(152, 121, 82, 0.08));
+    background: linear-gradient(135deg, var(--color-brown-primary-03), var(--color-brown-primary-08));
     border-radius: 25px;
-    border: 2px solid rgba(152, 121, 82, 0.15);
+    border: 2px solid var(--color-brown-primary-15);
     overflow: hidden;
 }
 
@@ -1613,7 +1614,7 @@ html, body {
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(152, 121, 82, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--color-brown-primary-05) 0%, var(--color-transparent) 70%);
     animation: subtle-rotate 20s linear infinite;
     z-index: -1;
     pointer-events: none;
@@ -1636,15 +1637,15 @@ html, body {
     letter-spacing: 0.5px;
     text-transform: uppercase;
     margin: 0;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.05);
+    text-shadow: 1px 1px 0 var(--color-black-05);
 }
 
 .featured-box-green .featured-box-title {
-    color: #8faf8f;
+    color: var(--color-green-lighter);
 }
 
 .featured-box-brown .featured-box-title {
-    color: #987952;
+    color: var(--color-brown-primary);
 }
 
 .featured-box-line {
@@ -1653,21 +1654,29 @@ html, body {
 }
 
 .featured-box-green .featured-box-line {
-    background: linear-gradient(90deg, #8faf8f 0%, rgba(143, 175, 143, 0.2) 50%, transparent 100%);
+    background: linear-gradient(90deg, var(--color-green-primary) 0%, var(--color-green-primary-20) 50%, var(--color-transparent) 100%);
 }
 
 .featured-box-brown .featured-box-line {
-    background: linear-gradient(90deg, #987952 0%, rgba(152, 121, 82, 0.2) 50%, transparent 100%);
+    background: linear-gradient(90deg, var(--color-brown-primary) 0%, var(--color-brown-primary-20) 50%, var(--color-transparent) 100%);
 }
 
 .featured-box-text {
     font-family: 'Overlock', sans-serif;
     font-size: 1.05rem;
     line-height: 1.8;
-    color: #444;
+    color: var(--color-brown-light);
     margin: 0;
     position: relative;
     z-index: 1;
+}
+
+.featured-box-green .featured-box-text {
+    color: var(--color-green-darker);
+}
+
+.featured-box-brown .featured-box-text {
+    color: var(--color-brown-light);
 }
 
 .featured-box-text em {
@@ -1678,11 +1687,11 @@ html, body {
 }
 
 .featured-box-green .featured-box-text em {
-    color: #8faf8f;
+    color: var(--color-green-lighter);
 }
 
 .featured-box-brown .featured-box-text em {
-    color: #987952;
+    color: var(--color-brown-primary);
 }
 
 .featured-box-text em::after {
@@ -1698,11 +1707,11 @@ html, body {
 }
 
 .featured-box-green .featured-box-text em::after {
-    background: rgba(143, 175, 143, 0.3);
+    background: var(--color-green-primary-30);
 }
 
 .featured-box-brown .featured-box-text em::after {
-    background: rgba(152, 121, 82, 0.3);
+    background: var(--color-brown-primary-30);
 }
 
 .featured-box-green:hover .featured-box-text em::after,
@@ -1717,9 +1726,9 @@ html, body {
     font-weight: 400; 
     margin-bottom: 10px;
     font-family: 'Fredericka the Great', cursive; 
-    color: #987952;
-    -webkit-text-stroke: 1px rgba(255,255,255,0.8); 
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+    color: var(--color-brown-primary);
+    -webkit-text-stroke: 1px var(--color-white-80); 
+    text-shadow: 0 2px 4px var(--color-black-30); 
     z-index: 1;
 }
 
@@ -1727,7 +1736,7 @@ html, body {
     font-size: 1.2rem;
     opacity: 0.9;
     font-style: italic;
-    color: white;
+    color: var(--color-text-on-dark);
 }
 
 /* Make the content area scrollable */
@@ -1741,14 +1750,14 @@ html, body {
 .laura-modal-content .laura-story-intro {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: #444;
+    color: var(--color-gray-medium);
     margin-bottom: 30px;
     text-align: center;
     font-style: italic;
 }
 
 .laura-modal-content {
-    background: white;
+    background: var(--color-card-bg-solid);
     border-radius: 20px;
     max-width: 800px;
     max-height: 90vh;
@@ -1786,12 +1795,12 @@ html, body {
     position: absolute;
     top: 20px;
     right: 25px;
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--color-white-90);
     border: 2px solid rgba(0, 0, 0, 0.1);
     border-radius: 50%;
     font-size: 28px;
     cursor: pointer;
-    color: #666;
+    color: var(--color-gray-lighter);
     z-index: 1000;
     width: 45px;
     height: 45px;
@@ -1804,10 +1813,10 @@ html, body {
 }
 
 .laura-modal-close:hover {
-    background: rgba(144, 26, 45, 0.9);
-    color: white;
+    background: var(--color-red-primary-90);
+    color: var(--color-gray-dark);
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(144, 26, 45, 0.3);
+    box-shadow: 0 4px 12px var(--color-red-primary-30);
 }
 
 .laura-modal-close:active {
@@ -1817,8 +1826,8 @@ html, body {
 .laura-story-header {
     text-align: center;
     padding: 40px 40px 20px;
-    background: linear-gradient(135deg, #987952, #7d6543);
-    color: white;
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-secondary));
+    color: var(--color-text-on-dark);
     border-radius: 20px 20px 0 0;
 }
 
@@ -1842,7 +1851,7 @@ html, body {
 .laura-story-intro {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: #444;
+    color: var(--color-gray-medium);
     margin-bottom: 30px;
     text-align: center;
     font-style: italic;
@@ -1860,7 +1869,7 @@ html, body {
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(to bottom, #8faf8f, #987952);
+    background: linear-gradient(to bottom, var(--color-green-primary), var(--color-brown-primary));
     border-radius: 2px;
 }
 
@@ -1876,24 +1885,24 @@ html, body {
     top: 5px;
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, #987952, #7d6543);
-    color: white;
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-secondary));
+    color: var(--color-gray-dark);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
     font-size: 0.9rem;
-    box-shadow: 0 5px 15px rgba(152, 121, 82, 0.3);
+    box-shadow: 0 5px 15px var(--color-brown-primary-30);
     z-index: 2;
 }
 
 .laura-timeline-content {
-    background: white;
+    background: var(--color-value-card-bg);
     padding: 25px;
     border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    border-left: 4px solid #8faf8f;
+    box-shadow: 0 5px 20px var(--color-black-08);
+    border-left: 4px solid var(--color-green-primary);
     transition: transform 0.3s ease;
 }
 
@@ -1904,25 +1913,25 @@ html, body {
 .laura-timeline-text {
     font-size: 1rem;
     line-height: 1.7;
-    color: #444;
+    color: var(--color-text-on-dark);
     margin: 0;
 }
 
 .laura-highlight-name {
-    color: #987952;
+    color: var(--color-brown-primary);
     font-weight: 700;
-    background: rgba(152, 121, 82, 0.1);
+    background: var(--color-brown-primary-10);
     padding: 2px 6px;
     border-radius: 4px;
 }
 
 .laura-milestone {
     font-weight: 600;
-    color: #8faf8f;
+    color: var(--color-green-primary);
 }
 
 .laura-story-footer {
-    background: #f8f9fa;
+    background: var(--color-gray-bg-light);
     padding: 30px 40px;
     text-align: center;
     border-radius: 0 0 20px 20px;
@@ -1930,7 +1939,7 @@ html, body {
 
 .laura-footer-text {
     font-size: 1.1rem;
-    color: #666;
+    color: var(--color-text-on-dark);
     margin-bottom: 20px;
     font-style: italic;
 }
@@ -1974,14 +1983,14 @@ html, body {
 
 /* Header */
 .header {
-    background: rgba(255,255,255,0.95);
+    background: var(--color-white-95);
     backdrop-filter: blur(10px);
-    color: #2c3e50;
+    color: var(--color-gray-darker);
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 20px var(--color-black-10);
 }
 
 .nav-container {
@@ -2014,14 +2023,14 @@ html, body {
 
 /* Header */
 .header {
-    background: rgba(255,255,255,0.95);
+    background: var(--color-white-95);
     backdrop-filter: blur(10px);
-    color: #2c3e50;
+    color: var(--color-gray-darker);
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 20px var(--color-black-10);
 }
 
 .nav-container {
@@ -2090,7 +2099,7 @@ html, body {
 
 .floating-shape {
     position: absolute;
-    background: rgba(255,255,255,0.1);
+    background: var(--color-white-10);
     border-radius: 50%;
     animation: float 6s ease-in-out infinite;
     pointer-events: none;
@@ -2129,22 +2138,29 @@ html, body {
     left: 0;
     right: 0;
     height: 8px;
-    background: linear-gradient(90deg, transparent, #987952, transparent);
+    background: linear-gradient(90deg, var(--color-transparent), var(--color-brown-primary), var(--color-transparent));
     opacity: 0.3;
 }
 
 .school-module .founder-highlight {
-    background: rgba(143, 175, 143, 0.4);
+    background: var(--color-green-primary-40);
     padding: 30px;
     border-radius: 20px;
-    border-left: 5px solid #8faf8f;
+    border-left: 5px solid var(--color-green-primary);
     margin: 30px 0;
     position: relative;
 }
 
+.school-module .founder-highlight p {
+    color: var(--color-green-primary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
 .school-module .founder-name {
     font-weight: 700;
-    color: #2c2c2c;
+    color: var(--color-green-primary);
 }
 
 /* Montessori Difference Section */
@@ -2152,9 +2168,9 @@ html, body {
     position: relative;
     margin: 40px 0;
     padding: 35px;
-    background: linear-gradient(135deg, rgba(152, 121, 82, 0.03), rgba(152, 121, 82, 0.08));
+    background: linear-gradient(135deg, var(--color-brown-primary-03), var(--color-brown-primary-08));
     border-radius: 25px;
-    border: 2px solid rgba(152, 121, 82, 0.15);
+    border: 2px solid var(--color-brown-primary-15);
     overflow: hidden;
 }
 
@@ -2165,7 +2181,7 @@ html, body {
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(152, 121, 82, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--color-brown-primary-05) 0%, var(--color-transparent) 70%);
     animation: subtle-rotate 20s linear infinite;
 }
 
@@ -2187,24 +2203,24 @@ html, body {
     font-family: 'Overlock', sans-serif;
     font-size: 1.6rem;
     font-weight: 900;
-    color: #987952;
+    color: var(--color-brown-primary);
     letter-spacing: 0.5px;
     text-transform: uppercase;
     margin: 0;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.05);
+    text-shadow: 1px 1px 0 var(--color-black-05);
 }
 
 .school-module .difference-line {
     flex: 1;
     height: 2px;
-    background: linear-gradient(90deg, #987952 0%, rgba(152, 121, 82, 0.2) 50%, transparent 100%);
+    background: linear-gradient(90deg, var(--color-brown-primary) 0%, var(--color-brown-primary-20) 50%, var(--color-transparent) 100%);
 }
 
 .school-module .difference-text {
     font-family: 'Overlock', sans-serif;
     font-size: 1.05rem;
     line-height: 1.8;
-    color: #444;
+    color: var(--color-gray-medium);
     margin: 0;
     position: relative;
     z-index: 1;
@@ -2212,7 +2228,7 @@ html, body {
 
 .school-module .difference-text em {
     font-style: normal;
-    color: #987952;
+    color: var(--color-brown-primary);
     font-weight: 600;
     position: relative;
     padding: 0 3px;
@@ -2225,7 +2241,7 @@ html, body {
     left: 0;
     right: 0;
     height: 2px;
-    background: rgba(152, 121, 82, 0.3);
+    background: var(--color-brown-primary-30);
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.3s ease;
@@ -2239,14 +2255,14 @@ html, body {
 .school-module .accent-number {
     font-family: 'Overlock', sans-serif;
     font-size: 1.3rem;
-    color: #987952;
+    color: var(--color-brown-primary);
     font-weight: 900;
 }
 
 .school-module .accent-name {
     font-weight: 600;
-    color: #2c2c2c;
-    background: linear-gradient(90deg, transparent, rgba(152, 121, 82, 0.1), transparent);
+    color: var(--color-gray-dark);
+    background: linear-gradient(90deg, var(--color-transparent), var(--color-brown-primary-10), var(--color-transparent));
     padding: 0 8px;
     border-radius: 4px;
 }
@@ -2255,8 +2271,8 @@ html, body {
 .school-module .children-concepts {
     margin: 35px 0;
     padding: 30px;
-    background: linear-gradient(to right, #f9f8f6, #ffffff);
-    border-left: 4px solid #987952;
+    background: var(--color-bg-white-warm);
+    border-left: 4px solid var(--color-brown-primary);
     border-radius: 0 20px 20px 0;
     position: relative;
     overflow: hidden;
@@ -2269,14 +2285,14 @@ html, body {
     left: 0;
     width: 4px;
     height: 100%;
-    background: linear-gradient(to bottom, #987952, rgba(152, 121, 82, 0.3));
+    background: linear-gradient(to bottom, var(--color-brown-primary), var(--color-brown-primary-30));
 }
 
 .school-module .concepts-text {
     font-family: 'Overlock', sans-serif;
     font-size: 1.05rem;
     line-height: 1.8;
-    color: #444;
+    color: var(--color-gray-darkest);
     margin: 0 0 15px 0;
 }
 
@@ -2284,47 +2300,48 @@ html, body {
     margin-bottom: 0;
 }
 
+
 .school-module .first-letter {
     float: left;
     font-family: 'Fredericka the Great', cursive;
     font-size: 3.5rem;
     line-height: 0.8;
     margin: 8px 8px 0 0;
-    color: #987952;
+    color: var(--color-brown-primary);
     font-weight: 400;
 }
 
 .school-module .concepts-text strong {
-    color: #987952;
+    color: var(--color-brown-primary);
     font-weight: 700;
 }
 
 .school-module .concepts-text em {
     font-style: normal;
-    color: #2c2c2c;
+    color: var(--color-gray-dark);
     font-weight: 600;
-    border-bottom: 2px solid rgba(152, 121, 82, 0.2);
+    border-bottom: 2px solid var(--color-brown-primary-20);
     padding-bottom: 1px;
 }
 
 .school-module .cta-button {
     display: inline-block;
-    background: linear-gradient(135deg, #987952, #7d6543);
-    color: white;
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-secondary));
+    color: var(--color-white);
     padding: 15px 35px;
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
     margin-top: 20px;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 20px rgba(152, 121, 82, 0.3);
+    box-shadow: 0 5px 20px var(--color-brown-primary-30);
     font-family: 'Overlock', sans-serif;
 }
 
 .school-module .cta-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 30px rgba(152, 121, 82, 0.4);
-    background: linear-gradient(135deg, #7d6543, #6b5939);
+    background: linear-gradient(135deg, var(--color-brown-secondary), var(--color-brown-dark));
 }
 
 /* Photo Collage Section */
@@ -2355,7 +2372,7 @@ html, body {
 
 .school-module .photo-box.elevated {
     transform: scale(1.05) rotate(2deg) translateZ(120px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 50px var(--color-black-20);
     z-index: 10;
     animation: fadeUp 0.4s ease-out;
 }
@@ -2441,15 +2458,16 @@ html, body {
 
 .school-module .photo-caption {
     position: absolute;
-    background: rgba(255,255,255,0.95);
+    background: var(--color-white-transparency-80);
     padding: 8px 15px;
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
-    color: #2c2c2c;
+    color: var(--color-text-on-dark);
     backdrop-filter: blur(10px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px var(--color-black-20);
     font-family: 'Overlock', sans-serif;
+    border: 2px solid var(--color-black-20);
 }
 
 .school-module .photo-1 .photo-caption {
@@ -2477,7 +2495,7 @@ html, body {
 .school-module .floating-element {
     position: absolute;
     border-radius: 50%;
-    background: linear-gradient(135deg, #987952, #7d6543);
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-secondary));
     opacity: 0.08;
     animation: float 12s ease-in-out infinite;
 }
@@ -2509,7 +2527,7 @@ html, body {
 .school-module .connector-line {
     position: absolute;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(152, 121, 82, 0.2), transparent);
+    background: linear-gradient(90deg, var(--color-transparent), var(--color-brown-primary-20), var(--color-transparent));
     transform-origin: left center;
 }
 
@@ -2540,7 +2558,7 @@ html, body {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--color-white-10) 0%, var(--color-transparent) 70%);
     animation: shimmer 3s ease-in-out infinite;
 }
 
@@ -2555,7 +2573,7 @@ html, body {
 }
 
 .grade-bubble {
-    background: rgba(255,255,255,0.2);
+    background: var(--color-white-20);
     padding: 20px 30px;
     border-radius: 50px;
     border: 2px solid rgba(255,255,255,0.3);
@@ -2585,8 +2603,8 @@ html, body {
     position: absolute;
     top: -10px;
     right: -10px;
-    background: #ff6b6b;
-    color: white;
+    background: var(--color-red-error);
+    color: var(--color-gray-dark);
     padding: 8px 12px;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -2620,7 +2638,7 @@ html, body {
     left: 50%;
     transform: translate(-50%, -50%);
     background: rgba(0, 0, 0, 0.3);
-    color: white;
+    color: var(--color-gray-dark);
     padding: 0.8rem 1.5rem;
     border-radius: 25px;
     font-size: 1.2rem;
@@ -2645,7 +2663,7 @@ html, body {
 /* Values Section Styles */
 .values {
     padding: 80px 0;
-    background: #f8f8f8;
+    background: var(--color-gray-bg);
 }
 
 .values-container {
@@ -2659,7 +2677,7 @@ html, body {
     font-size: 2.5rem;
     margin-bottom: 50px;
     font-family: 'Fredericka the Great', cursive;
-    color: #987952;
+    color: var(--color-brown-primary);
 }
 
 .values-grid {
@@ -2672,7 +2690,7 @@ html, body {
 
 .value-item {
     text-align: center;
-    background: white;
+    background: var(--color-value-card-bg);
     padding: 40px 30px;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -2688,7 +2706,7 @@ html, body {
     width: 80px;
     height: 80px;
     margin: 0 auto 25px;
-    background: linear-gradient(135deg, #8faf8f, #7a9d7a);
+    background: linear-gradient(135deg, var(--color-green-primary), var(--color-green-secondary));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -2698,7 +2716,20 @@ html, body {
 }
 
 .value-item:hover .value-icon {
-    background: #987952;
+    background: var(--color-brown-primary);
+}
+
+/* Dark mode: Make vectors white on hover for better contrast */
+@media (prefers-color-scheme: dark) {
+    .value-item:nth-child(2):hover .value-svg,
+    .value-item:nth-child(4):hover .value-svg {
+        filter: brightness(0) invert(1);
+    }
+}
+
+body.dark-mode .value-item:nth-child(2):hover .value-svg,
+body.dark-mode .value-item:nth-child(4):hover .value-svg {
+    filter: brightness(0) invert(1);
 }
 
 .value-svg {
@@ -2710,13 +2741,13 @@ html, body {
 .value-item h3 {
     font-size: 1.5rem;
     margin-bottom: 15px;
-    color: #2c3e50;
+    color: var(--color-text-on-dark);
     font-family: 'Overlock', sans-serif;
     font-weight: 700;
 }
 
 .value-item p {
-    color: #666;
+    color: var(--color-text-on-dark);
     line-height: 1.6;
     font-size: 1rem;
 }
