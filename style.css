@@ -126,7 +126,7 @@
     --color-announcement-bg: linear-gradient(135deg, #5a8a5a, #7eb37e);
     
     /* Green Transparencies */
-    --color-green-primary-80: rgba(143, 175, 143, 0.8);
+    --color-green-primary-80: rgba(61, 92, 61, 0.8);
     --color-green-primary-40: rgba(143, 175, 143, 0.4);
     --color-green-primary-30: rgba(143, 175, 143, 0.3);
     --color-green-primary-25: rgba(143, 175, 143, 0.25);
@@ -392,21 +392,22 @@ html {
 /* Dark mode via .dark-mode class on <body> */
 body.dark-mode {
         /* Deep, muted brand colors for dark backgrounds */
-        --bluestem-brown: #5a4a30;
+        --bluestem-brown: #c4a477;
         --bluestem-red: #b85c6b;
-        --bluestem-green: #3d5c3d;
+        --bluestem-green: #8faf8f;
         --bluestem-sand: #a08c6b;
         --bluestem-cream: #23201a;
 
         --color-green-primary: #3d5c3d;
         --color-green-secondary: #2e4632;
+        --color-green-modal-header: #2f4835;
         --color-green-tertiary: #27422a;
         --color-green-light: #4c7a4c;
         --color-green-lighter: #5a8a5a;
         --color-green-lightest: #6b9d6b;
-        --color-green-dark: #223522;
-        --color-green-darker: #1a2a1a;
-        --color-green-darkest: #141d14;
+        --color-green-dark: #95b395;
+        --color-green-darker: #a5c3a5;
+        --color-green-darkest: #a5c3a5;
 
         /* Green Transparencies - Dark Mode */
         --color-green-primary-80: rgba(61, 92, 61, 0.8);
@@ -426,7 +427,7 @@ body.dark-mode {
         --color-green-primary-002: rgba(61, 92, 61, 0.002);
         --color-green-primary-001: rgba(61, 92, 61, 0.001);
 
-        --color-brown-primary: #5a4a30;
+        --color-brown-primary: #c4a477;
         --color-brown-primary-40: rgba(90, 74, 48, 0.4);
         --color-brown-primary-30: rgba(90, 74, 48, 0.3);
         --color-brown-primary-25: rgba(90, 74, 48, 0.25);
@@ -572,19 +573,20 @@ body.dark-mode {
     :root {
         --bluestem-brown: #5a4a30;
         --bluestem-red: #881629;
-        --bluestem-green: #3d5c3d;
+        --bluestem-green: #8faf8f;
         --bluestem-sand: #a08c6b;
         --bluestem-cream: #23201a;
 
         --color-green-primary: #3d5c3d;
         --color-green-secondary: #2e4632;
+        --color-green-modal-header: #2f4835;
         --color-green-tertiary: #27422a;
         --color-green-light: #4c7a4c;
         --color-green-lighter: #5a8a5a;
         --color-green-lightest: #6b9d6b;
-        --color-green-dark: #223522;
-        --color-green-darker: #1a2a1a;
-        --color-green-darkest: #141d14;
+        --color-green-dark: #95b395;
+        --color-green-darker: #a5c3a5;
+        --color-green-darkest: #a5c3a5;
 
         /* Green Transparencies - Dark Mode (System Preference) */
         --color-green-primary-80: rgba(61, 92, 61, 0.8);
@@ -604,7 +606,7 @@ body.dark-mode {
         --color-green-primary-002: rgba(61, 92, 61, 0.002);
         --color-green-primary-001: rgba(61, 92, 61, 0.001);
 
-        --color-brown-primary: #5a4a30;
+        --color-brown-primary: #c4a477;
         --color-brown-primary-40: rgba(90, 74, 48, 0.4);
         --color-brown-primary-30: rgba(90, 74, 48, 0.3);
         --color-brown-primary-25: rgba(90, 74, 48, 0.25);

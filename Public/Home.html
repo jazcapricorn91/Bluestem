@@ -135,8 +135,8 @@
             <div class="enroll-actions">
                 <a href="../under_construction.html" class="enroll-btn marigold enroll-btn-apply">Apply Now</a>
                 <a href="Contact.html" class="enroll-btn marigold enroll-btn-contact">Contact Us</a>
-                <a href="tel:+14027350987" class="enroll-btn marigold enroll-btn-phone" style="display:none">
-                    <span style="font-size:1.2em;vertical-align:middle;">📞</span>
+                <a href="tel:+14027350987" class="enroll-btn marigold enroll-btn-phone">
+                    <span class="phone-icon">📞</span>
                 </a>
             </div>
         </div>
@@ -386,7 +386,7 @@
         </div>
         
         <!-- Right Side: Founder Module -->
-        <div class="sandbox-module-right">
+        <div class="founder-section">
             <div class="founder-content-wrapper">
                 <div class="founder-header">
                     <h2 class="founder-title fredericka-header-green">MEET OUR FOUNDER</h2>
@@ -476,7 +476,7 @@ Learning</h3>
 
     <!-- Programs Section -->
     <section class="programs" id="programs">
-        <h2 class="section-title fredericka-header-green" style="text-align: center; margin-bottom: 50px;">Our Programs</h2>
+        <h2 class="section-title fredericka-header-green programs-section-title">Our Programs</h2>
         <div class="programs-grid">
             <div class="program-card">
                 <div class="card-video early-childhood" data-hover-play=".program-video">
@@ -564,7 +564,7 @@ Learning</h3>
         <div class="footer-main">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3 style="color: #b52233;">Contact Us</h3>
+                    <h3 class="footer-contact-title">Contact Us</h3>
                     <p>4530 A St<br>Lincoln, NE 68510</p>
                     <p>Phone: <a href="tel:+14027350987">(402) 735-0987</a></p>
                     <p>Email: <a href="mailto:info@bluestemmontessori.com">info@bluestemmontessori.com</a></p>
@@ -577,7 +577,7 @@ Learning</h3>
                     <p><a href="../under_construction.html">Testimonials</a></p>
                 </div>
                 <div class="footer-section">
-                    <h3 style="color: #8faf8f;">Resources</h3>
+                    <h3 class="footer-resources-title">Resources</h3>
                     <p><a href="downloads/handbooks/">Parent Handbook</a></p>
                     <p><a href="../under_construction.html">Calendar</a></p>
                     <p><a href="downloads/forms/">Forms</a></p>
@@ -617,120 +617,118 @@ Learning</h3>
     <!-- All JavaScript functionality moved to app.js -->
 
     <!-- Laura's Story Modal -->
-    <div class="laura-modal-overlay" id="storyModal">
-        <div class="laura-modal-content">
-            <div class="laura-modal-sticky-header">
-                <button class="laura-modal-close" data-toggle="active" data-target="#storyModal" data-action="remove">&times;</button>
-            </div>
+    <div class="modal" id="storyModal">
+        <div class="modal__content">
+            <div class="modal__header modal__header--founder">
+                <button class="modal__close" data-toggle="active" data-target="#storyModal" data-action="remove">&times;</button>
             
             <!-- Header -->
-            <div class="laura-story-header">
-                <h2 class="laura-story-title">Eight Years of Growth</h2>
-                <p class="laura-story-subtitle">Laura's Journey Building Bluestem Montessori</p>
+                <h2 class="modal__title">Eight Years of Growth</h2>
+                <p class="modal__subtitle">Laura's Journey Building Bluestem Montessori</p>
             </div>
 
             <!-- Content -->
-            <div class="laura-story-content">
-                <p class="laura-story-intro">
+            <div class="modal__body">
+                <p class="modal__intro">
                     What started as a solution for one bored child has grown into a thriving educational community. Here's how Bluestem Montessori has evolved year by year, building something truly special for Lincoln families.
                 </p>
 
-                <div class="laura-timeline">
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">2014</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">The Spark:</span> When Eleanor was bored in school and extra homework was the only solution offered, I realized Lincoln needed an alternative elementary school NOW. Sometimes the best schools start with one parent who refuses to accept "that's just how it is."
+                <div class="timeline">
+                    <div class="timeline__item">
+                        <div class="timeline__year">2014</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">The Spark:</span> When Eleanor was bored in school and extra homework was the only solution offered, I realized Lincoln needed an alternative elementary school NOW. Sometimes the best schools start with one parent who refuses to accept "that's just how it is."
                             </p>
                         </div>
                     </div>
 
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">2015</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">Opening Day:</span> Bluestem opened with 9 students in grades K-3. Our very first enrolled student (besides my own children) was <span class="laura-highlight-name">Melody Vaccaro</span>—brave parents who believed in this "hare-brained scheme" when everyone thought I was absolutely crazy.
+                    <div class="timeline__item">
+                        <div class="timeline__year">2015</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">Opening Day:</span> Bluestem opened with 9 students in grades K-3. Our very first enrolled student (besides my own children) was <span class="timeline__highlight">Melody Vaccaro</span>—brave parents who believed in this "hare-brained scheme" when everyone thought I was absolutely crazy.
                             </p>
                         </div>
                     </div>
 
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">2016</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">Becoming a Teacher:</span> Without a lead teacher, I realized I had to step up and get trained myself. I spent the summer scouring garage sales for books and materials, printing and laminating like crazy, and preparing to lead the classroom personally.
+                    <div class="timeline__item">
+                        <div class="timeline__year">2016</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">Becoming a Teacher:</span> Without a lead teacher, I realized I had to step up and get trained myself. I spent the summer scouring garage sales for books and materials, printing and laminating like crazy, and preparing to lead the classroom personally.
                             </p>
                         </div>
                     </div>
 
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">2017</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">Summer Adventures:</span> We ran our first summer camps on medieval history and pirates—two of my favorite subjects! My mom came to help, and the kids absolutely ran us off our feet. We were exhausted but exhilarated. I also hired the best elementary teacher ever, <span class="laura-highlight-name">Em Warner</span>!
+                    <div class="timeline__item">
+                        <div class="timeline__year">2017</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">Summer Adventures:</span> We ran our first summer camps on medieval history and pirates—two of my favorite subjects! My mom came to help, and the kids absolutely ran us off our feet. We were exhausted but exhilarated. I also hired the best elementary teacher ever, <span class="timeline__highlight">Em Warner</span>!
                             </p>
                         </div>
                     </div>
 
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">2018</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">Weathering the Storm:</span> This was a challenging year that tested our community's strength. But thanks to <span class="laura-highlight-name">Em</span>, <span class="laura-highlight-name">Melody</span>, and other dedicated parents and staff, we pulled together through sheer willpower and dedication. Sometimes the most beautiful things face the greatest tests.
+                    <div class="timeline__item">
+                        <div class="timeline__year">2018</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">Weathering the Storm:</span> This was a challenging year that tested our community's strength. But thanks to <span class="timeline__highlight">Em</span>, <span class="timeline__highlight">Melody</span>, and other dedicated parents and staff, we pulled together through sheer willpower and dedication. Sometimes the most beautiful things face the greatest tests.
                             </p>
                         </div>
                     </div>
 
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">2019</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">Pandemic Pivot:</span> We delivered materials to student porches, filmed lessons for YouTube, and created "camp in a box" packages. <span class="laura-highlight-name">Jami Schmersal Marcano</span> and <span class="laura-highlight-name">Julia K</span> were superstars helping us navigate remote learning. I also completed my three-year Montessori certification!
+                    <div class="timeline__item">
+                        <div class="timeline__year">2019</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">Pandemic Pivot:</span> We delivered materials to student porches, filmed lessons for YouTube, and created "camp in a box" packages. <span class="timeline__highlight">Jami Schmersal Marcano</span> and <span class="timeline__highlight">Julia K</span> were superstars helping us navigate remote learning. I also completed my three-year Montessori certification!
                             </p>
                         </div>
                     </div>
 
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">2020</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">First Graduate & IB Success:</span> We graduated our first sixth grader, who went on to excel in the IB program—proof that our approach gives students skills they carry into high school and beyond. She learned to be responsible for her own education, a skill that serves her well today.
+                    <div class="timeline__item">
+                        <div class="timeline__year">2020</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">First Graduate & IB Success:</span> We graduated our first sixth grader, who went on to excel in the IB program—proof that our approach gives students skills they carry into high school and beyond. She learned to be responsible for her own education, a skill that serves her well today.
                             </p>
                         </div>
                     </div>
 
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">2021</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">Growing Pains:</span> We began searching for a new location, knowing we were outgrowing our wonderful space at the Unitarian Church. Sometimes growth means facing new challenges.
+                    <div class="timeline__item">
+                        <div class="timeline__year">2021</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">Growing Pains:</span> We began searching for a new location, knowing we were outgrowing our wonderful space at the Unitarian Church. Sometimes growth means facing new challenges.
                             </p>
                         </div>
                     </div>
 
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">2022</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">The Great Move (Round Two):</span> We packed up the whole school to move, then had to re-move back to the Unitarian Church when our lease fell through. Their graciousness gave us another year to find the perfect space while I navigated endless city bureaucracy.
+                    <div class="timeline__item">
+                        <div class="timeline__year">2022</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">The Great Move (Round Two):</span> We packed up the whole school to move, then had to re-move back to the Unitarian Church when our lease fell through. Their graciousness gave us another year to find the perfect space while I navigated endless city bureaucracy.
                             </p>
                         </div>
                     </div>
 
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">2023</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">New Home:</span> After years of searching and navigating city bureaucracy, we finally moved to our own dedicated, unshared space. We also celebrated our first student who completed the entire K-6 program with us—a true milestone showing the lasting impact of our approach.
+                    <div class="timeline__item">
+                        <div class="timeline__year">2023</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">New Home:</span> After years of searching and navigating city bureaucracy, we finally moved to our own dedicated, unshared space. We also celebrated our first student who completed the entire K-6 program with us—a true milestone showing the lasting impact of our approach.
                             </p>
                         </div>
                     </div>
 
-                    <div class="laura-timeline-item">
-                        <div class="laura-timeline-year">Today</div>
-                        <div class="laura-timeline-content">
-                            <p class="laura-timeline-text">
-                                <span class="laura-milestone">Expanding Our Vision:</span> This summer, we're opening both a preschool program and a middle/high school program. We graduated our first sixth grader who will continue with us in our new middle school program, <span class="laura-highlight-name">Jordan Bizal</span>, and have an almost full preschool class with a waiting list for next year.
+                    <div class="timeline__item">
+                        <div class="timeline__year">Today</div>
+                        <div class="timeline__content">
+                            <p class="timeline__text">
+                                <span class="timeline__milestone">Expanding Our Vision:</span> This summer, we're opening both a preschool program and a middle/high school program. We graduated our first sixth grader who will continue with us in our new middle school program, <span class="timeline__highlight">Jordan Bizal</span>, and have an almost full preschool class with a waiting list for next year.
                             </p>
                         </div>
                     </div>
@@ -738,11 +736,11 @@ Learning</h3>
             </div>
 
             <!-- Footer -->
-            <div class="laura-story-footer">
-                <p class="laura-footer-text">
+            <div class="modal__footer">
+                <p class="modal__footer-text">
                     Eight years later, what started as a solution for one child has become a thriving community where children develop independence, confidence, and a lifelong love of learning.
                 </p>
-                <a href="#programs" class="laura-cta-button" id="modalExploreProgramsBtn">Explore Our Programs</a>
+                <a href="#programs" class="btn btn--primary" id="modalExploreProgramsBtn">Explore Our Programs</a>
             </div>
         </div>
     </div>

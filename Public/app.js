@@ -549,8 +549,10 @@ function handleSpecialCases(targetElement, toggleElement, config) {
 // Story modal specific handling
 function handleStoryModal(targetElement) {
     if (targetElement.classList.contains('active')) {
+        targetElement.classList.add('modal--active');
         document.body.style.overflow = 'hidden';
     } else {
+        targetElement.classList.remove('modal--active');
         document.body.style.overflow = 'auto';
     }
 }

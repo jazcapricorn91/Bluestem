@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/node_modules": true
+    },
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true,
+    "css.validate": false,
+    "html.validate.scripts": false,
+    "html.validate.styles": false
+  }
+}

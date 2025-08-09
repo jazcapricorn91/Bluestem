@@ -114,6 +114,17 @@ body::after {
     border-bottom: 1px solid var(--color-brown-primary-30);
 }
 
+/* Footer section title variants - more specific to override base style */
+.footer-section h3.footer-contact-title {
+    color: var(--color-red-primary);
+    border-bottom-color: var(--color-red-primary-30);
+}
+
+.footer-section h3.footer-resources-title {
+    color: var(--color-green-primary);
+    border-bottom-color: var(--color-green-primary-30);
+}
+
 .footer-section p {
     margin-bottom: 10px;
     line-height: 1.6;
@@ -297,10 +308,17 @@ body::after {
     font-family: 'Overlock', sans-serif;
     font-size: 1.05rem;
     line-height: 1.8;
-    color: var(--color-gray-medium);
     margin: 0;
     position: relative;
     z-index: 1;
+}
+
+.featured-box-brown .featured-box-text {
+    color: var(--color-brown-lighter);
+}
+
+.featured-box-green .featured-box-text {
+    color: var(--color-green-darkest);
 }
 
 .featured-box-text em {
@@ -349,8 +367,13 @@ body::after {
     to { transform: rotate(360deg); }
 }
 
+@keyframes founder-gentle-rotate {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(180deg); }
+}
+
 /* Global Button Styles */
-.laura-cta-button {
+.primary-cta-button {
     display: inline-block;
     background: var(--gradient-brown-primary);
     color: var(--color-white);
@@ -362,10 +385,606 @@ body::after {
     box-shadow: 0 5px 20px var(--color-brown-primary-30);
 }
 
-.laura-cta-button:hover {
+.primary-cta-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px var(--color-brown-primary-40);
     background: var(--gradient-brown-dark);
+}
+
+/* Story Button */
+.story-button {
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-secondary));
+    color: var(--color-white);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 8px;
+    box-shadow: 0 2px 8px var(--color-brown-primary-20);
+}
+
+.story-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--color-brown-primary-30);
+}
+
+/* Mobile Phone Button */
+.enroll-btn-phone {
+    display: none;
+}
+
+.enroll-btn-phone .phone-icon {
+    font-size: 1.2em;
+    vertical-align: middle;
+}
+
+/* Global Blurb Styles */
+.dynamic-blurb {
+    position: absolute;
+    background: var(--color-green-primary-40);
+    padding: 12px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px var(--color-black-12);
+    transition: all 0.4s ease;
+    border: 3px solid var(--color-transparent);
+    max-width: 250px;
+    z-index: 10;
+    overflow: hidden;
+}
+
+/* Photo background on inner div */
+.dynamic-blurb .photo-bg {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.dynamic-blurb:hover,
+.dynamic-blurb:active,
+.dynamic-blurb.touch-active {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 25px 60px var(--color-black-20);
+    border-color: var(--color-green-primary);
+    z-index: 20;
+}
+
+/* Blurb content */
+.blurb-content {
+    background: var(--color-green-primary-15);
+    padding: 25px 30px;
+    backdrop-filter: blur(5px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.5s ease, background-color 0.5s ease;
+    border-radius: 17px;
+    position: relative;
+    z-index: 2;
+}
+
+.blurb-content * {
+    color: var(--color-white);
+    text-shadow: 0 2px 4px var(--color-black-30);
+    transition: opacity 0.5s ease;
+}
+
+/* Hover effects */
+.dynamic-blurb:hover .blurb-content,
+.dynamic-blurb:active .blurb-content,
+.dynamic-blurb.touch-active .blurb-content {
+    background: var(--color-transparent);
+    backdrop-filter: blur(0px);
+    border-color: var(--color-transparent);
+}
+
+.dynamic-blurb:hover .blurb-content *,
+.dynamic-blurb:active .blurb-content *,
+.dynamic-blurb.touch-active .blurb-content * {
+    opacity: 0;
+}
+
+/* Individual blurb positioning */
+.blurb-1 {
+    top: 15%;
+    left: 5%;
+    transform: rotate(-8deg);
+}
+
+.blurb-1 .photo-bg {
+    background-image: url('../Images/Mixed.jpg');
+}
+
+.blurb-2 {
+    top: 20%;
+    right: 8%;
+    transform: rotate(12deg);
+}
+
+.blurb-2 .photo-bg {
+    background-image: url('../Images/Hands_on_Discovery.jpg');
+}
+
+.blurb-3 {
+    bottom: 25%;
+    left: 12%;
+    transform: rotate(6deg);
+}
+
+.blurb-3 .photo-bg {
+    background-image: url('../Images/Child_led.jpg');
+}
+
+.blurb-4 {
+    bottom: 20%;
+    right: 10%;
+    transform: rotate(-5deg);
+}
+
+.blurb-4 .photo-bg {
+    background-image: url('../Images/Practical_life.jpg');
+}
+
+.blurb-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.blurb-title {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    font-family: 'Arial Black', sans-serif;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.blurb-text {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    font-style: italic;
+    color: var(--color-white);
+}
+
+/* Global Principle Visual Styles */
+.principle-visual {
+    height: 350px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, var(--color-green-primary), var(--color-green-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    color: var(--color-gray-dark);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    border: 8px solid var(--color-green-primary);
+    box-sizing: border-box;
+    z-index: 20;
+    cursor: pointer;
+    pointer-events: auto; 
+}
+
+.principle-visual:hover {
+    transform: scale(1.02);
+}
+
+/* Visual feedback when card is open */
+.principle-block.card-visible .principle-visual {
+    cursor: pointer;
+    box-shadow: 0 10px 30px var(--color-black-20);
+    z-index: 3;
+    position: relative;
+}
+
+.principle-block.card-visible .principle-visual:hover {
+    transform: scale(0.98);
+    box-shadow: 0 5px 20px var(--color-black-15);
+}
+
+/* Visual on top for clicking */
+.principle-visual {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+/* Make sure the text box doesn't block the visual when it's behind */
+.principle-block:not(.card-visible) .text-content-box {
+    pointer-events: none;
+}
+
+/* Visual backgrounds for different principles */
+.mission-visual,
+.individualized-visual,
+.lifelong-visual {
+    cursor: pointer;
+    pointer-events: auto;
+    position: relative;
+}
+
+.mission-visual {
+    background: linear-gradient(135deg, var(--color-green-primary-80), var(--color-green-secondary-80)),
+                url('../Images/Mission.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    border-color: var(--color-green-secondary);
+}
+
+.individualized-visual {
+    background: linear-gradient(135deg, var(--color-green-secondary-80), var(--color-green-tertiary-80)),
+                url('../Images/Individual.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    border-color: var(--color-green-secondary);
+}
+
+.lifelong-visual {
+    background: linear-gradient(135deg, var(--color-green-tertiary-80), var(--color-green-quaternary-80)),
+                url('../Images/Love_of_Learning.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    border-color: var(--color-green-secondary);
+}
+
+/* Global Photo Styles - Garden, Creative, Community (3 of 5 photos) */
+.school-module .photo-2 { 
+    width: 450px;
+    height: 320px;
+    top: 0px;
+    left: 220px;
+    z-index: 2;
+    background-image: url('../Images/garden.jpg');
+}
+
+.school-module .photo-3 { 
+    width: 320px;
+    height: 450px;
+    top: 180px;
+    left: 430px;
+    z-index: 3;
+    background-image: url('../Images/Creative.jpg');
+}
+
+.school-module .photo-4 { 
+    width: 450px;
+    height: 320px;
+    top: 280px;
+    left: 120px;
+    z-index: 4;
+    background-image: url('../Images/Community.jpg');
+}
+
+.school-module .photo-2 .photo-caption {
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.school-module .photo-3 .photo-caption {
+    top: 15px;
+    right: 15px;
+}
+
+.school-module .photo-4 .photo-caption {
+    bottom: 15px;
+    left: 15px;
+}
+
+/* Global Floating Elements */
+.school-module .floating-element {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-secondary));
+    opacity: 0.08;
+    animation: float 12s ease-in-out infinite;
+}
+
+.school-module .float-1 {
+    width: 100px;
+    height: 100px;
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.school-module .float-2 {
+    width: 60px;
+    height: 60px;
+    top: 70%;
+    right: 10%;
+    animation-delay: 4s;
+}
+
+.school-module .float-3 {
+    width: 80px;
+    height: 80px;
+    bottom: 20%;
+    left: 80%;
+    animation-delay: 8s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* ==================== MODULAR BEM COMPONENTS ==================== */
+
+/* Timeline Component - BEM Structure */
+.timeline {
+    position: relative;
+    margin: 30px 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--color-green-primary), var(--color-brown-primary));
+    border-radius: 2px;
+}
+
+.timeline__item {
+    position: relative;
+    margin-bottom: 30px;
+    padding-left: 80px;
+}
+
+.timeline__year {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-secondary));
+    color: var(--color-gray-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 5px 15px var(--color-brown-primary-30);
+    z-index: 2;
+}
+
+/* Timeline styles moved to Home.css for page-specific control */
+
+/* Modal Component - BEM Structure */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-black-60);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.modal--active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal__content {
+    background: var(--color-bg-linen);
+    border-radius: 20px;
+    max-width: 90%;
+    max-height: 80%;
+    width: 800px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px var(--color-black-30);
+}
+
+.modal__header {
+    padding: 40px 40px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    overflow: hidden;
+    flex-shrink: 0;
+    border-radius: 20px 20px 0 0;
+}
+
+/* Modal Header Variants */
+.modal__header--founder {
+    background: linear-gradient(135deg, #304a34, #455e46);
+    color: var(--color-white);
+}
+
+.modal__header--brown {
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-secondary));
+    color: var(--color-text-on-dark);
+}
+
+.modal__header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, var(--color-white-10) 0%, var(--color-transparent) 70%);
+    animation: founder-gentle-rotate 20s ease-in-out infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.modal__close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--color-white);
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal__close:hover {
+    opacity: 0.7;
+}
+
+.modal__title {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+    color: var(--color-brown-primary);
+    -webkit-text-stroke: 1px var(--color-white-80);
+    text-shadow: 0 2px 4px var(--color-black-30);
+    position: relative;
+    z-index: 1;
+}
+
+.modal__subtitle {
+    font-family: 'Overlock', sans-serif;
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-style: italic;
+    color: var(--color-text-on-dark);
+    position: relative;
+    z-index: 1;
+}
+
+.modal__body {
+    padding: 30px 40px;
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brown-primary-30) transparent;
+}
+
+.modal__footer {
+    background: var(--color-gray-bg-light);
+    padding: 30px 40px;
+    text-align: center;
+    border-radius: 0 0 20px 20px;
+}
+
+.modal__intro {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--color-gray-medium);
+    margin-bottom: 30px;
+    text-align: center;
+    font-style: italic;
+}
+
+.modal__footer-text {
+    font-size: 1.1rem;
+    color: var(--color-gray-darker);
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+/* Button Component - BEM Structure */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.btn--primary {
+    background: var(--gradient-brown-primary);
+    color: var(--color-white);
+    box-shadow: 0 5px 20px var(--color-brown-primary-30);
+}
+
+.btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--color-brown-primary-40);
+    background: var(--gradient-brown-dark);
+}
+
+.btn--story {
+    background: linear-gradient(135deg, var(--color-brown-primary), var(--color-brown-secondary));
+    color: var(--color-white);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 8px;
+    box-shadow: 0 2px 8px var(--color-brown-primary-20);
+}
+
+.btn--story:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--color-brown-primary-30);
+}
+
+/* Card Component - BEM Structure */
+.card {
+    background: var(--color-white);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 20px var(--color-black-08);
+    transition: transform 0.3s ease;
+}
+
+.card--hoverable:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px var(--color-black-15);
+}
+
+.card--bordered {
+    border-left: 4px solid var(--color-green-primary);
+}
+
+.card--brown-border {
+    border-left-color: var(--color-brown-primary);
+}
+
+.card__title {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: var(--color-brown-primary);
+}
+
+.card__text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-gray-darker);
+    margin: 0;
 }
 
 /* Responsive Footer */
