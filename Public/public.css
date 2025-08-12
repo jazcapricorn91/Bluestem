@@ -1,6 +1,11 @@
+/* === Global Header Utility Classes === */
+
+
 /* Public-specific styles - Global color system and scrollbar are in root style.css */
 
+
 /* Global Background Styles */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -10,7 +15,9 @@ body {
     overflow-x: hidden;
 }
 
+
 /* Soft Linen Parallax Background - Only for pages with linen-background class */
+
 body.linen-background::before {
     content: '';
     position: fixed;
@@ -18,10 +25,7 @@ body.linen-background::before {
     left: -10%;
     width: 120%;
     height: 120%;
-    background: 
-        radial-gradient(circle at 20% 30%, var(--color-brown-primary-02) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, var(--color-green-primary-02) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, var(--color-brown-primary-01) 0%, transparent 40%);
+    background: radial-gradient(circle at 20% 30%, var(--color-brown-primary-02) 0%, transparent 50%), radial-gradient(circle at 80% 70%, var(--color-green-primary-02) 0%, transparent 50%), radial-gradient(circle at 40% 80%, var(--color-brown-primary-01) 0%, transparent 40%);
     background-size: 800px 800px, 600px 600px, 400px 400px;
     animation: linen-drift 60s ease-in-out infinite;
     z-index: -2;
@@ -34,27 +38,15 @@ body::after {
     left: 0;
     width: 100%;
     height: 800vh;
-    background: linear-gradient(
-        135deg,
-        var(--color-brown-primary-40) 0%,
-        var(--color-brown-primary-25) 8%,
-        var(--color-brown-primary-15) 15%,
-        var(--color-brown-primary-08) 25%,
-        var(--color-brown-primary-04) 35%,
-        var(--color-brown-primary-02) 45%,
-        var(--color-brown-primary-01) 55%,
-        var(--color-brown-primary-005) 65%,
-        var(--color-brown-primary-002) 75%,
-        var(--color-brown-primary-001) 85%,
-        transparent 100%
-    );
+    background: linear-gradient(135deg, var(--color-brown-primary-40) 0%, var(--color-brown-primary-25) 8%, var(--color-brown-primary-15) 15%, var(--color-brown-primary-08) 25%, var(--color-brown-primary-04) 35%, var(--color-brown-primary-02) 45%, var(--color-brown-primary-01) 55%, var(--color-brown-primary-005) 65%, var(--color-brown-primary-002) 75%, var(--color-brown-primary-001) 85%, transparent 100%);
     z-index: -1;
     pointer-events: none;
     transform: translateY(var(--parallax-offset, 0));
 }
 
 @keyframes linen-drift {
-    0%, 100% {
+    0%,
+    100% {
         transform: translate(0, 0) rotate(0deg);
         opacity: 0.8;
     }
@@ -82,10 +74,11 @@ body::after {
 }
 
 
-
 /* Footer Component - BEM Structure */
+
 .footer {
-    background: transparent; /* Let page background show through */
+    background: transparent;
+    /* Let page background show through */
     color: var(--color-gray-darker);
     font-family: 'Overlock', sans-serif;
     margin-top: 60px;
@@ -95,7 +88,8 @@ body::after {
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 20px 20px;
-    border-top: 2px solid var(--color-brown-primary-20); /* Subtle top border */
+    border-top: 2px solid var(--color-brown-primary-20);
+    /* Subtle top border */
 }
 
 .footer__content {
@@ -118,7 +112,9 @@ body::after {
     border-bottom: 1px solid var(--color-brown-primary-30);
 }
 
+
 /* Footer section title variants - preserve exact color scheme */
+
 .footer__section-title--contact {
     color: var(--color-red-primary);
     border-bottom-color: var(--color-red-primary-30);
@@ -146,7 +142,9 @@ body::after {
     text-decoration: underline;
 }
 
+
 /* Logo and Social Section */
+
 .footer__logo-social {
     text-align: center;
     padding: 25px 0;
@@ -193,7 +191,9 @@ body::after {
     transform: translateY(-2px);
 }
 
+
 /* Bottom Legal Section */
+
 .footer__bottom {
     max-width: 1200px;
     margin: 0 auto;
@@ -220,9 +220,13 @@ body::after {
 
 
 /* Global Section Title Styles - Using utility classes now */
+
+
 /* Headers now use: .font-fredericka .text-[size] .text-[color] .text-center .mb-[spacing] */
 
+
 /* Featured Box Component - BEM Structure */
+
 .featured-box {
     position: relative;
     margin: 40px 0;
@@ -278,7 +282,7 @@ body::after {
     letter-spacing: 0.5px;
     text-transform: uppercase;
     margin: 0;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.05);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .featured-box--green .featured-box__title {
@@ -361,17 +365,27 @@ body::after {
 }
 
 @keyframes subtle-rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes founder-gentle-rotate {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(180deg); }
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
 }
 
 
 /* Mobile Phone Button */
+
 .enroll-btn-phone {
     display: none;
 }
@@ -381,7 +395,9 @@ body::after {
     vertical-align: middle;
 }
 
+
 /* Blurb Component - BEM Structure */
+
 .blurb {
     position: absolute;
     background: var(--color-green-primary-40);
@@ -417,7 +433,9 @@ body::after {
     z-index: 20;
 }
 
+
 /* Blurb content */
+
 .blurb__content {
     background: var(--color-green-primary-15);
     padding: 25px 30px;
@@ -437,7 +455,9 @@ body::after {
     transition: opacity 0.5s ease;
 }
 
+
 /* Hover effects */
+
 .blurb:hover .blurb__content,
 .blurb:active .blurb__content,
 .blurb.touch-active .blurb__content {
@@ -452,7 +472,9 @@ body::after {
     opacity: 0;
 }
 
+
 /* Individual blurb positioning with BEM support */
+
 .blurb--position-1 {
     top: 15%;
     left: 5%;
@@ -516,7 +538,9 @@ body::after {
     color: var(--color-white);
 }
 
+
 /* Principle Visual Component - BEM Structure with Legacy Support */
+
 .principle-visual,
 .principle-visual__container {
     height: 350px;
@@ -534,7 +558,7 @@ body::after {
     box-sizing: border-box;
     z-index: 20;
     cursor: pointer;
-    pointer-events: auto; 
+    pointer-events: auto;
 }
 
 .principle-visual:hover,
@@ -542,7 +566,9 @@ body::after {
     transform: scale(1.02);
 }
 
+
 /* Visual feedback when card is open */
+
 .principle-block.card-visible .principle-visual,
 .principle-block.card-visible .principle-visual__container {
     cursor: pointer;
@@ -557,12 +583,16 @@ body::after {
     box-shadow: 0 5px 20px var(--color-black-15);
 }
 
+
 /* Make sure the text box doesn't block the visual when it's behind */
+
 .principle-block:not(.card-visible) .text-content-box {
     pointer-events: none;
 }
 
+
 /* Visual backgrounds for different principles */
+
 .principle-visual--mission,
 .principle-visual--individualized,
 .principle-visual--lifelong {
@@ -572,8 +602,7 @@ body::after {
 }
 
 .principle-visual--mission {
-    background: linear-gradient(135deg, var(--color-green-primary-80), var(--color-green-secondary-80)),
-                url('../Images/Mission.jpg');
+    background: linear-gradient(135deg, var(--color-green-primary-80), var(--color-green-secondary-80)), url('../Images/Mission.jpg');
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;
@@ -581,8 +610,7 @@ body::after {
 }
 
 .principle-visual--individualized {
-    background: linear-gradient(135deg, var(--color-green-secondary-80), var(--color-green-tertiary-80)),
-                url('../Images/Individual.jpg');
+    background: linear-gradient(135deg, var(--color-green-secondary-80), var(--color-green-tertiary-80)), url('../Images/Individual.jpg');
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;
@@ -590,16 +618,17 @@ body::after {
 }
 
 .principle-visual--lifelong {
-    background: linear-gradient(135deg, var(--color-green-tertiary-80), var(--color-green-quaternary-80)),
-                url('../Images/Love_of_Learning.jpg');
+    background: linear-gradient(135deg, var(--color-green-tertiary-80), var(--color-green-quaternary-80)), url('../Images/Love_of_Learning.jpg');
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;
     border-color: var(--color-green-secondary);
 }
 
+
 /* Global Photo Styles - Garden, Creative, Community (3 of 5 photos) */
-.school-module .photo-2 { 
+
+.school-module .photo-2 {
     width: 450px;
     height: 320px;
     top: 0px;
@@ -608,7 +637,7 @@ body::after {
     background-image: url('../Images/garden.jpg');
 }
 
-.school-module .photo-3 { 
+.school-module .photo-3 {
     width: 320px;
     height: 450px;
     top: 180px;
@@ -617,7 +646,7 @@ body::after {
     background-image: url('../Images/Creative.jpg');
 }
 
-.school-module .photo-4 { 
+.school-module .photo-4 {
     width: 450px;
     height: 320px;
     top: 280px;
@@ -642,7 +671,9 @@ body::after {
     left: 15px;
 }
 
+
 /* Global Floating Elements */
+
 .school-module .floating-element {
     position: absolute;
     border-radius: 50%;
@@ -676,13 +707,21 @@ body::after {
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
 }
+
 
 /* ==================== MODULAR BEM COMPONENTS ==================== */
 
+
 /* Timeline Component - BEM Structure */
+
 .timeline {
     position: relative;
     margin: 30px 0;
@@ -723,9 +762,12 @@ body::after {
     z-index: 2;
 }
 
+
 /* Timeline styles moved to Home.css for page-specific control */
 
+
 /* Modal Component - BEM Structure */
+
 .modal {
     position: fixed;
     top: 0;
@@ -770,9 +812,11 @@ body::after {
     border-radius: 20px 20px 0 0;
 }
 
+
 /* Modal Header Variants */
+
 .modal__header--founder {
-    background: linear-gradient(135deg, #304a34, #455e46);
+    background: var(--color-founder-header-gradient);
     color: var(--color-white);
 }
 
@@ -865,7 +909,9 @@ body::after {
     font-style: italic;
 }
 
+
 /* Button Component - BEM Structure */
+
 .btn {
     display: inline-block;
     padding: 12px 30px;
@@ -907,7 +953,9 @@ body::after {
     box-shadow: 0 4px 12px var(--color-brown-primary-30);
 }
 
+
 /* Badge Component - BEM Structure */
+
 .badge {
     position: absolute;
     padding: 8px 12px;
@@ -944,6 +992,7 @@ body::after {
 
 
 /* Banner Component - BEM Structure */
+
 .banner {
     position: relative;
     padding: 20px 30px;
@@ -1005,7 +1054,9 @@ body::after {
     opacity: 1;
 }
 
+
 /* Card Component - BEM Structure */
+
 .card {
     background: var(--color-white);
     border-radius: 15px;
@@ -1041,13 +1092,14 @@ body::after {
     margin: 0;
 }
 
+
 /* Responsive Footer */
+
 @media (max-width: 1024px) {
     .footer__content {
         grid-template-columns: repeat(2, 1fr);
         gap: 30px;
     }
-    
     .footer__main {
         padding: 35px 20px 15px;
     }
@@ -1059,39 +1111,31 @@ body::after {
         gap: 25px;
         text-align: center;
     }
-    
     .footer__main {
         padding: 30px 15px 15px;
     }
-    
     .footer__logo-social {
         padding: 20px 0;
     }
-    
     .footer__logo {
         height: 60px;
         margin-bottom: 15px;
     }
-    
     .footer__social {
         gap: 12px;
     }
-    
     .footer__social-icon {
         width: 40px;
         height: 40px;
         font-size: 1.2rem;
     }
-    
     .footer__bottom {
         padding: 20px 15px 30px;
     }
-    
     .footer__copyright {
         font-size: 0.9rem;
         margin-bottom: 12px;
     }
-    
     .footer__disclaimer {
         font-size: 0.8rem;
         text-align: center;

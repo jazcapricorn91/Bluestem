@@ -37,7 +37,8 @@
     --color-green-dark: #5a8a5a;
     --color-green-darker: #549c7f;
     --color-green-darkest: #4c8474;
-    
+
+
     /* Secondary Brand Colors */
     --color-brown-primary: #987952;
     --color-brown-primary-40: rgba(152, 121, 82, 0.4);
@@ -195,6 +196,7 @@
     --color-white-transparency-01: rgba(255, 255, 255, 0.01);
     
     /* Gradient Definitions */
+    --color-founder-header-gradient: linear-gradient(135deg, #437560, #41633b);
     --gradient-green-primary: linear-gradient(135deg, #8faf8f, #7a9d7a);
     --gradient-green-secondary: linear-gradient(135deg, #9cb89c, #8aa88a);
     --gradient-green-tertiary: linear-gradient(135deg, #a5c3a5, #92b192);
@@ -375,6 +377,73 @@ html {
 .mb-4 { margin-bottom: 1rem; }
 .mb-6 { margin-bottom: 1.5rem; }
 .mb-8 { margin-bottom: 2rem; }
+/* Margin Top */
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-8 { margin-top: 2rem; }
+/* Padding */
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.p-8 { padding: 2rem; }
+/* Padding X/Y */
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+/* Layout & Display */
+.flex { display: flex; }
+.flex-row { flex-direction: row; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+.grid { display: grid; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.w-full { width: 100%; }
+.w-1\/2 { width: 50%; }
+.w-1\/3 { width: 33.3333%; }
+.w-1\/4 { width: 25%; }
+.h-full { height: 100%; }
+.h-1\/2 { height: 50%; }
+.h-1\/3 { height: 33.3333%; }
+.h-1\/4 { height: 25%; }
+.hidden { display: none !important; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+/* Borders & Radius */
+.rounded { border-radius: 0.5rem; }
+.rounded-sm { border-radius: 0.25rem; }
+.rounded-md { border-radius: 0.375rem; }
+.rounded-lg { border-radius: 0.75rem; }
+.rounded-full { border-radius: 9999px; }
+.border { border: 1px solid var(--color-gray-lightest); }
+.border-0 { border: none; }
+.border-b { border-bottom: 1px solid var(--color-gray-lightest); }
+.border-t { border-top: 1px solid var(--color-gray-lightest); }
+.border-l { border-left: 1px solid var(--color-gray-lightest); }
+.border-r { border-right: 1px solid var(--color-gray-lightest); }
+.border-brown { border-color: var(--color-brown-primary); }
+.border-green { border-color: var(--color-green-primary); }
+.border-gray { border-color: var(--color-gray-lightest); }
+/* Effects */
+.shadow { box-shadow: 0 2px 8px var(--color-black-08); }
+.shadow-md { box-shadow: 0 4px 16px var(--color-black-15); }
+.shadow-lg { box-shadow: 0 8px 32px var(--color-black-20); }
+.transition { transition: all 0.3s ease; }
+.transition-colors { transition: color 0.3s, background 0.3s, border-color 0.3s; }
+.transition-all { transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.hover\:bg-brown:hover { background-color: var(--color-brown-primary); }
+.hover\:bg-green:hover { background-color: var(--color-green-primary); }
+.hover\:text-white:hover { color: var(--color-white); }
 
 
 /* ===================================
@@ -586,7 +655,7 @@ body.dark-mode {
         --color-green-lightest: #6b9d6b;
         --color-green-dark: #95b395;
         --color-green-darker: #a5c3a5;
-        --color-green-darkest: #a5c3a5;
+x   --color-green-darkest: #a5c3a5;
 
         /* Green Transparencies - Dark Mode (System Preference) */
         --color-green-primary-80: rgba(61, 92, 61, 0.8);
@@ -605,7 +674,7 @@ body.dark-mode {
         --color-green-primary-005: rgba(61, 92, 61, 0.005);
         --color-green-primary-002: rgba(61, 92, 61, 0.002);
         --color-green-primary-001: rgba(61, 92, 61, 0.001);
-
+       
         --color-brown-primary: #c4a477;
         --color-brown-primary-40: rgba(90, 74, 48, 0.4);
         --color-brown-primary-30: rgba(90, 74, 48, 0.3);
@@ -703,15 +772,16 @@ body.dark-mode {
         /* Announcement Banner Background - Darker for dark mode */
         --color-announcement-bg: linear-gradient(135deg, #2e4632, #3d5c3d);
         
-        /* Gradient Definitions - Dark Mode Versions */
+        /* Gradient Definitions - Dark Mode Versions */--color-founder-header-gradient: linear-gradient(135deg, #304a34, #455e46);
         --gradient-green-primary: linear-gradient(135deg, #3d5c3d, #2e4632);
-        --gradient-green-secondary: linear-gradient(135deg, #4c7a4c, #3d5c3d);
+        --gradiet-green-secondary: linear-gradient(135deg, #4c7a4c, #3d5c3d);
         --gradient-green-tertiary: linear-gradient(135deg, #5a8a5a, #4c7a4c);
         --gradient-green-quaternary: linear-gradient(135deg, #6b9d6b, #5a8a5a);
         --gradient-green-dark: linear-gradient(135deg, #223522, #1a2a1a);
         --gradient-green-darker: linear-gradient(135deg, #1a2a1a, #141d14);
         --gradient-green-darkest: linear-gradient(135deg, #27422a, #223522);
         --gradient-green-vivid: linear-gradient(135deg, #2e4632, #3d5c3d);
+         --color-founder-header-gradient: varlinear-gradient(135deg, #304a34, #455e46);
         
         --gradient-brown-primary: linear-gradient(135deg, #5a4a30, #3d2f1a);
         --gradient-brown-secondary: linear-gradient(135deg, #5a4a30, #2e2314);

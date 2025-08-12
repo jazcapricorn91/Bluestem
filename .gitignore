@@ -9,11 +9,11 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Environment variables (SUPER IMPORTANT!)
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+*.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
 
 # Next.js build files (if using Next.js)
 .next/
@@ -179,3 +179,21 @@ models/
 lifecycle.db*
 NUL
 .history/
+.mcp.json
+context7.*
+context7/
+*-mcp*
+*-mcp-*
+*-MCP-*
+*.mcp
+*.bat
+*.ps1
+*.env
+user-mcp-template.json
+my_notes/
+copy-app.js
+sandboxing.css
+test-*
+copy-*
+*-history.css
+Public/homecss-history.css
